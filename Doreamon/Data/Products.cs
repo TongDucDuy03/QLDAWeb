@@ -20,11 +20,15 @@ namespace Doreamon.Data
         public double DiscountPrice { get; set; }
         public string? ImagesUrl { get; set; }
         public Status Status { get; set; }
-        public class YourClass
-        {
-            public DateTime CreatedAt { get; set; }
-            public DateTime UpdatedAt { get; set; }
-        }
+        public DateTime? CreatedAt { get; set; }
+        public DateTime? UpdatedAt { get; set; }
 
+        public int? Series_Id { get; set; }
+        public Series Series { get; set; }
+        public ICollection<OrderDetails> OrderDetailss{ get; set; }
+        public Products()
+        {
+            OrderDetailss = new List<OrderDetails>();
+        }
     }
 }
