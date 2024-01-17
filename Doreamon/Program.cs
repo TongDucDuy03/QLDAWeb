@@ -20,7 +20,6 @@ builder.Services.AddDbContext<DoreamonWebContext>(options =>
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
 
 builder.Services.AddAutoMapper(typeof(ApplicationMappper));
-
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -28,6 +27,7 @@ if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
+    app.UseCors("AllowOrigin");
 }
 
 app.UseHttpsRedirection();
