@@ -1,3 +1,4 @@
+﻿// Import các namespace cần thiết
 using Doreamon.Data;
 using Doreamon.Helper;
 using Doreamon.Repositories;
@@ -11,7 +12,12 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddCors(options => options.AddDefaultPolicy(policy => policy.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod()));
+// Thêm CORS vào services
+builder.Services.AddCors(options =>
+{
+    options.AddDefaultPolicy(policy => policy.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod());
+});
+
 builder.Services.AddDbContext<DoreamonWebContext>(options =>
 {
     options.UseSqlServer(builder.Configuration.GetConnectionString("DoreamonStore"));
@@ -27,7 +33,7 @@ if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
-    app.UseCors("AllowOrigin");
+    app.UseCors(); // Bỏ tên policy, sử dụng default policy
 }
 
 app.UseHttpsRedirection();
