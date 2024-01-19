@@ -25,10 +25,12 @@ namespace Doreamon.Data
 
         public int? Series_Id { get; set; }
         public Series Series { get; set; }
-        public ICollection<OrderDetails> OrderDetailss{ get; set; }
+        public ICollection<OrderDetails> OrderDetailss { get; set; }
+        public ICollection<Cart> Carts { get; set; }
         public Products()
         {
             OrderDetailss = new List<OrderDetails>();
+            Carts = new List<Cart>();
         }
     }
 }

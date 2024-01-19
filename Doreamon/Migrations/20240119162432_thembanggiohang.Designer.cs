@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Doreamon.Migrations
 {
     [DbContext(typeof(DoreamonWebContext))]
-    [Migration("20240116075657_fixorderdetails")]
-    partial class fixorderdetails
+    [Migration("20240119162432_thembanggiohang")]
+    partial class thembanggiohang
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -24,6 +24,24 @@ namespace Doreamon.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
+
+            modelBuilder.Entity("Doreamon.Data.Cart", b =>
+                {
+                    b.Property<int>("ProductId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Quantity")
+                        .HasColumnType("int");
+
+                    b.HasKey("ProductId", "UserId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Cart", (string)null);
+                });
 
             modelBuilder.Entity("Doreamon.Data.Order", b =>
                 {
@@ -178,6 +196,27 @@ namespace Doreamon.Migrations
                     b.ToTable("User");
                 });
 
+            modelBuilder.Entity("Doreamon.Data.Cart", b =>
+                {
+                    b.HasOne("Doreamon.Data.Products", "Products")
+                        .WithMany("Carts")
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("FK_Cart_Product");
+
+                    b.HasOne("Doreamon.Data.User", "User")
+                        .WithMany("Carts")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("FK_Cart_User");
+
+                    b.Navigation("Products");
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("Doreamon.Data.Order", b =>
                 {
                     b.HasOne("Doreamon.Data.User", "User")
@@ -228,6 +267,8 @@ namespace Doreamon.Migrations
 
             modelBuilder.Entity("Doreamon.Data.Products", b =>
                 {
+                    b.Navigation("Carts");
+
                     b.Navigation("OrderDetailss");
                 });
 
@@ -238,6 +279,8 @@ namespace Doreamon.Migrations
 
             modelBuilder.Entity("Doreamon.Data.User", b =>
                 {
+                    b.Navigation("Carts");
+
                     b.Navigation("Orderss");
                 });
 #pragma warning restore 612, 618

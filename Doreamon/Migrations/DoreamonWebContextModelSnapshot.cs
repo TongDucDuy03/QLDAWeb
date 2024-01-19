@@ -22,6 +22,24 @@ namespace Doreamon.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
+            modelBuilder.Entity("Doreamon.Data.Cart", b =>
+                {
+                    b.Property<int>("ProductId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Quantity")
+                        .HasColumnType("int");
+
+                    b.HasKey("ProductId", "UserId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Cart", (string)null);
+                });
+
             modelBuilder.Entity("Doreamon.Data.Order", b =>
                 {
                     b.Property<int>("OrderId")
@@ -175,6 +193,27 @@ namespace Doreamon.Migrations
                     b.ToTable("User");
                 });
 
+            modelBuilder.Entity("Doreamon.Data.Cart", b =>
+                {
+                    b.HasOne("Doreamon.Data.Products", "Products")
+                        .WithMany("Carts")
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("FK_Cart_Product");
+
+                    b.HasOne("Doreamon.Data.User", "User")
+                        .WithMany("Carts")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("FK_Cart_User");
+
+                    b.Navigation("Products");
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("Doreamon.Data.Order", b =>
                 {
                     b.HasOne("Doreamon.Data.User", "User")
@@ -225,6 +264,8 @@ namespace Doreamon.Migrations
 
             modelBuilder.Entity("Doreamon.Data.Products", b =>
                 {
+                    b.Navigation("Carts");
+
                     b.Navigation("OrderDetailss");
                 });
 
@@ -235,6 +276,8 @@ namespace Doreamon.Migrations
 
             modelBuilder.Entity("Doreamon.Data.User", b =>
                 {
+                    b.Navigation("Carts");
+
                     b.Navigation("Orderss");
                 });
 #pragma warning restore 612, 618
