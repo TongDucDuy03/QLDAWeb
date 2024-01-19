@@ -8,7 +8,8 @@ namespace Doreamon.Helper
     {
         public ApplicationMappper() 
         { 
-            CreateMap<Products,ProductsModel>().ReverseMap();
+            CreateMap<Products,ProductsModel>().PreserveReferences().ReverseMap();
+            CreateMap<Cart, CartModel>().PreserveReferences().ReverseMap();
         }
     }
 }

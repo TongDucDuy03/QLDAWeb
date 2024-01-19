@@ -37,13 +37,10 @@ namespace Doreamon.Controllers
         [HttpPost]
         public async Task<IActionResult> addToCart(int Id, int UserId)
         {
-            try
-            {
-                var check = await _productRepo.addToCart(UserId, Id);
-                return Ok(check);
-            }
-            catch(Exception ex) 
-            { return BadRequest(ex); }
+
+            var check = await _productRepo.addToCart(UserId, Id);
+            return Ok(check);
         }
+            
     }
 }
