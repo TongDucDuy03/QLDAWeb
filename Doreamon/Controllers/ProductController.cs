@@ -2,6 +2,7 @@
 using Doreamon.Repositories;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace Doreamon.Controllers
 {
@@ -33,6 +34,16 @@ namespace Doreamon.Controllers
             var products = await _productRepo.getProductsBySeriesIdAsync(seriesId);
             return products == null ? NotFound() : Ok(products);
         }
-        
+        [HttpPost]
+        public async Task<IActionResult> addToCart(int Id, int UserId)
+        {
+            try
+            {
+                var check = await _productRepo.addToCart(UserId, Id);
+                return Ok(check);
+            }
+            catch(Exception ex) 
+            { return BadRequest(ex); }
+        }
     }
 }

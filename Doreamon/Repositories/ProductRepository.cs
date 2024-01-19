@@ -31,7 +31,27 @@ namespace Doreamon.Repositories
 
             return _mapper.Map<List<ProductsModel>>(products);
         }
+        public async Task<CartModel> addToCart(int UserId,int Id)
+        {
+            var user = await _context.User.FindAsync(UserId);
 
+            if (user == null)
+            {
+
+            }
+            var cart = await _context.Carts.FirstOrDefaultAsync(c => c.ProductId == Id);
+            if (cart == null)
+            {
+                cart = new Cart { UserId = UserId, ProductId = Id, Quantity = 1 };
+            }
+            else
+            {
+                cart.Quantity = 1;
+            }
+            await _context.SaveChangesAsync();
+            return _mapper.Map<CartModel>(cart);
+            
+        }
 
     }
 }
