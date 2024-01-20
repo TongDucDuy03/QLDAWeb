@@ -28,12 +28,26 @@ namespace Doreamon.Controllers
                 return BadRequest();
             }
         }
-        [HttpGet("{seriesId}")]
+        [HttpGet("series/{seriesId}")]
         public async Task<IActionResult> GetProductsBySeriesId(int seriesId)
         {
             var products = await _productRepo.getProductsBySeriesIdAsync(seriesId);
             return products == null ? NotFound() : Ok(products);
         }
+
+        [HttpGet("{productId}")]
+        public IActionResult GetProductsById(int productId)
+        {
+            var product = _productRepo.getProductsById(productId);
+
+            if (product == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(product);
+        }
+
         [HttpPost]
         public async Task<IActionResult> addToCart(int Id, int UserId)
         {
