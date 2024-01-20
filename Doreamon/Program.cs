@@ -20,6 +20,7 @@ builder.Services.AddDbContext<DoreamonWebContext>(options =>
 });
 
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
+builder.Services.AddScoped<ICartRepository, CartRepository>();
 
 builder.Services.AddAutoMapper(typeof(ApplicationMappper));
 var app = builder.Build();

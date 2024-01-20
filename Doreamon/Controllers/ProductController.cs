@@ -54,13 +54,7 @@ namespace Doreamon.Controllers
         }
 
 
-        [HttpPost]
-        public async Task<IActionResult> addToCart(int Id, int UserId)
-        {
-
-            var check = await _productRepo.addToCart(UserId, Id);
-            return Ok(check);
-        }
+        
             
     }
 }
