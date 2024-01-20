@@ -23,6 +23,14 @@ builder.Services.AddDbContext<DoreamonWebContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DoreamonStore"));
 });
 
+//Thêm session
+builder.Services.AddDistributedMemoryCache();
+builder.Services.AddSession((option) =>
+{
+    option.Cookie.Name = "DoraemonStore";
+    option.IdleTimeout = new TimeSpan(0, 30, 0);
+});
+
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
 
 builder.Services.AddAutoMapper(typeof(ApplicationMappper));
@@ -35,7 +43,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
     app.UseCors(); // Bỏ tên policy, sử dụng default policy
 }
-
+app.UseSession();
 app.UseHttpsRedirection();
 app.UseAuthorization();
 app.MapControllers();
