@@ -768,7 +768,7 @@ li.tg-rss a {
   width: 100%;
   float: left;
   margin: 0 0 15px;
-  padding: 0 100px 30px 0;
+  padding: 0 100px 10px 0;
   border-bottom: 1px solid #dbdbdb;
 }
 .tg-sectionhead h2 {
@@ -4749,4 +4749,15 @@ body.tg-comingsoonpage .tg-footerbar {
 .tg-userlogin figure a img {
   width: 50px;
   height: 50px;
+}
+.tg-image-container {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+.tg-image-container img {
+  width: 100%;
+  height: auto;
+  display: block;
 }
