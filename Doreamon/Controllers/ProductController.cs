@@ -36,9 +36,9 @@ namespace Doreamon.Controllers
         }
 
         [HttpGet("{productId}")]
-        public IActionResult GetProductsById(int productId)
+        public async Task<IActionResult> GetProductById(int productId)
         {
-            var product = _productRepo.getProductsById(productId);
+            var product = await _productRepo.getProductByIdAsync(productId);
 
             if (product == null)
             {

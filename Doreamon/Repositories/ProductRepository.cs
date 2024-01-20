@@ -31,7 +31,7 @@ namespace Doreamon.Repositories
 
             return _mapper.Map<List<ProductsModel>>(products);
         }
-        public async Task<ProductsModel> getProductsById(int productId)
+        public async Task<ProductsModel> getProductByIdAsync(int productId)
         {
             var product = await _context.Products.FindAsync(productId);
 

@@ -7,7 +7,7 @@ namespace Doreamon.Repositories
     {
         public Task<List<ProductsModel>> getAllProductsAsync();
         public Task<List<ProductsModel>> getProductsBySeriesIdAsync(int seriesId);
-        public Task<ProductsModel> getProductsById(int productId);
+        public Task<ProductsModel> getProductByIdAsync(int productId);
         public Task<CartModel> addToCart(int Id,int UserId);
     }
 }
