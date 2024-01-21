@@ -10,6 +10,7 @@ namespace Doreamon.Helper
         { 
             CreateMap<Products,ProductsModel>().PreserveReferences().ReverseMap();
             CreateMap<Cart, CartModel>().PreserveReferences().ReverseMap();
+            CreateMap<User, UserModel>().ReverseMap();
         }
     }
 }
