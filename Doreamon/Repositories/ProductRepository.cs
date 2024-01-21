@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Doreamon.Data;
 using Doreamon.Models;
+using Microsoft.CodeAnalysis;
 using Microsoft.EntityFrameworkCore;
 
 namespace Doreamon.Repositories
@@ -37,7 +38,14 @@ namespace Doreamon.Repositories
 
             return _mapper.Map<ProductsModel>(product);
         }
-
+        public async Task<List<ProductsModel>> searchProductsByNameAsync(string ProductName)
+        {
+            var productList = await 
+                (from pd in _context.Products
+                where pd.Name.Contains(ProductName.Trim())
+                select pd).ToListAsync();
+            return _mapper.Map<List<ProductsModel>>(productList); ;
+        }
         
     }
 }

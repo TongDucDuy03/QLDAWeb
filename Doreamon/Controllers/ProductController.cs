@@ -52,9 +52,20 @@ namespace Doreamon.Controllers
 
             return Ok(productModel);
         }
+        [HttpGet("search/{productName}")]
+        public async Task<IActionResult> searchProductsByName(string productName)
+        {
+            var productList = await _productRepo.searchProductsByNameAsync(productName);
+
+            if (productList == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(productList);
+        }
 
 
-        
-            
+
     }
 }
