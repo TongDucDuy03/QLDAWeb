@@ -39,9 +39,9 @@ namespace Doreamon.Controllers
         }
 
         [HttpGet("{productId}")]
-        public async Task<IActionResult> GetProductById(int productId)
+        public async Task<IActionResult> GetProductsById(int productId)
         {
-            var product = await _productRepo.getProductByIdAsync(productId);
+            var product = await _productRepo.getProductsById(productId);
 
             if (product == null)
             {
@@ -54,13 +54,7 @@ namespace Doreamon.Controllers
         }
 
 
-        [HttpPost]
-        public async Task<IActionResult> addToCart(int Id, int UserId)
-        {
-
-            var check = await _productRepo.addToCart(UserId, Id);
-            return Ok(check);
-        }
+        
             
     }
 }

@@ -31,29 +31,13 @@ namespace Doreamon.Repositories
 
             return _mapper.Map<List<ProductsModel>>(products);
         }
-        public async Task<ProductsModel> getProductByIdAsync(int productId)
+        public async Task<ProductsModel> getProductsById(int productId)
         {
             var product = await _context.Products.FindAsync(productId);
 
             return _mapper.Map<ProductsModel>(product);
         }
 
-        public async Task<CartModel> addToCart(int UserId,int Id)
-        {
-            var cart = await _context.Carts.FirstOrDefaultAsync(m => m.UserId == UserId && m.ProductId == Id);
-            if (cart == null)
-            {
-                cart = new Cart { UserId = UserId, ProductId = Id, Quantity = 1 };
-                _context.Carts.Add(cart);
-            }
-            else
-            {
-                cart.Quantity += 1;
-            }
-            await _context.SaveChangesAsync();
-            return _mapper.Map<CartModel>(cart);
-            
-        }
-
+        
     }
 }

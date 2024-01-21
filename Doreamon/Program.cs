@@ -28,6 +28,7 @@ builder.Services.AddSession((option) =>
 });
 
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
+builder.Services.AddScoped<ICartRepository, CartRepository>();
 
 builder.Services.AddAutoMapper(typeof(ApplicationMappper));
 var app = builder.Build();
