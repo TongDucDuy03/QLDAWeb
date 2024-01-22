@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Doreamon.Models;
 using Doreamon.Repositories;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -12,12 +13,10 @@ namespace Doreamon.Controllers
     public class CartController : ControllerBase
     {
         private ICartRepository _cartRepo;
-        private IMapper _mapper;
 
         public CartController(ICartRepository repo, IMapper mapper) 
         {
             _cartRepo = repo;
-            _mapper = mapper;
 
         }
         [HttpPost]
@@ -32,9 +31,7 @@ namespace Doreamon.Controllers
         {
                 var cartProducts = await _cartRepo.GetCartProducts(userId);
 
-                var cartModelList = _mapper.Map<List<CartModel>>(cartProducts);
-
-                return Ok(cartModelList);
+                return Ok(cartProducts);
             
         }
     }
