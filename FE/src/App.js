@@ -6,7 +6,6 @@ import Index from "./pages/Index/Index";
 import Index2 from "./pages/Index/Index2";
 import Header from "./pages/Header/Header";
 import Login from "./pages/Login/Login";
-import Bookdetail from "./pages/Bookdetail/Bookdetail";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 function App() {
   return (
@@ -17,7 +16,6 @@ function App() {
           <Route path="/index" element={<Index />}></Route>
           <Route path="/index2" element={<Index2 />}></Route>
           <Route path="/login" element={<Login />}></Route>
-          <Route path="/book/:id" component={Bookdetail} />
         </Routes>
       </Router>
     </div>
