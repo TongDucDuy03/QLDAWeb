@@ -14,10 +14,9 @@ namespace Doreamon.Controllers
     {
         private ICartRepository _cartRepo;
 
-        public CartController(ICartRepository repo, IMapper mapper) 
+        public CartController(ICartRepository repo) 
         {
             _cartRepo = repo;
-
         }
         [HttpPost]
         public async Task<IActionResult> addToCart(int Id, int UserId)
@@ -31,7 +30,7 @@ namespace Doreamon.Controllers
         {
                 var cartProducts = await _cartRepo.GetCartProducts(userId);
 
-                return Ok(cartProducts);
+            return cartProducts == null ? NotFound() : Ok(cartProducts);
             
         }
     }

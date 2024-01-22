@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Doreamon.Data;
 using Doreamon.Models;
 using Doreamon.Repositories;
 using Microsoft.AspNetCore.Http;
@@ -13,7 +14,7 @@ namespace Doreamon.Controllers
     {
         private IProductRepository _productRepo;
 
-        public ProductController(IProductRepository repo, IMapper mapper) 
+        public ProductController(IProductRepository repo) 
         {
             _productRepo = repo;
         }
@@ -45,7 +46,7 @@ namespace Doreamon.Controllers
             {
                 return NotFound();
             }
-            return Ok(product);
+            return product == null ? NotFound() : Ok(product);
         }
         [HttpGet("search/{productName}", Name = "searchProductsByName")]
         public async Task<IActionResult> searchProductsByName(string productName)
