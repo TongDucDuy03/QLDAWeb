@@ -53,7 +53,7 @@ namespace Doreamon.Repositories
                 }
             ).ToListAsync();
 
-            return cartProducts;
+            return _mapper.Map< List<CartModel>>(cartProducts);
         }
     }
 }

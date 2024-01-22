@@ -41,13 +41,13 @@ namespace Doreamon.Controllers
                 //cấp token
                 return Ok(new APIResponse
                 {
-                    Success = false,
+                    Success = true,
                     Message = "Authenticate success",
-                    Data = null,
+                    Data = GenerateToken(user),
                 });
             }
         }
-        private string GenerateToken(User user)
+        private string GenerateToken(UserModel user)
         {
             var jwtTokenHandle = new JwtSecurityTokenHandler();
             var secretKeyBytes = Encoding.UTF8.GetBytes(_AppSetting.SecretKey);
@@ -62,9 +62,10 @@ namespace Doreamon.Controllers
                     new Claim("TokenId", Guid.NewGuid().ToString()),
                 }),
                 Expires = DateTime.UtcNow.AddMinutes(1),
-                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(secretKeyBytes), SecurityAlgorithms.HmacSha512Signature)
-                var token = jwtTokenHandle.CreateToken(tokenDescription);
+                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(secretKeyBytes), SecurityAlgorithms.HmacSha256Signature)
             };
+            var token = jwtTokenHandle.CreateToken(tokenDescription);
+            return jwtTokenHandle.WriteToken(token);
         }
     }
 }

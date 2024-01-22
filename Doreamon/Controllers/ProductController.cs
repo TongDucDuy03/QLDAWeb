@@ -12,12 +12,10 @@ namespace Doreamon.Controllers
     public class ProductController : ControllerBase
     {
         private IProductRepository _productRepo;
-        private IMapper _mapper;
 
         public ProductController(IProductRepository repo, IMapper mapper) 
         {
             _productRepo = repo;
-            _mapper = mapper;
         }
         [HttpGet]
         public async Task<IActionResult> GetAllProducts()
@@ -47,12 +45,9 @@ namespace Doreamon.Controllers
             {
                 return NotFound();
             }
-
-            var productModel = _mapper.Map<ProductsModel>(product);
-
-            return Ok(productModel);
+            return Ok(product);
         }
-        [HttpGet("{productName}", Name = "searchProductsByName")]
+        [HttpGet("search/{productName}", Name = "searchProductsByName")]
         public async Task<IActionResult> searchProductsByName(string productName)
         {
             var productList = await _productRepo.searchProductsByNameAsync(productName);
