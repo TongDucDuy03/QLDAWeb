@@ -38,7 +38,7 @@ namespace Doreamon.Controllers
             return products == null ? NotFound() : Ok(products);
         }
 
-        [HttpGet("{productId}")]
+        [HttpGet("{productId}", Name = "GetProductsById")]
         public async Task<IActionResult> GetProductsById(int productId)
         {
             var product = await _productRepo.getProductsById(productId);
@@ -52,15 +52,20 @@ namespace Doreamon.Controllers
 
             return Ok(productModel);
         }
-
-
-        [HttpPost]
-        public async Task<IActionResult> addToCart(int Id, int UserId)
+        [HttpGet("{productName}", Name = "searchProductsByName")]
+        public async Task<IActionResult> searchProductsByName(string productName)
         {
+            var productList = await _productRepo.searchProductsByNameAsync(productName);
 
-            var check = await _productRepo.addToCart(UserId, Id);
-            return Ok(check);
+            if (productList == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(productList);
         }
-            
+
+
+
     }
 }

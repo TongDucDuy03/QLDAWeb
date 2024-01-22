@@ -2,6 +2,11 @@
 
 namespace Doreamon.Models
 {
+    public enum Status
+    {
+        Active,
+        Inactive
+    }
     public class ProductsModel
     {
         public int Id { get; set; }
@@ -18,14 +23,12 @@ namespace Doreamon.Models
         public int? Series_Id { get; set; }
         public Series Series { get; set; }
         public ICollection<OrderDetails> OrderDetailss { get; set; }
+        public ICollection<Cart> Carts { get; set; }
         public ProductsModel()
         {
             OrderDetailss = new List<OrderDetails>();
+            Carts = new List<Cart>();
         }
     }
-    public enum Status
-    {
-        Active,
-        Inactive
-    }
+    
 }

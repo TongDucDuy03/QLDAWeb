@@ -11,7 +11,7 @@ namespace Doreamon.Data
         public DbSet<OrderDetails>?  OrderDetails { get; set; }
         public DbSet<Series>? Series { get; set; }
         public DbSet<User>? User { get; set; }
-        public DbSet<Cart> Carts { get; set; }
+        public DbSet<Cart>? Carts { get; set; }
         #endregion
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

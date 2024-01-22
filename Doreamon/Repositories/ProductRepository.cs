@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Doreamon.Data;
 using Doreamon.Models;
+using Microsoft.CodeAnalysis;
 using Microsoft.EntityFrameworkCore;
 
 namespace Doreamon.Repositories
@@ -37,23 +38,14 @@ namespace Doreamon.Repositories
 
             return _mapper.Map<ProductsModel>(product);
         }
-
-        public async Task<CartModel> addToCart(int UserId,int Id)
+        public async Task<List<ProductsModel>> searchProductsByNameAsync(string ProductName)
         {
-            var cart = await _context.Carts.FirstOrDefaultAsync(m => m.UserId == UserId && m.ProductId == Id);
-            if (cart == null)
-            {
-                cart = new Cart { UserId = UserId, ProductId = Id, Quantity = 1 };
-                _context.Carts.Add(cart);
-            }
-            else
-            {
-                cart.Quantity += 1;
-            }
-            await _context.SaveChangesAsync();
-            return _mapper.Map<CartModel>(cart);
-            
+            var productList = await 
+                (from pd in _context.Products
+                where pd.Name.Contains(ProductName.Trim())
+                select pd).ToListAsync();
+            return _mapper.Map<List<ProductsModel>>(productList); ;
         }
-
+        
     }
 }
