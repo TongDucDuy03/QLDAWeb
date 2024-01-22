@@ -359,7 +359,7 @@ address {
   float: left;
 }
 .tg-sectionspace {
-  padding: 15px 0;
+  padding: 20px 0;
 }
 .tg-locationmap {
   width: 100%;
@@ -768,7 +768,7 @@ li.tg-rss a {
   width: 100%;
   float: left;
   margin: 0 0 15px;
-  padding: 0 100px 10px 0;
+  padding: 0 10px 10px 0;
   border-bottom: 1px solid #dbdbdb;
 }
 .tg-sectionhead h2 {
@@ -786,7 +786,7 @@ li.tg-rss a {
 .tg-sectionhead .tg-btn,
 .tg-btnstyletwo {
   float: right;
-  padding: 0 25px;
+  padding: 0 15px;
   margin: 6px 0 0;
   border-radius: 20px;
 }
@@ -4750,14 +4750,6 @@ body.tg-comingsoonpage .tg-footerbar {
   width: 50px;
   height: 50px;
 }
-.tg-image-container {
-  width: 100%;
-  height: 100%;
+.owl-stage-outer {
   overflow: hidden;
-}
-
-.tg-image-container img {
-  width: 100%;
-  height: auto;
-  display: block;
 }
