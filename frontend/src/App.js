@@ -1,24 +1,23 @@
 /* eslint-disable react/jsx-no-undef */
-/* eslint-disable no-undef */
-/* eslint-disable jsx-a11y/img-redundant-alt */
 import "./App.css";
-import Index from "./pages/Index/Index";
-import Index2 from "./pages/Index/Index2";
-import Header from "./pages/Header/Header";
-import Login from "./pages/Login/Login";
+import Header from "./pages/Header";
+import Index from "./pages/Index";
+import Series11 from "./pages/Series/Series11";
+import Series22 from "./pages/Series/Series22";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 function App() {
   return (
-    <div>
-      <Header />
+    <>
+      <Header></Header>
       <Router>
         <Routes>
           <Route path="/index" element={<Index />}></Route>
-          <Route path="/index2" element={<Index2 />}></Route>
-          <Route path="/login" element={<Login />}></Route>
+          <Route path="/series1" element={<Series11 />}></Route>
+          <Route path="/series2" element={<Series22 />}></Route>
         </Routes>
       </Router>
-    </div>
+    </>
   );
 }
+
 export default App;
