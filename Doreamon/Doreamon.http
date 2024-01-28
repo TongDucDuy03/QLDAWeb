@@ -1,4 +1,4 @@
-@Doreamon_HostAddress = http://localhost:5168
+@Doreamon_HostAddress = http://localhost:7108
 
 GET {{Doreamon_HostAddress}}/weatherforecast/
 Accept: application/json
