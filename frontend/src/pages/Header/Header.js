@@ -132,12 +132,12 @@ function Header() {
                     className="search-toggle iq-waves-effect d-flex align-items-center"
                   >
                     <img
-                      src="assets/images/user/1.jpg"
+                      src="https://i.pinimg.com/736x/fb/13/cf/fb13cf0345453e125a4c81514ffab015.jpg"
                       className="img-fluid rounded-circle mr-3"
                       alt="user"
                     />
                     <div className="caption">
-                      <h6 className="mb-1 line-height">Ông Trần Thuận</h6>
+                      <h6 className="mb-1 line-height">Tống Đức Dùy</h6>
                       <p className="mb-0 text-primary">Tài Khoản</p>
                     </div>
                   </a>

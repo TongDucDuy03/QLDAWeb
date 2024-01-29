@@ -5,7 +5,7 @@ import axios from "axios";
 const getSeries2 = async () => {
   try {
     const response = await axios.get(
-      `https://localhost:7108/api/Product/series/2`
+      "http://localhost:7108/api/Product/series/2"
     );
     console.log(response);
     return response.data;
@@ -64,7 +64,7 @@ const Series2 = () => {
                                     href="/detail"
                                     className="btn btn-sm btn-white"
                                   >
-                                    Mua Ngay
+                                    Detail
                                   </a>
                                 </div>
                               </div>

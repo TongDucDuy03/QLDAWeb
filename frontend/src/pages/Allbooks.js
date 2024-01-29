@@ -4,7 +4,7 @@ import axios from "axios";
 
 const getAllbooks = async () => {
   try {
-    const response = await axios.get(`https://localhost:7108/api/Product`);
+    const response = await axios.get(`http://localhost:7108/api/Product`);
     console.log(response);
     return response.data;
   } catch (error) {
@@ -41,7 +41,7 @@ const Allbooks = () => {
                     </a>
                     <div className="view-book">
                       <a href="/detail" className="btn btn-sm btn-white">
-                        Mua Ngay
+                        Detail
                       </a>
                     </div>
                   </div>
