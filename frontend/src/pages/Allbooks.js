@@ -9,6 +9,7 @@ const getAllbooks = async () => {
     return response.data;
   } catch (error) {
     console.log(error);
+    return [];
   }
 };
 
@@ -39,7 +40,7 @@ const Allbooks = () => {
                       />
                     </a>
                     <div className="view-book">
-                      <a href="book-page.html" className="btn btn-sm btn-white">
+                      <a href="/detail" className="btn btn-sm btn-white">
                         Mua Ngay
                       </a>
                     </div>
