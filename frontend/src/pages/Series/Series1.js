@@ -1,14 +1,14 @@
 /* eslint-disable jsx-a11y/img-redundant-alt */
 import React, { useEffect, useState } from "react";
-import {useParams} from 'react-router-dom'
+import { useParams } from "react-router-dom";
 import axios from "axios";
 
 const getSeries1 = async (id) => {
   try {
     const response = await axios.get(
-      `https://localhost:7108/api/Product/series/${id}`
+      `http://localhost:5168/api/Product/series/${id}`
     );
-    console.log('series 1',response);
+    console.log("series 1", response);
     return response.data;
   } catch (error) {
     console.log(error);

@@ -1,12 +1,12 @@
 /* eslint-disable jsx-a11y/img-redundant-alt */
 import React, { useEffect, useState } from "react";
-import {useNavigate} from 'react-router-dom'
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
 const getSeries2 = async () => {
   try {
     const response = await axios.get(
-      "https://localhost:7108/api/Product/series/2"
+      "http://localhost:5168/api/Product/series/2"
     );
     console.log(response);
     return response.data;
@@ -18,10 +18,10 @@ const getSeries2 = async () => {
 const Series2 = () => {
   const [randomBooks, setBooks] = useState([]);
   const navigate = useNavigate();
- 
+
   const handleRedirectDetail = (id) => {
-    navigate('/detail/' + id)
-  }
+    navigate("/detail/" + id);
+  };
 
   useEffect(() => {
     getSeries2().then((images) => {
@@ -53,7 +53,11 @@ const Series2 = () => {
                 <div className="row">
                   {randomBooks.length > 0 &&
                     randomBooks.map((item, index) => (
-                      <div className="col-sm-6 col-md-4 col-lg-3" key={item.id} onClick={() => handleRedirectDetail(item.id)}>
+                      <div
+                        className="col-sm-6 col-md-4 col-lg-3"
+                        key={item.id}
+                        onClick={() => handleRedirectDetail(item.id)}
+                      >
                         <div className="iq-card iq-card-block iq-card-stretch iq-card-height browse-bookcontent">
                           <div className="iq-card-body p-0">
                             <div className="d-flex align-items-center">
