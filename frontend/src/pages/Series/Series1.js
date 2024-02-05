@@ -1,13 +1,14 @@
 /* eslint-disable jsx-a11y/img-redundant-alt */
 import React, { useEffect, useState } from "react";
+import {useParams} from 'react-router-dom'
 import axios from "axios";
 
-const getSeries1 = async () => {
+const getSeries1 = async (id) => {
   try {
     const response = await axios.get(
-      `http://localhost:7108/api/Product/series/1`
+      `https://localhost:7108/api/Product/series/${id}`
     );
-    console.log(response);
+    console.log('series 1',response);
     return response.data;
   } catch (error) {
     console.log(error);
@@ -15,10 +16,12 @@ const getSeries1 = async () => {
 };
 
 const Series1 = () => {
+  const params = useParams();
+  console.log(params);
   const [randomBooks, setBooks] = useState([]);
 
   useEffect(() => {
-    getSeries1().then((images) => {
+    getSeries1(params.id).then((images) => {
       console.log(images);
       setBooks(images);
     });

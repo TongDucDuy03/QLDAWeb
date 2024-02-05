@@ -1,10 +1,11 @@
 /* eslint-disable jsx-a11y/img-redundant-alt */
 import React, { useEffect, useState } from "react";
+
 import axios from "axios";
 
 const getAllbooks = async () => {
   try {
-    const response = await axios.get(`http://localhost:7108/api/Product`);
+    const response = await axios.get(`https://localhost:7108/api/Product`);
     console.log(response);
     return response.data;
   } catch (error) {
@@ -15,7 +16,7 @@ const getAllbooks = async () => {
 
 const Allbooks = () => {
   const [randomBooks, setBooks] = useState([]);
-
+  console.log(randomBooks);
   useEffect(() => {
     getAllbooks().then((images) => {
       console.log(images);
