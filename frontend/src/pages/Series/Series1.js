@@ -5,7 +5,7 @@ import axios from "axios";
 const getSeries1 = async () => {
   try {
     const response = await axios.get(
-      `http://localhost:7108/api/Product/series/1`
+      `https://localhost:7108/api/Product/series/1`
     );
     console.log(response);
     return response.data;

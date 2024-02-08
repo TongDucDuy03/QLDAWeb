@@ -4,7 +4,7 @@ import axios from "axios";
 
 const getDetail = async () => {
   try {
-    const response = await axios.get(`http://localhost:7108/api/Product/3`);
+    const response = await axios.get(`https://localhost:7108/api/Product/3`);
     console.log(response.data);
     return response.data;
   } catch (error) {

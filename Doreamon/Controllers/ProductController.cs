@@ -3,6 +3,7 @@ using Doreamon.Data;
 using Doreamon.Models;
 using Doreamon.Repositories;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -13,10 +14,12 @@ namespace Doreamon.Controllers
     public class ProductController : ControllerBase
     {
         private IProductRepository _productRepo;
+        private ISeriesRepository _seriesRepo;
 
-        public ProductController(IProductRepository repo) 
+        public ProductController(IProductRepository repo, ISeriesRepository seriesRepo) 
         {
             _productRepo = repo;
+            _seriesRepo = seriesRepo;
         }
         [HttpGet]
         public async Task<IActionResult> GetAllProducts()
@@ -33,7 +36,25 @@ namespace Doreamon.Controllers
         [HttpGet("series/{seriesId}")]
         public async Task<IActionResult> GetProductsBySeriesId(int seriesId)
         {
-            var products = await _productRepo.getProductsBySeriesIdAsync(seriesId);
+            
+            var products =  
+                (from item in _productRepo.getProductsBySeriesIdAsync(seriesId).Result
+                select new
+                {
+                    Id = item.Id,
+                    Name = item.Name,
+                    Description = item.Description,
+                    Quantity = item.Quantity,
+                    Price = item.Price,
+                    DiscountPrice = item.DiscountPrice,
+                    ImagesUrl = item.ImagesUrl,
+                    Status = item.Status,
+                    CreatedAt = item.CreatedAt,
+                    UpdatedAt = item.UpdatedAt,
+                    SeriesId = item.Series_Id,
+                    SeriesName = _seriesRepo.GetSeriesBySeriesIdAsync(item.Series_Id).Result.Series_Name,
+                });
+            
             return products == null ? NotFound() : Ok(products);
         }
 
