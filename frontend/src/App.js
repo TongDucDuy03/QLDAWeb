@@ -17,7 +17,7 @@ function App() {
       <Router>
         <Routes>
           <Route path="/index" element={<Index />}></Route>
-          <Route path="/series1" element={<Series1 />}></Route>
+          <Route path="/series/:id" element={<Series1 />}></Route>
           <Route path="/series2" element={<Series2 />}></Route>
           <Route path="/cart" element={<Cart />}></Route>
           <Route path="/detail" element={<Detail />}></Route>

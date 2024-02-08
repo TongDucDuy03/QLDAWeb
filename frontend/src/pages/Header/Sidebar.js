@@ -25,7 +25,7 @@ function Sidebar() {
               </a>
             </li>
             <li>
-              <a href="/series1">
+              <a href="/series/1">
                 <i className="lab la-elementor iq-arrow-left" />
                 Truyện ngắn
               </a>

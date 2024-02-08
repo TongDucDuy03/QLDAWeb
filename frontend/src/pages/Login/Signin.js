@@ -1,6 +1,22 @@
-import React from "react";
+import axios from "axios";
+import React, { useState } from "react";
+import { Toast } from "react-bootstrap";
 
-function Signin() {
+const Signin = () => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const loginApi = (email, password) => {
+    return axios.post("/api/login", { email, password });
+  };
+  const handleLogin = async () => {
+    if (!email || !password) {
+      Toast.console.error("Email/Password is required");
+      return;
+    }
+    let res = loginApi(email, password);
+    console.log("check:", res);
+  };
   return (
     <div>
       <section className="sign-in-page">
@@ -25,6 +41,7 @@ function Signin() {
                           className="form-control mb-0"
                           id="exampleInputEmail1"
                           placeholder="Enter email"
+                          onChange={(event) => setEmail(event.target.value)}
                         />
                       </div>
                       <div className="form-group">
@@ -37,6 +54,7 @@ function Signin() {
                           className="form-control mb-0"
                           id="exampleInputPassword1"
                           placeholder="Password"
+                          onChange={(event) => setPassword(event.target.value)}
                         />
                       </div>
                       <div className="d-inline-block w-100">
@@ -58,6 +76,7 @@ function Signin() {
                         <button
                           type="submit"
                           className="btn btn-white d-block w-100 mb-2"
+                          onClick={() => handleLogin()}
                         >
                           Sign in
                         </button>
@@ -78,5 +97,5 @@ function Signin() {
       </section>
     </div>
   );
-}
+};
 export default Signin;

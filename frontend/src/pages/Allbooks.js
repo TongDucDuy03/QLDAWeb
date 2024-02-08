@@ -1,5 +1,6 @@
 /* eslint-disable jsx-a11y/img-redundant-alt */
 import React, { useEffect, useState } from "react";
+
 import axios from "axios";
 
 const getAllbooks = async () => {
@@ -15,7 +16,7 @@ const getAllbooks = async () => {
 
 const Allbooks = () => {
   const [randomBooks, setBooks] = useState([]);
-
+  console.log(randomBooks);
   useEffect(() => {
     getAllbooks().then((images) => {
       console.log(images);
