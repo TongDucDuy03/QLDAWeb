@@ -38,26 +38,24 @@ function Sidebar() {
         <nav className="iq-sidebar-menu">
           <ul id="iq-sidebar-toggle" className="iq-menu">
             <li>
-              <a href="/index" class="iq-waves-effect collapsed" data-toggle="collapse" aria-expanded="false">
+              <a href="/index">
                 <i className="las la-home iq-arrow-left" />
                 Trang chủ
               </a>
             </li>
             <li>
-              <a href="#ui-elements" class="iq-waves-effect collapsed" data-toggle="collapse" aria-expanded="false">
+              <a href="#series" class="iq-waves-effect collapsed" data-toggle="collapse" aria-expanded="false">
                 <i class="lab la-elementor iq-arrow-left"></i><span>Series</span>
                 <i class="ri-arrow-right-s-line iq-arrow-right"></i>
               </a>
 
-              <ul id="ui-elements" class="iq-submenu collapse" data-parent="#iq-sidebar-toggle">
+              <ul id="series" class="iq-submenu collapse" data-parent="#iq-sidebar-toggle">
                 {
                   seriesList.length > 0 &&
                   seriesList.map((item, index) => (
-                    <li class="elements">
-                      <a href={`/series/${item.series_Id}`} class="iq-waves-effect collapsed" data-toggle="collapse" aria-expanded="false">
-                        <i class="ri-play-circle-line"></i>
+                    <li>
+                      <a href={`/series/${item.series_Id}`}>
                         <span>{item.series_Name}</span>
-                        <i class="ri-arrow-right-s-line iq-arrow-right"></i>
                       </a>
                     </li>
                   ))
