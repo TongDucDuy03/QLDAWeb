@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 
-const getSeries1 = async (id) => {
+const getProductBySeries = async (id) => {
   try {
     const response = await axios.get(
       `http://localhost:5168/api/Product/series/${id}`
@@ -14,19 +14,33 @@ const getSeries1 = async (id) => {
     console.log(error);
   }
 };
-
-const Series1 = () => {
+const getSeries = async (id) => {
+  try {
+    const response = await axios.get(
+      `http://localhost:5168/api/Series/${id}`
+    );
+    return response.data;
+  } catch (error) {
+    console.log(error);
+  }
+};
+const Series = () => {
   const params = useParams();
   console.log(params);
   const [randomBooks, setBooks] = useState([]);
-
+  const [nameBooks, setSeries] = useState([]);
   useEffect(() => {
-    getSeries1(params.id).then((images) => {
+    getProductBySeries(params.id).then((images) => {
       console.log(images);
       setBooks(images);
-    });
+    })
+    
+    getSeries(params.id).then((images) => {
+      console.log(images);
+      setSeries(images);
+    })
   }, []);
-
+  
   return (
     <div id="content-page" className="content-page">
       <div className="container-fluid">
@@ -34,9 +48,11 @@ const Series1 = () => {
           <div className="col-lg-12">
             <div className="iq-card iq-card-block iq-card-stretch iq-card-height">
               <div className="iq-card-header d-flex justify-content-between align-items-center position-relative">
-                <div className="iq-header-title">
-                  <h4 className="card-title mb-0">Truyện ngắn</h4>
+                {nameBooks.length >0 && nameBooks.map((item,index)=>
+                  <div className="iq-header-title">
+                  <h4 className="card-title mb-0">key={item.SeriesName}</h4>
                 </div>
+                )}
                 <div className="iq-card-header-toolbar d-flex align-items-center">
                   <a
                     href="category.html"
@@ -115,4 +131,4 @@ const Series1 = () => {
     </div>
   );
 };
-export default Series1;
+export default Series;

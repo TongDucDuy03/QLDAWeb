@@ -3,7 +3,6 @@ import "./App.css";
 import Header from "./pages/Header/Header";
 import Index from "./pages/Index";
 import Series1 from "./pages/Series/Series1";
-import Series2 from "./pages/Series/Series2";
 import Cart from "./pages/Cart/Cart";
 import Detail from "./pages/Detail/Detail";
 import Signin from "./pages/Login/Signin";
@@ -18,7 +17,6 @@ function App() {
         <Routes>
           <Route path="/index" element={<Index />}></Route>
           <Route path="/series/:id" element={<Series1 />}></Route>
-          <Route path="/series2" element={<Series2 />}></Route>
           <Route path="/cart" element={<Cart />}></Route>
           <Route path="/detail" element={<Detail />}></Route>
           <Route path="/signin" element={<Signin />}></Route>
