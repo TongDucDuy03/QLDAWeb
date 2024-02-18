@@ -1,5 +1,8 @@
 import React from "react";
 import Sidebar from "./Sidebar";
+import jwt_decode from 'jwt-decode';
+
+
 function Header() {
   return ( 
     <div className="wrapper">
@@ -138,7 +141,7 @@ function Header() {
                       alt="user"
                     />
                     <div className="caption">
-                      <h6 className="mb-1 line-height">Tống Đức Dùy</h6>
+                      <h6 className="mb-1 line-height"></h6>
                       <p className="mb-0 text-primary">Tài Khoản</p>
                     </div>
                   </a>
