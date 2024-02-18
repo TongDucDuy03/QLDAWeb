@@ -27,12 +27,12 @@ const getSeries = async (id) => {
 const Series = () => {
   const params = useParams();
   console.log(params);
-  const [randomBooks, setBooks] = useState([]);
-  const [nameBooks, setSeries] = useState([]);
+  const [productList, setProducts] = useState([]);
+  const [seriesDetail, setSeries] = useState([]);
   useEffect(() => {
     getProductBySeries(params.id).then((images) => {
       console.log(images);
-      setBooks(images);
+      setProducts(images);
     })
     
     getSeries(params.id).then((images) => {
@@ -48,11 +48,11 @@ const Series = () => {
           <div className="col-lg-12">
             <div className="iq-card iq-card-block iq-card-stretch iq-card-height">
               <div className="iq-card-header d-flex justify-content-between align-items-center position-relative">
-                {nameBooks.length >0 && nameBooks.map((item,index)=>
+                
                   <div className="iq-header-title">
-                  <h4 className="card-title mb-0">key={item.SeriesName}</h4>
+                  <h4 className="card-title mb-0">{seriesDetail.series_Name}</h4>
                 </div>
-                )}
+                
                 <div className="iq-card-header-toolbar d-flex align-items-center">
                   <a
                     href="category.html"
@@ -64,8 +64,8 @@ const Series = () => {
               </div>
               <div className="iq-card-body">
                 <div className="row">
-                  {randomBooks.length > 0 &&
-                    randomBooks.map((item, index) => (
+                  {productList.length > 0 &&
+                    productList.map((item, index) => (
                       <div className="col-sm-6 col-md-4 col-lg-3" key={item.id}>
                         <div className="iq-card iq-card-block iq-card-stretch iq-card-height browse-bookcontent">
                           <div className="iq-card-body p-0">
