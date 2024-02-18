@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Doreamon.Data;
 using Doreamon.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace Doreamon.Repositories
 {
@@ -13,6 +14,12 @@ namespace Doreamon.Repositories
         {
             _context = context;
             _mapper = mapper;
+        }
+
+        public async Task<List<SeriesModel>> GetAllSeriesAsync()
+        {
+            var seriess = await _context.Series.ToListAsync();
+            return _mapper.Map<List<SeriesModel>>(seriess);
         }
 
         public async Task<SeriesModel> GetSeriesBySeriesIdAsync(int? SeriesId)
