@@ -14,7 +14,7 @@ const getProductBySeries = async (id) => {
     console.log(error);
   }
 };
-const getSeries = async (id) => {
+const getSeriesBySeriesId = async (id) => {
   try {
     const response = await axios.get(
       `http://localhost:5168/api/Series/${id}`
@@ -35,7 +35,7 @@ const Series = () => {
       setProducts(images);
     })
     
-    getSeries(params.id).then((images) => {
+    getSeriesBySeriesId(params.id).then((images) => {
       console.log(images);
       setSeries(images);
     })
