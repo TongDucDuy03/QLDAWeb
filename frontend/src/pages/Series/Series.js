@@ -80,7 +80,7 @@ const Series = () => {
                                 </a>
                                 <div className="view-book">
                                   <a
-                                    href="/detail"
+                                    href={`/detail/${item.id}`}
                                     className="btn btn-sm btn-white"
                                   >
                                     Detail

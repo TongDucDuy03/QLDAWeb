@@ -1,7 +1,7 @@
 import React from "react";
 import Sidebar from "./Sidebar";
 function Header() {
-  return (
+  return ( 
     <div className="wrapper">
       <Sidebar />
       <div className="iq-top-navbar">
@@ -33,10 +33,11 @@ function Header() {
               <form action="./" className="searchbox">
                 <input
                   type="text"
+                  id="searchInput"
                   className="text search-input"
                   placeholder="Tìm kiếm sản phẩm..."
                 />
-                <a className="search-link" href="./">
+                <a className="search-link" href="./Search/">
                   <i className="ri-search-line" />
                 </a>
               </form>

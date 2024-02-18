@@ -1,10 +1,10 @@
-/* eslint-disable jsx-a11y/img-redundant-alt */
 import React, { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 import axios from "axios";
 
-const getDetail = async () => {
+const getDetail = async (id) => {
   try {
-    const response = await axios.get(`https://localhost:7108/api/Product/3`);
+    const response = await axios.get(`http://localhost:5168/api/Product/${id}`);
     console.log(response.data);
     return response.data;
   } catch (error) {
@@ -13,10 +13,11 @@ const getDetail = async () => {
 };
 
 const Detail = () => {
-  const [randomBooks, setBooks] = useState([]);
+  const params = useParams();
+  const [productDetail, setBooks] = useState([]);
 
   useEffect(() => {
-    getDetail().then((images) => {
+    getDetail(params.id).then((images) => {
       console.log(images);
       setBooks(images);
     });
@@ -24,9 +25,8 @@ const Detail = () => {
 
   return (
     <div>
-      {randomBooks.length > 0 &&
-        randomBooks.map((item, index) => (
-          <div id="content-page" className="content-page" key={(item.id = 3)}>
+      
+          <div id="content-page" className="content-page" key={(productDetail.id)}>
             <div className="container-fluid">
               <div className="row">
                 <div className="col-sm-12">
@@ -48,7 +48,7 @@ const Detail = () => {
                                     <li>
                                       <a href="./">
                                         <img
-                                          src={item.imagesUrl}
+                                          src={productDetail.imagesUrl}
                                           className="img-fluid w-100 rounded"
                                           alt=""
                                         />
@@ -63,10 +63,10 @@ const Detail = () => {
                         <div className="col-md-6">
                           <div className="iq-card-transparent iq-card-block iq-card-stretch iq-card-height">
                             <div className="iq-card-body p-0">
-                              <h3 className="mb-3">{item.name}</h3>
+                              <h3 className="mb-3">{productDetail.name}</h3>
                               <div className="price d-flex align-items-center font-weight-500 mb-2">
                                 <span className="font-size-24 text-dark">
-                                  {item.price} ₫
+                                  {productDetail.price} ₫
                                 </span>
                               </div>
                               <div className="mb-3 d-block">
@@ -79,7 +79,7 @@ const Detail = () => {
                                 </span>
                               </div>
                               <span className="text-dark mb-4 pb-4 iq-border-bottom d-block">
-                                {item.description}
+                                {productDetail.description}
                               </span>
                               <div className="mb-4 d-flex align-items-center">
                                 <a
@@ -162,7 +162,7 @@ const Detail = () => {
               </div>
             </div>
           </div>
-        ))}
+        
     </div>
   );
 };
