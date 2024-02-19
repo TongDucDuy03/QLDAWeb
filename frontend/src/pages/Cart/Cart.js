@@ -8,22 +8,20 @@ const getCartByUser = async (id) => {
       `http://localhost:5168/api/Cart/cart/${id}`
     );
     return response.data;
-  }
-  catch (error) {
+  } catch (error) {
     console.log(error);
   }
-}
+};
+
 const Cart = () => {
   const params = useParams();
-  const [UserCart, setCart] = useState([]);
+  const [userCart, setUserCart] = useState([]);
 
   useEffect(() => {
-    getCartByUser(params.id).then((images) => {
-      console.log(images);
-      setCart(images);
+    getCartByUser(params.id).then((cartItems) => {
+      setUserCart(cartItems);
     });
-  }, []);
-
+  }, [params.id]);
 
   return (
     <div id="content-page" className="content-page">
@@ -40,64 +38,69 @@ const Cart = () => {
                   </div>
                   <div className="iq-card-body">
                     <ul className="list-inline p-0 m-0">
-                      <li className="checkout-product">
-                        <div className="row align-items-center">
-                          <div className="col-sm-2">
-                            <span className="checkout-product-img">
-                              <a href="./">
-                                <img
-                                  className="img-fluid rounded"
-                                  src={UserCart.imagesUrl}
-                                  alt=""
-                                />
-                              </a>
-                            </span>
-                          </div>
-                          <div className="col-sm-4">
-                            <div className="checkout-product-details">
-                              <h5>key={UserCart.name}</h5>
-                              <div className="price">
-                                <h5>key={UserCart.price}</h5>
+                      {userCart.map((item, index) => (
+                        <li key={index} className="checkout-product">
+                          <div className="row align-items-center">
+                            <div className="col-sm-2">
+                              <span className="checkout-product-img">
+                                <a href="./">
+                                  <img
+                                    className="img-fluid rounded"
+                                    src={item.products.imagesUrl}
+                                    alt=""
+                                  />
+                                </a>
+                              </span>
+                            </div>
+                            <div className="col-sm-4">
+                              <div className="checkout-product-details">
+                                <h5>{item.products.name}</h5>
+                                {/* <div className="price">
+                                  <h5>{item.products.price}</h5>
+                                </div> */}
                               </div>
                             </div>
-                          </div>
-                          <div className="col-sm-6">
-                            <div className="row">
-                              <div className="col-sm-10">
-                                <div className="row align-items-center mt-2">
-                                  <div className="col-sm-7 col-md-6">
-                                    <button
-                                      type="button"
-                                      className="fa fa-minus qty-btn"
-                                      id="btn-minus"
-                                    />
-                                    <input
-                                      type="text"
-                                      id="quantity"
-                                      defaultValue={0}
-                                    />
-                                    <button
-                                      type="button"
-                                      className="fa fa-plus qty-btn"
-                                      id="btn-plus"
-                                    />
-                                  </div>
-                                  <div className="col-sm-5 col-md-6">
-                                    <span className="product-price">
-                                      99.900 ₫
-                                    </span>
+                            <div className="col-sm-6">
+                              <div className="row">
+                                <div className="col-sm-10">
+                                  <div className="row align-items-center mt-2">
+                                    <div className="col-sm-7 col-md-6">
+                                      <button
+                                        type="button"
+                                        className="fa fa-minus qty-btn"
+                                        id="btn-minus"
+                                      ></button>
+                                      <input
+                                        type="text"
+                                        id="quantity"
+                                        defaultValue={item.quantity}
+                                      />
+                                      <button
+                                        type="button"
+                                        className="fa fa-plus qty-btn"
+                                        id="btn-plus"
+                                      ></button>
+                                    </div>
+                                    <div className="col-sm-5 col-md-6">
+                                      <span className="product-price">
+                                      {item.products.price}
+                                      </span>
+                                    </div>
                                   </div>
                                 </div>
-                              </div>
-                              <div className="col-sm-2">
-                                <a href="./" className="text-dark font-size-20">
-                                  <i className="ri-delete-bin-7-fill" />
-                                </a>
+                                <div className="col-sm-2">
+                                  <a
+                                    href="./"
+                                    className="text-dark font-size-20"
+                                  >
+                                    <i className="ri-delete-bin-7-fill"></i>
+                                  </a>
+                                </div>
                               </div>
                             </div>
                           </div>
-                        </div>
-                      </li>
+                        </li>
+                      ))}
                     </ul>
                   </div>
                 </div>
@@ -157,7 +160,7 @@ const Cart = () => {
                     <ul className="p-0 m-0">
                       <li className="d-flex align-items-center">
                         <div className="iq-checkout-icon">
-                          <i className="ri-checkbox-line" />
+                          <i className="ri-checkbox-line"></i>
                         </div>
                         <h6>
                           Chính sách bảo mật (Thanh toán an toàn và bảo mật.)
@@ -165,13 +168,13 @@ const Cart = () => {
                       </li>
                       <li className="d-flex align-items-center">
                         <div className="iq-checkout-icon">
-                          <i className="ri-truck-line" />
+                          <i className="ri-truck-line"></i>
                         </div>
                         <h6>Chính sách giao hàng (Giao hàng tận nhà.)</h6>
                       </li>
                       <li className="d-flex align-items-center">
                         <div className="iq-checkout-icon">
-                          <i className="ri-arrow-go-back-line" />
+                          <i className="ri-arrow-go-back-line"></i>
                         </div>
                         <h6>Chính sách hoàn trả</h6>
                       </li>
@@ -191,7 +194,7 @@ const Cart = () => {
                     </div>
                   </div>
                   <div className="iq-card-body">
-                    <form onsubmit="required()">
+                    <form onSubmit="required()">
                       <div className="row mt-3">
                         <div className="col-md-6">
                           <div className="form-group">
@@ -414,5 +417,5 @@ const Cart = () => {
       </div>
     </div>
   );
-  }
+};
 export default Cart;

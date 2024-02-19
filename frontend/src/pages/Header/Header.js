@@ -1,6 +1,5 @@
 import React from "react";
 import Sidebar from "./Sidebar";
-
 import { jwtDecode } from 'jwt-decode';
 
 const jwtToken = localStorage.getItem('jwtToken');
@@ -84,7 +83,7 @@ function Header() {
                 </li>
                 <li className="nav-item nav-icon dropdown">
                   <a
-                    href={`/Cart/${decodedToken.id}`}
+                    href={`/Cart/${decodedToken.Id}`}
                     className="search-toggle iq-waves-effect text-gray rounded"
                   >
                     <i className="ri-shopping-cart-2-line" />

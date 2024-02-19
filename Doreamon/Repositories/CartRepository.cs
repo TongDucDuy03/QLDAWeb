@@ -42,11 +42,13 @@ namespace Doreamon.Repositories
                 select new CartModel
                 {
                     Quantity = c.Quantity,
+                    UserId = c.UserId, 
+                    ProductId = c.ProductId,
                     Products = new Products 
                     {
                         Name = p.Name,
                         Description = p.Description,
-                        Price = p.Price,
+                        Price = p.Price*c.Quantity,
                         DiscountPrice = p.DiscountPrice,
                         ImagesUrl = p.ImagesUrl,
                     }
