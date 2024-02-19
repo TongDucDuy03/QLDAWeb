@@ -1,6 +1,30 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+import axios from "axios";
 
-function Cart() {
+const getCartByUser = async (id) => {
+  try {
+    const response = await axios.get(
+      `http://localhost:5168/api/Cart/cart/${id}`
+    );
+    return response.data;
+  }
+  catch (error) {
+    console.log(error);
+  }
+}
+const Cart = () => {
+  const params = useParams();
+  const [UserCart, setCart] = useState([]);
+
+  useEffect(() => {
+    getCartByUser(params.id).then((images) => {
+      console.log(images);
+      setCart(images);
+    });
+  }, []);
+
+
   return (
     <div id="content-page" className="content-page">
       <div className="container-fluid checkout-content">
@@ -23,7 +47,7 @@ function Cart() {
                               <a href="./">
                                 <img
                                   className="img-fluid rounded"
-                                  src="images/checkout/01.jpg"
+                                  src={UserCart.imagesUrl}
                                   alt=""
                                 />
                               </a>
@@ -31,10 +55,9 @@ function Cart() {
                           </div>
                           <div className="col-sm-4">
                             <div className="checkout-product-details">
-                              <h5>Economix - Các Nền Kinh Tế Vận Hành</h5>
-                              <p className="text-success">Còn hàng</p>
+                              <h5>key={UserCart.name}</h5>
                               <div className="price">
-                                <h5>99.900 ₫</h5>
+                                <h5>key={UserCart.price}</h5>
                               </div>
                             </div>
                           </div>
@@ -391,5 +414,5 @@ function Cart() {
       </div>
     </div>
   );
-}
+  }
 export default Cart;
