@@ -1,6 +1,5 @@
 import React from "react";
 import Sidebar from "./Sidebar";
-import jwt_decode from 'jwt-decode';
 
 
 function Header() {
