@@ -18,8 +18,7 @@ const Signin = () => {
       const response = await axios.post("http://localhost:5168/api/User/Login", { UserName, password });
       if (response.data.success) {
         localStorage.setItem("jwtToken", response.data.data);
-        console.log(response.data.data);
-        
+        window.location.href = '/index';     
       } else {
         setErrorMessage("Login failed. Please try again.");
         setShowError(true);
