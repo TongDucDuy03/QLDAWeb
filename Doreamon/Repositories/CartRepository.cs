@@ -16,22 +16,39 @@ namespace Doreamon.Repositories
             _mapper = mapper;
         }
 
-        public async Task<CartModel> addToCart(int UserId, int Id)
+        public async Task<CartModel> AddToCart(int UserId, int ProductId, bool IncreaseQuantity)
         {
-            var cart = await _context.Carts.FirstOrDefaultAsync(m => m.UserId == UserId && m.ProductId == Id);
+            var cart = await _context.Carts.FirstOrDefaultAsync(m => m.UserId == UserId && m.ProductId == ProductId);
             if (cart == null)
             {
-                cart = new Cart { UserId = UserId, ProductId = Id, Quantity = 1 };
-                _context.Carts.Add(cart);
+                if (IncreaseQuantity)
+                {
+                    cart = new Cart { UserId = UserId, ProductId = ProductId, Quantity = 1 };
+                    _context.Carts.Add(cart);
+                }
             }
             else
             {
-                cart.Quantity += 1;
+                if (IncreaseQuantity)
+                {
+                    cart.Quantity += 1; 
+                }
+                else
+                {
+                    if (cart.Quantity > 1)
+                    {
+                        cart.Quantity -= 1; 
+                    }
+                    else
+                    {
+                        _context.Carts.Remove(cart); 
+                    }
+                }
             }
             await _context.SaveChangesAsync();
             return _mapper.Map<CartModel>(cart);
-
         }
+
 
         public async Task<List<CartModel>> GetCartProducts(int userId)
         {
@@ -54,7 +71,12 @@ namespace Doreamon.Repositories
                     }
                 }
             ).ToListAsync();
-
+            var totalPrice = await (
+            from c in _context.Carts
+            join p in _context.Products on c.ProductId equals p.Id
+            where c.UserId == userId
+            select p.Price * c.Quantity
+            ).SumAsync();
             return _mapper.Map< List<CartModel>>(cartProducts);
         }
     }

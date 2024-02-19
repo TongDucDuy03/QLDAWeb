@@ -81,21 +81,13 @@ function Header() {
                     </a>
                   </form>
                 </li>
-                <li className="nav-item nav-icon dropdown">
+                <li className="nav-item nav-icon">
                   <a
                     href={`/Cart/${decodedToken.Id}`}
                     className="search-toggle iq-waves-effect text-gray rounded"
                   >
                     <i className="ri-shopping-cart-2-line" />
-                    <span className="badge badge-danger count-cart rounded-circle">
-                      
-                    </span>
                   </a>
-                  <div className="iq-sub-dropdown">
-                    <div className="iq-card shadow-none m-0">
-                      
-                    </div>
-                  </div>
                 </li>
                 <li className="line-height pt-3">
                   <a

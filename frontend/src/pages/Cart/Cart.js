@@ -13,15 +13,46 @@ const getCartByUser = async (id) => {
   }
 };
 
+const updateCart = async (productId, userId, increaseQuantity) => {
+    await axios.post(
+      `http://localhost:5168/api/Cart/?id=${productId}&userId=${userId}&increaseQuantity=${increaseQuantity}`
+    );
+};
+
 const Cart = () => {
   const params = useParams();
   const [userCart, setUserCart] = useState([]);
+  const [quantity, setQuantity] = useState([]);
 
   useEffect(() => {
     getCartByUser(params.id).then((cartItems) => {
       setUserCart(cartItems);
+      setQuantity(cartItems.quantity);
     });
   }, [params.id]);
+
+  const handleIncrease = async (productId) => {
+    await updateCart(productId,params.id, true);
+    setQuantity(quantity  => quantity  + 1);
+    getCartByUser(params.id).then((cartItems) => {
+      setUserCart(cartItems);
+      if (cartItems.quantity && !isNaN(cartItems.quantity)) {
+        setQuantity(parseInt(cartItems.quantity));
+      }
+    });
+  };
+
+  const handleDecrease = async (productId) => {
+    await updateCart(productId,params.id, false);
+    setQuantity(quantity  => quantity  - 1);
+    getCartByUser(params.id).then((cartItems) => {
+      setUserCart(cartItems);
+      if (cartItems.quantity && !isNaN(cartItems.quantity)) {
+        setQuantity(parseInt(cartItems.quantity));
+      }
+    });
+  };
+
 
   return (
     <div id="content-page" className="content-page">
@@ -55,9 +86,6 @@ const Cart = () => {
                             <div className="col-sm-4">
                               <div className="checkout-product-details">
                                 <h5>{item.products.name}</h5>
-                                {/* <div className="price">
-                                  <h5>{item.products.price}</h5>
-                                </div> */}
                               </div>
                             </div>
                             <div className="col-sm-6">
@@ -68,22 +96,22 @@ const Cart = () => {
                                       <button
                                         type="button"
                                         className="fa fa-minus qty-btn"
-                                        id="btn-minus"
+                                        onClick={() => handleDecrease(item.productId)}
                                       ></button>
                                       <input
                                         type="text"
                                         id="quantity"
-                                        defaultValue={item.quantity}
+                                        value={item.quantity}
                                       />
                                       <button
                                         type="button"
                                         className="fa fa-plus qty-btn"
-                                        id="btn-plus"
+                                        onClick={() => handleIncrease(item.productId)}
                                       ></button>
                                     </div>
                                     <div className="col-sm-5 col-md-6">
                                       <span className="product-price">
-                                      {item.products.price}
+                                        {item.products.price}
                                       </span>
                                     </div>
                                   </div>
@@ -108,16 +136,6 @@ const Cart = () => {
               <div className="col-lg-4">
                 <div className="iq-card">
                   <div className="iq-card-body">
-                    <p>Tùy chọn</p>
-                    <div className="d-flex justify-content-between">
-                      <span>Phiếu giảm giá</span>
-                      <span>
-                        <a href="./">
-                          <strong>Áp dụng</strong>
-                        </a>
-                      </span>
-                    </div>
-                    <hr />
                     <p>
                       <b>Chi tiết</b>
                     </p>

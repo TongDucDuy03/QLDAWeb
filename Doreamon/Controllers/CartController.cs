@@ -19,12 +19,12 @@ namespace Doreamon.Controllers
             _cartRepo = repo;
         }
         [HttpPost]
-        public async Task<IActionResult> addToCart(int Id, int UserId)
+        public async Task<IActionResult> AddToCart(int id, int userId, bool increaseQuantity)
         {
-
-            var check = await _cartRepo.addToCart(UserId, Id);
-            return Ok(check);
+                var cart = await _cartRepo.AddToCart(userId, id, increaseQuantity);
+                return Ok(cart);
         }
+
         [HttpGet("cart/{userId}")]
         public async Task<IActionResult> GetCartProducts(int userId)
         {
