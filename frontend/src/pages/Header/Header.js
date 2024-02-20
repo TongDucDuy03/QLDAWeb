@@ -1,20 +1,9 @@
 import React from "react";
 import Sidebar from "./Sidebar";
-<<<<<<< HEAD
 import Search from "./Search";
 
 function Header(props) {
   return (
-=======
-import { jwtDecode } from 'jwt-decode';
-
-const jwtToken = localStorage.getItem('jwtToken');
-const decodedToken = jwtDecode(jwtToken);
-console.log(decodedToken);
-
-function Header() {
-  return ( 
->>>>>>> 5eaa3c803f4e7ee64ad05328ac538113ce2330a4
     <div className="wrapper">
       <Sidebar />
       <div className="iq-top-navbar">
@@ -78,7 +67,7 @@ function Header() {
                 </li>
                 <li className="nav-item nav-icon">
                   <a
-                    href={`/Cart/${decodedToken.Id}`}
+                    href="./"
                     className="search-toggle iq-waves-effect text-gray rounded"
                   >
                     <i className="ri-shopping-cart-2-line" />
@@ -95,7 +84,7 @@ function Header() {
                       alt="user"
                     />
                     <div className="caption">
-                      <h6 className="mb-1 line-height">{decodedToken.UserName}</h6>
+                      <h6 className="mb-1 line-height">....</h6>
                       <p className="mb-0 text-primary">Tài Khoản</p>
                     </div>
                   </a>

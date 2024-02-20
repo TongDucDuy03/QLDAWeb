@@ -13,7 +13,6 @@ import Series from "./pages/Series/Series";
 function App() {
   return (
     <>
-<<<<<<< HEAD
       <Header />
       <Routes>
         <Route path="/index" element={<Index />}></Route>
@@ -24,20 +23,6 @@ function App() {
         <Route path="/signup" element={<Signup />}></Route>
         <Route path="/profile" element={<Profile />}></Route>
       </Routes>
-=======
-      <Header></Header>
-      <Router>
-        <Routes>
-          <Route path="/index" element={<Index />}></Route>
-          <Route path="/series/:id" element={<Series />}></Route>
-          <Route path="/cart/:id" element={<Cart />}></Route>
-          <Route path="/detail/:id" element={<Detail />}></Route>
-          <Route path="/signin" element={<Signin />}></Route>
-          <Route path="/signup" element={<Signup />}></Route>
-          <Route path="/profile" element={<Profile />}></Route>
-        </Routes>
-      </Router>
->>>>>>> 5eaa3c803f4e7ee64ad05328ac538113ce2330a4
     </>
   );
 }

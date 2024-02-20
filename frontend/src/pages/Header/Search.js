@@ -2,10 +2,11 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import _ from "lodash";
 import { debounce } from "lodash";
-function Search() {
-  const [ListProducts, setListProducts] = useState([]);
 
-  const getAllbooks = async () => {
+function Search() {
+  const [listProducts, setListProducts] = useState([]);
+
+  const getAllBooks = async () => {
     try {
       const response = await axios.get(`http://localhost:5168/api/Product`);
       console.log(response);
@@ -15,23 +16,23 @@ function Search() {
       return [];
     }
   };
+
   useEffect(() => {
-    getAllbooks().then((images) => {
+    getAllBooks().then((images) => {
       setListProducts(images);
     });
   }, []);
 
   const handleSearch = debounce((event) => {
-    console.log(event.target.value);
-    let term = event.target.value;
+    let term = event.target.value.toLowerCase();
     if (term) {
-      let cloneListProducts = _.cloneDeep(ListProducts);
+      let cloneListProducts = _.cloneDeep(listProducts);
       cloneListProducts = cloneListProducts.filter((item) =>
-        item.name.includes(term)
+        item.name.toLowerCase().includes(term)
       );
-      setListProducts(cloneListProducts);
+      console.log(cloneListProducts);
     } else {
-      getAllbooks();
+      getAllBooks();
     }
   }, 500);
 
@@ -40,6 +41,7 @@ function Search() {
       handleSearch(event);
     }
   };
+
   return (
     <div className="iq-search-bar">
       <form action="./" className="searchbox">
@@ -49,7 +51,7 @@ function Search() {
           className="text search-input"
           placeholder="Tìm kiếm sản phẩm..."
           onChange={(event) => handleSearch(event)}
-          handleKeyDown={handleKeyDown}
+          onKeyDown={handleKeyDown}
         />
         <a className="search-link" href="./Search/">
           <i className="ri-search-line" />
@@ -58,4 +60,5 @@ function Search() {
     </div>
   );
 }
+
 export default Search;
