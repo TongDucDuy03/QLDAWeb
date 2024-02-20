@@ -1,9 +1,20 @@
 import React from "react";
 import Sidebar from "./Sidebar";
+<<<<<<< HEAD
 import Search from "./Search";
 
 function Header(props) {
   return (
+=======
+import { jwtDecode } from 'jwt-decode';
+
+const jwtToken = localStorage.getItem('jwtToken');
+const decodedToken = jwtDecode(jwtToken);
+console.log(decodedToken);
+
+function Header() {
+  return ( 
+>>>>>>> 5eaa3c803f4e7ee64ad05328ac538113ce2330a4
     <div className="wrapper">
       <Sidebar />
       <div className="iq-top-navbar">
@@ -65,57 +76,13 @@ function Header(props) {
                     </a>
                   </form>
                 </li>
-                <li className="nav-item nav-icon dropdown">
+                <li className="nav-item nav-icon">
                   <a
-                    href="./"
+                    href={`/Cart/${decodedToken.Id}`}
                     className="search-toggle iq-waves-effect text-gray rounded"
                   >
                     <i className="ri-shopping-cart-2-line" />
-                    <span className="badge badge-danger count-cart rounded-circle">
-                      2
-                    </span>
                   </a>
-                  <div className="iq-sub-dropdown">
-                    <div className="iq-card shadow-none m-0">
-                      <div className="iq-card-body p-0 toggle-cart-info">
-                        <div className="bg-primary p-3">
-                          <h5 className="mb-0 text-white">
-                            Giỏ Hàng
-                            <small className="badge  badge-light float-right pt-1">
-                              2
-                            </small>
-                          </h5>
-                        </div>
-                        <a href="./" className="iq-sub-card">
-                          <div className="media align-items-center">
-                            <div className="">
-                              <img
-                                className="rounded"
-                                src="assets/images/cart/01.jpg"
-                                alt=""
-                              />
-                            </div>
-                            <div className="media-body ml-3">
-                              <h6 className="mb-0 ">Night People book</h6>
-                              <p className="mb-0">$32</p>
-                            </div>
-                            <div className="float-right font-size-24 text-danger">
-                              <i className="ri-close-fill" />
-                            </div>
-                          </div>
-                        </a>
-                        <div className="d-flex align-items-center text-center p-3">
-                          <a
-                            className="btn btn-primary iq-sign-btn"
-                            href="/cart"
-                            role="button"
-                          >
-                            Thanh Toán
-                          </a>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
                 </li>
                 <li className="line-height pt-3">
                   <a
@@ -128,7 +95,7 @@ function Header(props) {
                       alt="user"
                     />
                     <div className="caption">
-                      <h6 className="mb-1 line-height">Tống Đức Dùy</h6>
+                      <h6 className="mb-1 line-height">{decodedToken.UserName}</h6>
                       <p className="mb-0 text-primary">Tài Khoản</p>
                     </div>
                   </a>

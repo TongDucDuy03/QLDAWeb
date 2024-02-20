@@ -1,22 +1,35 @@
-import axios from "axios";
 import React, { useState } from "react";
-import { Toast } from "react-bootstrap";
+import axios from "axios";
+import { Alert } from "react-bootstrap";
 
 const Signin = () => {
-  const [email, setEmail] = useState("");
+  const [UserName, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [showError, setShowError] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
 
-  const loginApi = (email, password) => {
-    return axios.post("/api/login", { email, password });
-  };
   const handleLogin = async () => {
-    if (!email || !password) {
-      Toast.console.error("Email/Password is required");
+    if (!UserName || !password) {
+      setErrorMessage("Email/Password is required");
+      setShowError(true);
       return;
     }
-    let res = loginApi(email, password);
-    console.log("check:", res);
+    try {
+      const response = await axios.post("http://localhost:5168/api/User/Login", { UserName, password });
+      if (response.data.success) {
+        localStorage.setItem("jwtToken", response.data.data);
+        window.location.href = '/index';     
+      } else {
+        setErrorMessage("Login failed. Please try again.");
+        setShowError(true);
+      }
+    } catch (error) {
+      console.error("Login error:", error);
+      setErrorMessage("Login failed. Please try again.");
+      setShowError(true);
+    }
   };
+
   return (
     <div>
       <section className="sign-in-page">
@@ -28,19 +41,16 @@ const Signin = () => {
                   <div className="sign-in-from bg-primary rounded">
                     <h3 className="mb-0 text-center text-white">Sign in</h3>
                     <p className="text-center text-white">
-                      Enter your email address and password to access admin
-                      panel.
+                      Enter your UserName and password to access admin panel.
                     </p>
                     <form className="mt-4 form-text">
                       <div className="form-group">
-                        <label htmlFor="exampleInputEmail1">
-                          Email address
-                        </label>
+                        <label htmlFor="exampleInputEmail1">UserName</label>
                         <input
-                          type="email"
+                          type="text"
                           className="form-control mb-0"
-                          id="exampleInputEmail1"
-                          placeholder="Enter email"
+                          id="exampleInputUserName1"
+                          placeholder="Enter UserName"
                           onChange={(event) => setEmail(event.target.value)}
                         />
                       </div>
@@ -74,7 +84,7 @@ const Signin = () => {
                       </div>
                       <div className="sign-info text-center">
                         <button
-                          type="submit"
+                          type="button"
                           className="btn btn-white d-block w-100 mb-2"
                           onClick={() => handleLogin()}
                         >
@@ -95,7 +105,14 @@ const Signin = () => {
           </div>
         </div>
       </section>
+      <div style={{ position: 'fixed', bottom: '10px', right: '10px', zIndex: 9999 }}>
+        <Alert variant="danger" show={showError} onClose={() => setShowError(false)} dismissible>
+          <Alert.Heading>Error</Alert.Heading>
+          <p>{errorMessage}</p>
+        </Alert>
+      </div>
     </div>
   );
 };
+
 export default Signin;

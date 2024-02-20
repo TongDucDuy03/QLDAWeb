@@ -1,6 +1,59 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+import axios from "axios";
 
-function Cart() {
+const getCartByUser = async (id) => {
+  try {
+    const response = await axios.get(
+      `http://localhost:5168/api/Cart/cart/${id}`
+    );
+    return response.data;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+const updateCart = async (productId, userId, increaseQuantity) => {
+    await axios.post(
+      `http://localhost:5168/api/Cart/?id=${productId}&userId=${userId}&increaseQuantity=${increaseQuantity}`
+    );
+};
+
+const Cart = () => {
+  const params = useParams();
+  const [userCart, setUserCart] = useState([]);
+  const [quantity, setQuantity] = useState([]);
+
+  useEffect(() => {
+    getCartByUser(params.id).then((cartItems) => {
+      setUserCart(cartItems);
+      setQuantity(cartItems.quantity);
+    });
+  }, [params.id]);
+
+  const handleIncrease = async (productId) => {
+    await updateCart(productId,params.id, true);
+    setQuantity(quantity  => quantity  + 1);
+    getCartByUser(params.id).then((cartItems) => {
+      setUserCart(cartItems);
+      if (cartItems.quantity && !isNaN(cartItems.quantity)) {
+        setQuantity(parseInt(cartItems.quantity));
+      }
+    });
+  };
+
+  const handleDecrease = async (productId) => {
+    await updateCart(productId,params.id, false);
+    setQuantity(quantity  => quantity  - 1);
+    getCartByUser(params.id).then((cartItems) => {
+      setUserCart(cartItems);
+      if (cartItems.quantity && !isNaN(cartItems.quantity)) {
+        setQuantity(parseInt(cartItems.quantity));
+      }
+    });
+  };
+
+
   return (
     <div id="content-page" className="content-page">
       <div className="container-fluid checkout-content">
@@ -16,65 +69,66 @@ function Cart() {
                   </div>
                   <div className="iq-card-body">
                     <ul className="list-inline p-0 m-0">
-                      <li className="checkout-product">
-                        <div className="row align-items-center">
-                          <div className="col-sm-2">
-                            <span className="checkout-product-img">
-                              <a href="./">
-                                <img
-                                  className="img-fluid rounded"
-                                  src="images/checkout/01.jpg"
-                                  alt=""
-                                />
-                              </a>
-                            </span>
-                          </div>
-                          <div className="col-sm-4">
-                            <div className="checkout-product-details">
-                              <h5>Economix - Các Nền Kinh Tế Vận Hành</h5>
-                              <p className="text-success">Còn hàng</p>
-                              <div className="price">
-                                <h5>99.900 ₫</h5>
+                      {userCart.map((item, index) => (
+                        <li key={index} className="checkout-product">
+                          <div className="row align-items-center">
+                            <div className="col-sm-2">
+                              <span className="checkout-product-img">
+                                <a href="./">
+                                  <img
+                                    className="img-fluid rounded"
+                                    src={item.products.imagesUrl}
+                                    alt=""
+                                  />
+                                </a>
+                              </span>
+                            </div>
+                            <div className="col-sm-4">
+                              <div className="checkout-product-details">
+                                <h5>{item.products.name}</h5>
                               </div>
                             </div>
-                          </div>
-                          <div className="col-sm-6">
-                            <div className="row">
-                              <div className="col-sm-10">
-                                <div className="row align-items-center mt-2">
-                                  <div className="col-sm-7 col-md-6">
-                                    <button
-                                      type="button"
-                                      className="fa fa-minus qty-btn"
-                                      id="btn-minus"
-                                    />
-                                    <input
-                                      type="text"
-                                      id="quantity"
-                                      defaultValue={0}
-                                    />
-                                    <button
-                                      type="button"
-                                      className="fa fa-plus qty-btn"
-                                      id="btn-plus"
-                                    />
-                                  </div>
-                                  <div className="col-sm-5 col-md-6">
-                                    <span className="product-price">
-                                      99.900 ₫
-                                    </span>
+                            <div className="col-sm-6">
+                              <div className="row">
+                                <div className="col-sm-10">
+                                  <div className="row align-items-center mt-2">
+                                    <div className="col-sm-7 col-md-6">
+                                      <button
+                                        type="button"
+                                        className="fa fa-minus qty-btn"
+                                        onClick={() => handleDecrease(item.productId)}
+                                      ></button>
+                                      <input
+                                        type="text"
+                                        id="quantity"
+                                        value={item.quantity}
+                                      />
+                                      <button
+                                        type="button"
+                                        className="fa fa-plus qty-btn"
+                                        onClick={() => handleIncrease(item.productId)}
+                                      ></button>
+                                    </div>
+                                    <div className="col-sm-5 col-md-6">
+                                      <span className="product-price">
+                                        {item.products.price}
+                                      </span>
+                                    </div>
                                   </div>
                                 </div>
-                              </div>
-                              <div className="col-sm-2">
-                                <a href="./" className="text-dark font-size-20">
-                                  <i className="ri-delete-bin-7-fill" />
-                                </a>
+                                <div className="col-sm-2">
+                                  <a
+                                    href="./"
+                                    className="text-dark font-size-20"
+                                  >
+                                    <i className="ri-delete-bin-7-fill"></i>
+                                  </a>
+                                </div>
                               </div>
                             </div>
                           </div>
-                        </div>
-                      </li>
+                        </li>
+                      ))}
                     </ul>
                   </div>
                 </div>
@@ -82,16 +136,6 @@ function Cart() {
               <div className="col-lg-4">
                 <div className="iq-card">
                   <div className="iq-card-body">
-                    <p>Tùy chọn</p>
-                    <div className="d-flex justify-content-between">
-                      <span>Phiếu giảm giá</span>
-                      <span>
-                        <a href="./">
-                          <strong>Áp dụng</strong>
-                        </a>
-                      </span>
-                    </div>
-                    <hr />
                     <p>
                       <b>Chi tiết</b>
                     </p>
@@ -134,7 +178,7 @@ function Cart() {
                     <ul className="p-0 m-0">
                       <li className="d-flex align-items-center">
                         <div className="iq-checkout-icon">
-                          <i className="ri-checkbox-line" />
+                          <i className="ri-checkbox-line"></i>
                         </div>
                         <h6>
                           Chính sách bảo mật (Thanh toán an toàn và bảo mật.)
@@ -142,13 +186,13 @@ function Cart() {
                       </li>
                       <li className="d-flex align-items-center">
                         <div className="iq-checkout-icon">
-                          <i className="ri-truck-line" />
+                          <i className="ri-truck-line"></i>
                         </div>
                         <h6>Chính sách giao hàng (Giao hàng tận nhà.)</h6>
                       </li>
                       <li className="d-flex align-items-center">
                         <div className="iq-checkout-icon">
-                          <i className="ri-arrow-go-back-line" />
+                          <i className="ri-arrow-go-back-line"></i>
                         </div>
                         <h6>Chính sách hoàn trả</h6>
                       </li>
@@ -168,7 +212,7 @@ function Cart() {
                     </div>
                   </div>
                   <div className="iq-card-body">
-                    <form onsubmit="required()">
+                    <form onSubmit="required()">
                       <div className="row mt-3">
                         <div className="col-md-6">
                           <div className="form-group">
@@ -391,5 +435,5 @@ function Cart() {
       </div>
     </div>
   );
-}
+};
 export default Cart;

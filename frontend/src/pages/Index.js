@@ -1,6 +1,6 @@
 import React from "react";
 import Allbooks from "./Allbooks";
-function Index() {
+const Index = ()=> {
   return (
     <div id="content-page" className="content-page">
       <div className="container-fluid">
