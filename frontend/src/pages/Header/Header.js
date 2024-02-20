@@ -1,7 +1,9 @@
 import React from "react";
 import Sidebar from "./Sidebar";
-function Header() {
-  return ( 
+import Search from "./Search";
+
+function Header(props) {
+  return (
     <div className="wrapper">
       <Sidebar />
       <div className="iq-top-navbar">
@@ -29,19 +31,7 @@ function Header() {
             <div className="navbar-breadcrumb">
               <h5 className="mb-0">Trang Chủ</h5>
             </div>
-            <div className="iq-search-bar">
-              <form action="./" className="searchbox">
-                <input
-                  type="text"
-                  id="searchInput"
-                  className="text search-input"
-                  placeholder="Tìm kiếm sản phẩm..."
-                />
-                <a className="search-link" href="./Search/">
-                  <i className="ri-search-line" />
-                </a>
-              </form>
-            </div>
+            <Search />
             <button
               className="navbar-toggler"
               type="button"
