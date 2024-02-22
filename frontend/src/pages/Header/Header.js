@@ -4,6 +4,9 @@ import { jwtDecode } from 'jwt-decode';
 
 const jwtToken = localStorage.getItem('jwtToken');
 const decodedToken = jwtDecode(jwtToken);
+const userId = decodedToken.Id;
+
+localStorage.setItem('userId', userId);
 console.log(decodedToken);
 
 function Header() {

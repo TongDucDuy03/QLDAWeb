@@ -15,12 +15,12 @@ namespace Doreamon.Controllers
         private ICartRepository _cartRepo;
 
         public CartController(ICartRepository repo) 
-        {
+        { 
             _cartRepo = repo;
         }
         [HttpPost]
         public async Task<IActionResult> AddToCart(int id, int userId, bool increaseQuantity)
-        {
+        { 
                 var cart = await _cartRepo.AddToCart(userId, id, increaseQuantity);
                 return Ok(cart);
         }

@@ -71,12 +71,6 @@ namespace Doreamon.Repositories
                     }
                 }
             ).ToListAsync();
-            var totalPrice = await (
-            from c in _context.Carts
-            join p in _context.Products on c.ProductId equals p.Id
-            where c.UserId == userId
-            select p.Price * c.Quantity
-            ).SumAsync();
             return _mapper.Map< List<CartModel>>(cartProducts);
         }
     }

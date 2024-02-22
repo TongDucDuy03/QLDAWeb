@@ -1,4 +1,3 @@
-/* eslint-disable jsx-a11y/img-redundant-alt */
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
@@ -8,7 +7,7 @@ const getProductBySeries = async (id) => {
     const response = await axios.get(
       `http://localhost:5168/api/Product/series/${id}`
     );
-    console.log("series 1", response);
+    console.log("series", response);
     return response.data;
   } catch (error) {
     console.log(error);
@@ -22,12 +21,14 @@ const getSeriesBySeriesId = async (id) => {
     console.log(error);
   }
 };
+const userId = localStorage.getItem('userId');
 const Series = () => {
   const params = useParams();
   console.log(params);
   const [productList, setProducts] = useState([]);
   const [seriesDetail, setSeries] = useState([]);
   useEffect(() => {
+    
     getProductBySeries(params.id).then((images) => {
       console.log(images);
       setProducts(images);
@@ -38,7 +39,22 @@ const Series = () => {
       setSeries(images);
     });
   }, []);
-
+  const addToCart = async (productId) => {
+    if(userId != null){
+      try {
+        await axios.post(
+          `http://localhost:5168/api/Cart/?id=${productId}&userId=${userId}&increaseQuantity=${true}`
+        );
+        alert('Product added to cart successfully!');
+      } catch (error) {
+        console.log(error);
+        alert('Failed to add product to cart!');
+      }
+    }else{
+      window.location.href = '/signin';
+    }
+    
+  };
   return (
     <div id="content-page" className="content-page">
       <div className="container-fluid">
@@ -89,9 +105,6 @@ const Series = () => {
                               <div className="col-6">
                                 <div className="mb-2">
                                   <h6 className="mb-1">{item.name}</h6>
-                                  <p className="font-size-13 line-height mb-1">
-                                    Dangpham
-                                  </p>
                                   <div className="d-block line-height">
                                     <span className="font-size-11 text-warning">
                                       <i className="fa fa-star" />
@@ -108,12 +121,7 @@ const Series = () => {
                                   </h6>
                                 </div>
                                 <div className="iq-product-action">
-                                  <a href="./">
-                                    <i className="ri-shopping-cart-2-fill text-primary" />
-                                  </a>
-                                  <a href="./" className="ml-2">
-                                    <i className="ri-heart-fill text-danger" />
-                                  </a>
+                                <i className="ri-shopping-cart-2-fill text-primary"  onClick={() => addToCart(item.id)} />
                                 </div>
                               </div>
                             </div>

@@ -11,7 +11,23 @@ const getDetail = async (id) => {
     console.log(error);
   }
 };
-
+const userId = localStorage.getItem('userId');
+const addToCart = async (productId) => {
+  if(userId != null){
+    try {
+      await axios.post(
+        `http://localhost:5168/api/Cart/?id=${productId}&userId=${userId}&increaseQuantity=${true}`
+      );
+      alert('Product added to cart successfully!');
+    } catch (error) {
+      console.log(error);
+      alert('Failed to add product to cart!');
+    }
+  }else{
+    window.location.href = '/signin';
+  }
+  
+};
 const Detail = () => {
   const params = useParams();
   const [productDetail, setBooks] = useState([]);
@@ -81,12 +97,14 @@ const Detail = () => {
                             {productDetail.description}
                           </span>
                           <div className="mb-4 d-flex align-items-center">
-                            <a
-                              href="checkout.html"
-                              className="btn btn-primary view-more mr-2"
-                            >
-                              Thêm vào giỏ hàng
-                            </a>
+                          <a
+                            href="#"
+                            className="btn btn-primary view-more mr-2"
+                            onClick={() => addToCart(productDetail.id)}
+                          >
+                            Thêm vào giỏ hàng
+                          </a>
+
                             <a
                               href="book-pdf.html"
                               className="btn btn-primary view-more mr-2"
@@ -99,7 +117,6 @@ const Detail = () => {
                               <span className="avatar-30 rounded-circle bg-primary d-inline-block mr-2">
                                 <i className="ri-heart-fill" />
                               </span>
-                              <span>Thêm vào danh sách yêu thích</span>
                             </a>
                           </div>
                           <div className="iq-social d-flex align-items-center">

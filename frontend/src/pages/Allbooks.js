@@ -49,7 +49,6 @@ const Allbooks = () => {
                   <div className="col-6">
                     <div className="mb-2">
                       <h6 className="mb-1">{item.name}</h6>
-                      <p className="font-size-13 line-height mb-1">Dangpham</p>
                       <div className="d-block line-height">
                         <span className="font-size-11 text-warning">
                           <i className="fa fa-star" />
