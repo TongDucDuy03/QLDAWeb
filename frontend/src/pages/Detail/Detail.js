@@ -11,22 +11,21 @@ const getDetail = async (id) => {
     console.log(error);
   }
 };
-const userId = localStorage.getItem('userId');
+const userId = localStorage.getItem("userId");
 const addToCart = async (productId) => {
-  if(userId != null){
+  if (userId != null) {
     try {
       await axios.post(
         `http://localhost:5168/api/Cart/?id=${productId}&userId=${userId}&increaseQuantity=${true}`
       );
-      alert('Product added to cart successfully!');
+      alert("Product added to cart successfully!");
     } catch (error) {
       console.log(error);
-      alert('Failed to add product to cart!');
+      alert("Failed to add product to cart!");
     }
-  }else{
-    window.location.href = '/signin';
+  } else {
+    window.location.href = "/signin";
   }
-  
 };
 const Detail = () => {
   const params = useParams();
@@ -97,13 +96,13 @@ const Detail = () => {
                             {productDetail.description}
                           </span>
                           <div className="mb-4 d-flex align-items-center">
-                          <a
-                            href="#"
-                            className="btn btn-primary view-more mr-2"
-                            onClick={() => addToCart(productDetail.id)}
-                          >
-                            Thêm vào giỏ hàng
-                          </a>
+                            <a
+                              href="#"
+                              className="btn btn-primary view-more mr-2"
+                              onClick={() => addToCart(productDetail.id)}
+                            >
+                              Thêm vào giỏ hàng
+                            </a>
 
                             <a
                               href="book-pdf.html"

@@ -21,14 +21,13 @@ const getSeriesBySeriesId = async (id) => {
     console.log(error);
   }
 };
-const userId = localStorage.getItem('userId');
+const userId = localStorage.getItem("userId");
 const Series = () => {
   const params = useParams();
   console.log(params);
   const [productList, setProducts] = useState([]);
   const [seriesDetail, setSeries] = useState([]);
   useEffect(() => {
-    
     getProductBySeries(params.id).then((images) => {
       console.log(images);
       setProducts(images);
@@ -40,20 +39,19 @@ const Series = () => {
     });
   }, []);
   const addToCart = async (productId) => {
-    if(userId != null){
+    if (userId != null) {
       try {
         await axios.post(
           `http://localhost:5168/api/Cart/?id=${productId}&userId=${userId}&increaseQuantity=${true}`
         );
-        alert('Product added to cart successfully!');
+        alert("Product added to cart successfully!");
       } catch (error) {
         console.log(error);
-        alert('Failed to add product to cart!');
+        alert("Failed to add product to cart!");
       }
-    }else{
-      window.location.href = '/signin';
+    } else {
+      window.location.href = "/signin";
     }
-    
   };
   return (
     <div id="content-page" className="content-page">
@@ -121,7 +119,10 @@ const Series = () => {
                                   </h6>
                                 </div>
                                 <div className="iq-product-action">
-                                <i className="ri-shopping-cart-2-fill text-primary"  onClick={() => addToCart(item.id)} />
+                                  <i
+                                    className="ri-shopping-cart-2-fill text-primary"
+                                    onClick={() => addToCart(item.id)}
+                                  />
                                 </div>
                               </div>
                             </div>
