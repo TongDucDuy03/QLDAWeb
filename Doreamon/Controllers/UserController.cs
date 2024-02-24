@@ -16,56 +16,29 @@ namespace Doreamon.Controllers
     [ApiController]
     public class UserController : ControllerBase
     {
-        private readonly AppSetting _AppSetting;
-        private IUserRepository _UserRepo;
-        public UserController(IUserRepository repo, IOptionsMonitor<AppSetting> optionsMonitor)
+        private IUserRepository _userRepo;
+        public UserController(IUserRepository repo)
         {
-            _UserRepo = repo;
-            _AppSetting = optionsMonitor.CurrentValue;
+            _userRepo = repo;
         }
 
-        [HttpPost("Login")]
-        public async Task<IActionResult> Validate(LoginModel model)
+        [HttpGet("{username}")]
+        public async Task<IActionResult> GetUserByUserName(string username)
         {
-            var user = await _UserRepo.GetUserByUserNameAsync(model);
-            if (user == null)
+            try
             {
-                return Ok(new APIResponse
-                {
-                    Success = false,
-                    Message = "Invalid UserName or Password",
-                });
+                var user = await _userRepo.GetUserByUserNameAsync(username);
+                if(user == null){
+                    return NotFound();
+                }
+                else{
+                    return Ok(user);
+                }
             }
-            else
+            catch
             {
-                //cấp token
-                return Ok(new APIResponse
-                {
-                    Success = true,
-                    Message = "Authenticate success",
-                    Data = GenerateToken(user),
-                });
+                return BadRequest();
             }
-        }
-        private string GenerateToken(UserModel user)
-        {
-            var jwtTokenHandle = new JwtSecurityTokenHandler();
-            var secretKeyBytes = Encoding.UTF8.GetBytes(_AppSetting.SecretKey);
-
-            var tokenDescription = new SecurityTokenDescriptor
-            {
-                Subject = new ClaimsIdentity(new[]
-                {
-                    new Claim("UserName", user.UserName),
-                    new Claim("Id", user.UserId.ToString()),
-
-                    new Claim("TokenId", Guid.NewGuid().ToString()),
-                }),
-                Expires = DateTime.UtcNow.AddMinutes(1),
-                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(secretKeyBytes), SecurityAlgorithms.HmacSha256Signature)
-            };
-            var token = jwtTokenHandle.CreateToken(tokenDescription);
-            return jwtTokenHandle.WriteToken(token);
         }
     }
 }

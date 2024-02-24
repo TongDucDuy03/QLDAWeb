@@ -18,10 +18,28 @@ namespace Doreamon.Repositories
             _mapper = mapper;
         }
 
-        public async Task<UserModel> GetUserByUserNameAsync(LoginModel model)
+        public async Task<UserModel> GetUserByUserNameAsync(string username)
         {
-            var user = await _context.User.FirstOrDefaultAsync(m => m.UserName == model.UserName && m.Password == model.Password);
-            return _mapper.Map<UserModel>(user); 
+            var user = await _context.User.SingleOrDefaultAsync(m => m.UserName == username);
+            return _mapper.Map<UserModel>(user);
+        }
+
+        public async Task<bool> UserExistAsync(string username)
+        {
+            return await _context.User.AnyAsync(x => x.UserName == username.ToLower()); 
+        }
+
+        public async Task<UserModel> AddUserAsync(RegisterModel registerModel)
+        {
+            var user = new User{
+                    UserName = registerModel.UserName.ToLower(),
+                    Password = registerModel.Password
+            };
+
+            _context.User.Add(user);
+            await _context.SaveChangesAsync();
+            
+            return _mapper.Map<UserModel>(user);
         }
     }
 }
