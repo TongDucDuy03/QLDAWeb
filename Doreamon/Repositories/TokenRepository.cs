@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Doreamon.Data;
 using Microsoft.IdentityModel.Tokens;
+using Doreamon.Models;
 
 namespace Doreamon.Repositories
 {
@@ -15,7 +16,7 @@ namespace Doreamon.Repositories
         private readonly SymmetricSecurityKey _key;
 
         public TokenRepository(IConfiguration config){
-            _key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(config["SecretKey"]));
+            _key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(config["AppSetting:SecretKey"]));
         }
 
         public async Task<string> CreateToken(User user){
@@ -29,7 +30,7 @@ namespace Doreamon.Repositories
             var tokenDescriptor = new SecurityTokenDescriptor
             {
                 Subject = new ClaimsIdentity(claims),
-                Expires = DateTime.Now.AddMinutes(1),
+                Expires = DateTime.Now.AddMinutes(2),
                 SigningCredentials = creds
             };
 

@@ -87,7 +87,7 @@ function Header() {
                 <li className="nav-item nav-icon">
                   <a
                     href={`/Cart/${decodedToken.Id}`}
-                    className="search-toggle iq-waves-effect text-gray rounded"
+                    className="search-toggle iq-waves-effect text-gray"
                   >
                     <i className="ri-shopping-cart-2-line" />
                   </a>

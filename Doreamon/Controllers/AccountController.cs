@@ -1,51 +1,73 @@
-// using System;
-// using System.Collections.Generic;
-// using System.Linq;
-// using System.Threading.Tasks;
-// using Doreamon.Data;
-// using Doreamon.Repositories;
-// using Microsoft.AspNetCore.Mvc;
-// using Microsoft.EntityFrameworkCore;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Security.Cryptography;
+using System.Text;
+using System.Threading.Tasks;
+using Doreamon.Data;
+using Doreamon.Models;
+using Doreamon.Repositories;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
-// namespace Doreamon.Controllers
-// {
-//     [ApiController]
-//     [Route("api/[controller]")]
-//     public class AccountController : ControllerBase
-//     {
-//         private readonly DoreamonWebContext _context;
-//         private readonly ITokenRepository _tokenrepo;
+namespace Doreamon.Controllers
+{
+    [ApiController]
+    [Route("api/[controller]")]
+    public class AccountController : ControllerBase
+    {
+        private readonly ITokenRepository _tokenRepo;
+        private readonly IUserRepository _userRepo;
 
-//         public AccountController(DoreamonWebContext context, TokenRepository tokenRepo)
-//         {
-//             _context = context;
-//             _tokenrepo = tokenRepo;
-//         }
+        public AccountController(ITokenRepository tokenRepo, IUserRepository userRepo)
+        {
+            _tokenRepo = tokenRepo;
+            _userRepo = userRepo;
+        }
 
-//         [HttpPost("register")]
-//         public async Task<IActionResult> Register(RegisterDto registerDto)
-//         {
-//             if (await UserExits(registerDto.UserName)) return BadRequest("UserName is taken");
-//             else
-//             {
-//                 using var hmac = new HMACSHA512();
+        [HttpPost("register")]
+        public async Task<IActionResult> Register(RegisterModel registerModel)
+        {
+            if (await UserExist(registerModel.UserName)) return BadRequest("UserName is taken");
+            else
+            {
+                var user = new User
+                {
+                    UserName = registerModel.UserName.ToLower(),
+                    Password = registerModel.Password
+                };
 
-//                 var user = new User
-//                 {
-//                     UserName = registerDto.UserName.ToLower(),
-//                     PasswordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(registerDto.Password)),
-//                     PasswordSalt = hmac.Key
-//                 };
+                await _userRepo.AddUserAsync(user);
 
-//                 _context.Add(user);
-//                 await _context.SaveChangesAsync();
+                return Ok(new 
+                {
+                    UserName = user.UserName,
+                    Token = await _tokenRepo.CreateToken(user)
+                });
+            }
+        }
 
-//                 return new UserDto
-//                 {
-//                     UserName = user.UserName,
-//                     Token = _tokenService.CreateToken(user)
-//                 };
-//             }
-//         }
-//     }
-// }
+        [HttpPost("login")]
+        public async Task<IActionResult> Login(LoginModel loginModel)
+        {
+            var user = await _userRepo.GetUserByUserNameAsync(loginModel.UserName);
+
+            if (user == null) return Unauthorized("Invalid username");
+            else
+            {
+                if(user.Password != loginModel.Password) return Unauthorized("Invalid password");
+
+                return Ok(new
+                {
+                    UserName = user.UserName,
+                    Token = await _tokenRepo.CreateToken(user)
+                });
+            }
+        }
+
+        private async Task<bool> UserExist(string username)
+        {
+            return await _userRepo.UserExistAsync(username);
+        }
+    }
+}
