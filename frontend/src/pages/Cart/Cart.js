@@ -52,7 +52,21 @@ const Cart = () => {
       }
     });
   };
-
+  const handleRemove= async (productId) => {
+    try {
+      await updateCart(productId, params.id, false);
+      setQuantity(0);
+      getCartByUser(params.id).then((cartItems) => {
+        setUserCart(cartItems);
+        if (cartItems.quantity && !isNaN(cartItems.quantity)) {
+          setQuantity(parseInt(cartItems.quantity));
+        }
+      });
+      alert('Product removed from cart successfully!');
+    } catch (error) {
+      alert('Failed to remove product from cart:', error);
+    }
+  }; 
 
   return (
     <div id="content-page" className="content-page">
@@ -117,12 +131,12 @@ const Cart = () => {
                                   </div>
                                 </div>
                                 <div className="col-sm-2">
-                                  <a
-                                    href="./"
-                                    className="text-dark font-size-20"
-                                  >
-                                    <i className="ri-delete-bin-7-fill"></i>
-                                  </a>
+                                  <button
+                                        type="button"
+                                        onClick={() => handleRemove(item.productId)}
+                                      >
+                                        <i className="ri-delete-bin-7-fill"></i>
+                                      </button>
                                 </div>
                               </div>
                             </div>

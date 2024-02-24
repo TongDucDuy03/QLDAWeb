@@ -129,19 +129,6 @@ function Header() {
                           </div>
                         </a>
                         <a
-                          href="profile-edit.html"
-                          className="iq-sub-card iq-bg-primary-hover"
-                        >
-                          <div className="media align-items-center">
-                            <div className="rounded iq-card-icon iq-bg-primary">
-                              <i className="ri-profile-line" />
-                            </div>
-                            <div className="media-body ml-3">
-                              <h6 className="mb-0 ">Sổ địa chỉ</h6>
-                            </div>
-                          </div>
-                        </a>
-                        <a
                           href="./"
                           className="iq-sub-card iq-bg-primary-hover"
                         >
@@ -151,19 +138,6 @@ function Header() {
                             </div>
                             <div className="media-body ml-3">
                               <h6 className="mb-0 ">Đơn hàng của tôi</h6>
-                            </div>
-                          </div>
-                        </a>
-                        <a
-                          href="./"
-                          className="iq-sub-card iq-bg-primary-hover"
-                        >
-                          <div className="media align-items-center">
-                            <div className="rounded iq-card-icon iq-bg-primary">
-                              <i className="ri-heart-line" />
-                            </div>
-                            <div className="media-body ml-3">
-                              <h6 className="mb-0 ">Yêu Thích</h6>
                             </div>
                           </div>
                         </a>
