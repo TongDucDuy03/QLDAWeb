@@ -5,8 +5,8 @@ namespace Doreamon.Repositories
 {
     public interface IUserRepository
     {
-        public Task<User> GetUserByUserNameAsync(string username);
+        public Task<UserModel> GetUserByUserNameAsync(string username);
         public Task<bool> UserExistAsync(string username);
-        public Task<UserModel> AddUserAsync(User user);
+        public Task<UserModel> AddUserAsync(RegisterModel registerModel);
     }
 }

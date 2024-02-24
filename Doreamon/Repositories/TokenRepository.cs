@@ -19,7 +19,7 @@ namespace Doreamon.Repositories
             _key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(config["AppSetting:SecretKey"]));
         }
 
-        public async Task<string> CreateToken(User user){
+        public async Task<string> CreateToken(UserModel user){
             var claims = new List<Claim>
             {
                 new Claim(JwtRegisteredClaimNames.NameId, user.UserName)

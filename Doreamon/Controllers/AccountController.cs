@@ -31,13 +31,7 @@ namespace Doreamon.Controllers
             if (await UserExist(registerModel.UserName)) return BadRequest("UserName is taken");
             else
             {
-                var user = new User
-                {
-                    UserName = registerModel.UserName.ToLower(),
-                    Password = registerModel.Password
-                };
-
-                await _userRepo.AddUserAsync(user);
+                var user = await _userRepo.AddUserAsync(registerModel);
 
                 return Ok(new 
                 {

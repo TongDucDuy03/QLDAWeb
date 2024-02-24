@@ -9,6 +9,6 @@ namespace Doreamon.Repositories
 {
     public interface ITokenRepository
     {
-        public Task<string> CreateToken(User user);
+        public Task<string> CreateToken(UserModel user);
     }
 }
