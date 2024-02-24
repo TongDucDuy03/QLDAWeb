@@ -178,7 +178,7 @@ function Header() {
                             </div>
                           </a>
                           <a
-                            href="./"
+                            href={`/Cart/${decodedToken.Id}`}
                             className="iq-sub-card iq-bg-primary-hover"
                           >
                             <div className="media align-items-center">
