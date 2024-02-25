@@ -1,33 +1,38 @@
-import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import React from "react";
 import axios from "axios";
-const getSeries = async (content) => {
-    try {
-      const response = await axios.get(
-        `http://localhost:5168/api/Product/search/${content}`
-      );
-      return response.data;
-    } catch (error) {
-      console.log(error);
+
+const userId = localStorage.getItem("userId");
+const Vsearch = ({ listBooks }) => {
+  const addToCart = async (productId) => {
+    if (userId != null) {
+      try {
+        await axios.post(
+          `http://localhost:5168/api/Cart/?id=${productId}&userId=${userId}&increaseQuantity=${true}`
+        );
+        alert("Product added to cart successfully!");
+      } catch (error) {
+        console.log(error);
+        alert("Failed to add product to cart!");
+      }
+    } else {
+      window.location.href = "/signin";
     }
   };
-
-  const Search = () => {
-    const params = useParams();
-    console.log(params);
-    const [randomBooks, setBooks] = useState([]);
-  
-    useEffect(() => {
-        getSeries(params.content).then((images) => {
-        console.log(images);
-        setBooks(images);
-      });
-    }, []);
-    return(
-        <div className="iq-card-body">
+  return (
+    <div id="content-page" className="content-page">
+      <div className="container-fluid">
+        <div className="row">
+          <div className="col-lg-12">
+            <div className="iq-card iq-card-block iq-card-stretch iq-card-height">
+              <div className="iq-card-header d-flex justify-content-between align-items-center position-relative">
+                <div className="iq-header-title">
+                  <h4 className="card-title mb-0">Kết quả tìm kiếm</h4>
+                </div>
+              </div>
+              <div className="iq-card-body">
                 <div className="row">
-                  {randomBooks.length > 0 &&
-                    randomBooks.map((item, index) => (
+                  {listBooks.length > 0 &&
+                    listBooks.map((item, index) => (
                       <div className="col-sm-6 col-md-4 col-lg-3" key={item.id}>
                         <div className="iq-card iq-card-block iq-card-stretch iq-card-height browse-bookcontent">
                           <div className="iq-card-body p-0">
@@ -42,7 +47,7 @@ const getSeries = async (content) => {
                                 </a>
                                 <div className="view-book">
                                   <a
-                                    href="/detail"
+                                    href={`/detail/${item.id}`}
                                     className="btn btn-sm btn-white"
                                   >
                                     Detail
@@ -52,9 +57,6 @@ const getSeries = async (content) => {
                               <div className="col-6">
                                 <div className="mb-2">
                                   <h6 className="mb-1">{item.name}</h6>
-                                  <p className="font-size-13 line-height mb-1">
-                                    Dangpham
-                                  </p>
                                   <div className="d-block line-height">
                                     <span className="font-size-11 text-warning">
                                       <i className="fa fa-star" />
@@ -71,12 +73,10 @@ const getSeries = async (content) => {
                                   </h6>
                                 </div>
                                 <div className="iq-product-action">
-                                  <a href="./">
-                                    <i className="ri-shopping-cart-2-fill text-primary" />
-                                  </a>
-                                  <a href="./" className="ml-2">
-                                    <i className="ri-heart-fill text-danger" />
-                                  </a>
+                                  <i
+                                    className="ri-shopping-cart-2-fill text-primary"
+                                    onClick={() => addToCart(item.id)}
+                                  />
                                 </div>
                               </div>
                             </div>
@@ -86,6 +86,11 @@ const getSeries = async (content) => {
                     ))}
                 </div>
               </div>
-    )
-}
-export default Search;
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+export default Vsearch;

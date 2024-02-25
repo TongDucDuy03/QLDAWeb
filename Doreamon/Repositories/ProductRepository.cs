@@ -40,12 +40,17 @@ namespace Doreamon.Repositories
         }
         public async Task<List<ProductsModel>> searchProductsByNameAsync(string ProductName)
         {
-            var productList = await 
+            var cleanedProductName = ProductName.Trim().Replace("-", "").Replace(" ", "");
+
+            var productList = await
                 (from pd in _context.Products
-                where pd.Name.Contains(ProductName.Trim())
-                select pd).ToListAsync();
-            return _mapper.Map<List<ProductsModel>>(productList); ;
+                 let cleanedName = pd.Name.Replace("-", "").Replace(" ", "")
+                 where cleanedName.ToLower().Contains(cleanedProductName.ToLower())
+                 select pd).ToListAsync();
+
+            return _mapper.Map<List<ProductsModel>>(productList);
         }
-        
+
+
     }
 }
