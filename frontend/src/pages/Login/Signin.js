@@ -3,22 +3,22 @@ import axios from "axios";
 import { Alert } from "react-bootstrap";
 
 const Signin = () => {
-  const [UserName, setEmail] = useState("");
+  const [userName, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showError, setShowError] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
 
   const handleLogin = async () => {
-    if (!UserName || !password) {
+    if (!userName || !password) {
       setErrorMessage("Email/Password is required");
       setShowError(true);
       return;
     }
     try {
-      const response = await axios.post("http://localhost:5168/api/Account/Login", { UserName, password });
+      const response = await axios.post("http://localhost:5168/api/Account/Login", { userName, password });
       if (response.data.success) {
-        localStorage.setItem("jwtToken", response.data.data);
-        window.location.href = '/index';     
+        localStorage.setItem("jwtToken", response.data.jwt);
+        window.location.href = '/index';  
       } else {
         setErrorMessage("Login failed. Please try again.");
         setShowError(true);

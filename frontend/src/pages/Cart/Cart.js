@@ -142,78 +142,20 @@ const Cart = () => {
                             </div>
                           </div>
                         </li>
+                        
                       ))}
                     </ul>
                   </div>
-                </div>
-              </div>
-              <div className="col-lg-4">
-                <div className="iq-card">
-                  <div className="iq-card-body">
-                    <p>
-                      <b>Chi tiết</b>
-                    </p>
-                    <div className="d-flex justify-content-between mb-1">
-                      <span>Tổng</span>
-                      <span>339.900đ</span>
-                    </div>
-                    <div className="d-flex justify-content-between mb-1">
-                      <span>Giảm giá</span>
-                      <span className="text-success">19.900đ</span>
-                    </div>
-                    <div className="d-flex justify-content-between mb-1">
-                      <span>Thuế VAT</span>
-                      <span>16.900đ</span>
-                    </div>
-                    <div className="d-flex justify-content-between">
-                      <span>Phí vận chuyển</span>
-                      <span className="text-success">Miễn phí</span>
-                    </div>
-                    <hr />
-                    <div className="d-flex justify-content-between">
-                      <span className="text-dark">
-                        <strong>Tổng</strong>
-                      </span>
-                      <span className="text-dark">
-                        <strong>327.900đ</strong>
-                      </span>
-                    </div>
-                    <a
+                  <a
                       id="place-order"
                       href="./"
                       className="btn btn-primary d-block mt-3 next"
                     >
                       Đặt hàng
                     </a>
-                  </div>
-                </div>
-                <div className="iq-card">
-                  <div className="card-body iq-card-body p-0 iq-checkout-policy">
-                    <ul className="p-0 m-0">
-                      <li className="d-flex align-items-center">
-                        <div className="iq-checkout-icon">
-                          <i className="ri-checkbox-line"></i>
-                        </div>
-                        <h6>
-                          Chính sách bảo mật (Thanh toán an toàn và bảo mật.)
-                        </h6>
-                      </li>
-                      <li className="d-flex align-items-center">
-                        <div className="iq-checkout-icon">
-                          <i className="ri-truck-line"></i>
-                        </div>
-                        <h6>Chính sách giao hàng (Giao hàng tận nhà.)</h6>
-                      </li>
-                      <li className="d-flex align-items-center">
-                        <div className="iq-checkout-icon">
-                          <i className="ri-arrow-go-back-line"></i>
-                        </div>
-                        <h6>Chính sách hoàn trả</h6>
-                      </li>
-                    </ul>
-                  </div>
                 </div>
               </div>
+              
             </div>
           </div>
           <div id="address" className="card-block p-0 col-12">

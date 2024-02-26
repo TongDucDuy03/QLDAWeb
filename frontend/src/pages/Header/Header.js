@@ -7,16 +7,20 @@ import Vsearch from "../../Search/Vsearch";
 import { jwtDecode } from "jwt-decode";
 
 const jwtToken = localStorage.getItem("jwtToken");
-const decodedToken = jwtDecode(jwtToken);
-const userId = decodedToken.Id;
+const decodedToken = jwtToken ? jwtDecode(jwtToken) : null;
+const userId = decodedToken ? decodedToken.Id : null;
+console.log(jwtToken)
 
-localStorage.setItem("userId", userId);
-console.log(decodedToken);
+if (userId) {
+  localStorage.setItem("userId", userId);
+}
 
 function Header() {
   const [listProducts, setListProducts] = useState([]);
   const [listBooks, setListBooks] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
+  const [isLoggedIn, setIsLoggedIn] = useState(!!jwtToken);
+
   const getAllBooks = async () => {
     try {
       const response = await axios.get(`http://localhost:5168/api/Product`);
@@ -39,6 +43,12 @@ function Header() {
       event.preventDefault();
       handleSearch(event);
     }
+  };
+
+  const handleSignOut = () => {
+    localStorage.removeItem("jwtToken");
+    setIsLoggedIn(false);
+    window.location.href = "/signin";
   };
 
   const handleSearch = debounce((event) => {
@@ -133,76 +143,91 @@ function Header() {
                   </li>
                   <li className="nav-item nav-icon">
                     <a
-                      href={`/Cart/${decodedToken.Id}`}
+                      href={`/Cart/${userId}`}
                       className="search-toggle iq-waves-effect text-gray rounded"
                     >
                       <i className="ri-shopping-cart-2-line" />
                     </a>
                   </li>
                   <li className="line-height pt-3">
-                    <a
-                      href="./"
-                      className="search-toggle iq-waves-effect d-flex align-items-center"
-                    >
-                      <img
-                        src="https://i.pinimg.com/736x/fb/13/cf/fb13cf0345453e125a4c81514ffab015.jpg"
-                        className="img-fluid rounded-circle mr-3"
-                        alt="user"
-                      />
-                      <div className="caption">
-                        <h6 className="mb-1 line-height">
-                          {decodedToken.UserName}
-                        </h6>
-                        <p className="mb-0 text-primary">Tài Khoản</p>
-                      </div>
-                    </a>
-                    <div className="iq-sub-dropdown iq-user-dropdown">
-                      <div className="iq-card shadow-none m-0">
-                        <div className="iq-card-body p-0 ">
-                          <div className="bg-primary p-3">
-                            <h5 className="mb-0 text-white line-height">
-                              Xin Chào
-                            </h5>
+                    {isLoggedIn && decodedToken ? (
+                      <div>
+                        <a
+                          href="/profile"
+                          className="search-toggle iq-waves-effect d-flex align-items-center"
+                        >
+                          <img
+                            src="https://i.pinimg.com/736x/fb/13/cf/fb13cf0345453e125a4c81514ffab015.jpg"
+                            className="img-fluid rounded-circle mr-3"
+                            alt="user"
+                          />
+                          <div className="caption">
+                            <h6 className="mb-1 line-height">{decodedToken.UserName}</h6>
+                            <p className="mb-0 text-primary">Tài Khoản</p>
                           </div>
-                          <a
-                            href="/profile"
-                            className="iq-sub-card iq-bg-primary-hover"
-                          >
-                            <div className="media align-items-center">
-                              <div className="rounded iq-card-icon iq-bg-primary">
-                                <i className="ri-file-user-line" />
+                        </a>
+                        <div className="iq-sub-dropdown iq-user-dropdown">
+                          <div className="iq-card shadow-none m-0">
+                            <div className="iq-card-body p-0 ">
+                              <div className="bg-primary p-3">
+                                <h5 className="mb-0 text-white line-height">Xin Chào</h5>
                               </div>
-                              <div className="media-body ml-3">
-                                <h6 className="mb-0 ">Thông tin cá nhân</h6>
+                              <a
+                                href="/profile"
+                                className="iq-sub-card iq-bg-primary-hover"
+                              >
+                                <div className="media align-items-center">
+                                  <div className="rounded iq-card-icon iq-bg-primary">
+                                    <i className="ri-file-user-line" />
+                                  </div>
+                                  <div className="media-body ml-3">
+                                    <h6 className="mb-0 ">Thông tin cá nhân</h6>
+                                  </div>
+                                </div>
+                              </a>
+                              <a
+                                href={`/Cart/${userId}`}
+                                className="iq-sub-card iq-bg-primary-hover"
+                              >
+                                <div className="media align-items-center">
+                                  <div className="rounded iq-card-icon iq-bg-primary">
+                                    <i className="ri-account-box-line" />
+                                  </div>
+                                  <div className="media-body ml-3">
+                                    <h6 className="mb-0 ">Đơn hàng của tôi</h6>
+                                  </div>
+                                </div>
+                              </a>
+                              <div
+                                className="d-inline-block w-100 text-center p-3"
+                                onClick={handleSignOut}
+                                style={{ cursor: "pointer" }}
+                              >
+                                <a className="bg-primary iq-sign-btn" role="button">
+                                  Sign out
+                                  <i className="ri-login-box-line ml-2" />
+                                </a>
                               </div>
                             </div>
-                          </a>
-                          <a
-                            href={`/Cart/${decodedToken.Id}`}
-                            className="iq-sub-card iq-bg-primary-hover"
-                          >
-                            <div className="media align-items-center">
-                              <div className="rounded iq-card-icon iq-bg-primary">
-                                <i className="ri-account-box-line" />
-                              </div>
-                              <div className="media-body ml-3">
-                                <h6 className="mb-0 ">Đơn hàng của tôi</h6>
-                              </div>
-                            </div>
-                          </a>
-                          <div className="d-inline-block w-100 text-center p-3">
-                            <a
-                              className="bg-primary iq-sign-btn"
-                              href="/signin"
-                              role="button"
-                            >
-                              Sign out
-                              <i className="ri-login-box-line ml-2" />
-                            </a>
                           </div>
                         </div>
                       </div>
-                    </div>
+                    ) : (
+                      <div>
+                        <a
+                          href="/signin"
+                          className="search-toggle iq-waves-effect d-flex align-items-center"
+                        >
+                          <div className="caption">
+                            <h6 className="mb-1 line-height"><a
+                          href="/signin"
+                          className="search-toggle iq-waves-effect d-flex align-items-center"
+                        >Đăng nhập</a></h6>
+                            <p className="mb-0 text-primary">Tài Khoản</p>
+                          </div>
+                        </a>
+                      </div>
+                    )}
                   </li>
                 </ul>
               </div>
@@ -214,4 +239,5 @@ function Header() {
     </>
   );
 }
+
 export default Header;
