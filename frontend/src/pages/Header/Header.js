@@ -158,7 +158,7 @@ function Header() {
                         >
                           <img
                             src="https://i.pinimg.com/736x/fb/13/cf/fb13cf0345453e125a4c81514ffab015.jpg"
-                            className="img-fluid rounded-circle mr-3"
+                            className="img-fluid rounded-circle mr-3 user-img"
                             alt="user"
                           />
                           <div className="caption">

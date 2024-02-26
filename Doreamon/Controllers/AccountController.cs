@@ -35,7 +35,8 @@ namespace Doreamon.Controllers
 
                 return Ok(new 
                 {
-                    Success = "Successfull"
+                    Success = true,
+                    Message = "Successful"
                 });
             }
         }
