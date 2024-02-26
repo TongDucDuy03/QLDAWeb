@@ -7,7 +7,7 @@ const getCartByUser = async (id) => {
     const response = await axios.get(
       `http://localhost:5168/api/Cart/cart/${id}`
     );
-    return response.data;
+    return response.data.cartProductList;
   } catch (error) {
     console.log(error);
   }

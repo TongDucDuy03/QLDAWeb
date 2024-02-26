@@ -6,16 +6,14 @@ import Sidebar from "./Sidebar";
 import Vsearch from "../../Search/Vsearch";
 import { jwtDecode } from "jwt-decode";
 
-const jwtToken = localStorage.getItem("jwtToken");
-const decodedToken = jwtToken ? jwtDecode(jwtToken) : null;
-const userId = decodedToken ? decodedToken.Id : null;
-console.log(jwtToken)
-
-if (userId) {
-  localStorage.setItem("userId", userId);
-}
-
 function Header() {
+  const jwtToken = localStorage.getItem("jwtToken");
+  const decodedToken = jwtToken ? jwtDecode(jwtToken) : null;
+  const userId = localStorage.getItem("userId");
+  console.log(userId);
+
+  
+
   const [listProducts, setListProducts] = useState([]);
   const [listBooks, setListBooks] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
@@ -150,7 +148,7 @@ function Header() {
                     </a>
                   </li>
                   <li className="line-height pt-3">
-                    {isLoggedIn && decodedToken ? (
+                    {isLoggedIn ? (
                       <div>
                         <a
                           href="/profile"
@@ -170,7 +168,9 @@ function Header() {
                           <div className="iq-card shadow-none m-0">
                             <div className="iq-card-body p-0 ">
                               <div className="bg-primary p-3">
-                                <h5 className="mb-0 text-white line-height">Xin Chào</h5>
+                                <h5 className="mb-0 text-white line-height">
+                                  Xin Chào
+                                </h5>
                               </div>
                               <a
                                 href="/profile"
@@ -181,7 +181,9 @@ function Header() {
                                     <i className="ri-file-user-line" />
                                   </div>
                                   <div className="media-body ml-3">
-                                    <h6 className="mb-0 ">Thông tin cá nhân</h6>
+                                    <h6 className="mb-0 ">
+                                      Thông tin cá nhân
+                                    </h6>
                                   </div>
                                 </div>
                               </a>
@@ -194,7 +196,9 @@ function Header() {
                                     <i className="ri-account-box-line" />
                                   </div>
                                   <div className="media-body ml-3">
-                                    <h6 className="mb-0 ">Đơn hàng của tôi</h6>
+                                    <h6 className="mb-0 ">
+                                      Đơn hàng của tôi
+                                    </h6>
                                   </div>
                                 </div>
                               </a>
@@ -203,7 +207,10 @@ function Header() {
                                 onClick={handleSignOut}
                                 style={{ cursor: "pointer" }}
                               >
-                                <a className="bg-primary iq-sign-btn" role="button">
+                                <a
+                                  className="bg-primary iq-sign-btn"
+                                  role="button"
+                                >
                                   Sign out
                                   <i className="ri-login-box-line ml-2" />
                                 </a>
@@ -219,10 +226,14 @@ function Header() {
                           className="search-toggle iq-waves-effect d-flex align-items-center"
                         >
                           <div className="caption">
-                            <h6 className="mb-1 line-height"><a
-                          href="/signin"
-                          className="search-toggle iq-waves-effect d-flex align-items-center"
-                        >Đăng nhập</a></h6>
+                            <h6 className="mb-1 line-height">
+                              <a
+                                href="/signin"
+                                className="search-toggle iq-waves-effect d-flex align-items-center"
+                              >
+                                Đăng nhập
+                              </a>
+                            </h6>
                             <p className="mb-0 text-primary">Tài Khoản</p>
                           </div>
                         </a>
