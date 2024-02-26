@@ -9,10 +9,10 @@ import { jwtDecode } from "jwt-decode";
 function Header() {
   const jwtToken = localStorage.getItem("jwtToken");
   const decodedToken = jwtToken ? jwtDecode(jwtToken) : null;
-  const userId = localStorage.getItem("userId");
-  console.log(userId);
-
-  
+  const userId = decodedToken ? decodedToken.userId : null ;
+  if (userId) {
+    localStorage.setItem("userId", userId);
+  }
 
   const [listProducts, setListProducts] = useState([]);
   const [listBooks, setListBooks] = useState([]);
@@ -45,6 +45,7 @@ function Header() {
 
   const handleSignOut = () => {
     localStorage.removeItem("jwtToken");
+    localStorage.removeItem("userId");
     setIsLoggedIn(false);
     window.location.href = "/signin";
   };
@@ -140,12 +141,21 @@ function Header() {
                     </form>
                   </li>
                   <li className="nav-item nav-icon">
+                  {isLoggedIn ? (
                     <a
                       href={`/Cart/${userId}`}
                       className="search-toggle iq-waves-effect text-gray rounded"
                     >
                       <i className="ri-shopping-cart-2-line" />
                     </a>
+                  ):(
+                    <a
+                      href={`/signin`}
+                      className="search-toggle iq-waves-effect text-gray rounded"
+                    >
+                      <i className="ri-shopping-cart-2-line" />
+                    </a>
+                  )}
                   </li>
                   <li className="line-height pt-3">
                     {isLoggedIn ? (
@@ -160,7 +170,7 @@ function Header() {
                             alt="user"
                           />
                           <div className="caption">
-                            <h6 className="mb-1 line-height">{decodedToken.UserName}</h6>
+                            <h6 className="mb-1 line-height">{decodedToken.userId}</h6>
                             <p className="mb-0 text-primary">Tài Khoản</p>
                           </div>
                         </a>
@@ -221,22 +231,33 @@ function Header() {
                       </div>
                     ) : (
                       <div>
-                        <a
-                          href="/signin"
-                          className="search-toggle iq-waves-effect d-flex align-items-center"
-                        >
-                          <div className="caption">
-                            <h6 className="mb-1 line-height">
-                              <a
-                                href="/signin"
-                                className="search-toggle iq-waves-effect d-flex align-items-center"
-                              >
-                                Đăng nhập
-                              </a>
-                            </h6>
-                            <p className="mb-0 text-primary">Tài Khoản</p>
+                        <div className="caption">
+                            <a href="/signin"><p className="mb-0 text-primary">Đăng nhập</p></a>
                           </div>
-                        </a>
+                        <div className="iq-sub-dropdown iq-user-dropdown">
+                          <div className="iq-card shadow-none m-0">
+                            <div className="iq-card-body p-0 ">
+                              <div className="bg-primary p-3">
+                                <h5 className="mb-0 text-white line-height">
+                                  Xin Chào
+                                </h5>
+                              </div>
+                              <div
+                                className="d-inline-block w-100 text-center p-3"
+                                onClick={handleSignOut}
+                                style={{ cursor: "pointer" }}
+                              >
+                                <a
+                                  className="bg-primary iq-sign-btn"
+                                  role="button"
+                                >
+                                  Sign out
+                                  <i className="ri-login-box-line ml-2" />
+                                </a>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
                       </div>
                     )}
                   </li>

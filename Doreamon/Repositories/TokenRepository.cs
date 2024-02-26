@@ -22,7 +22,7 @@ namespace Doreamon.Repositories
         public async Task<string> CreateToken(UserModel user){
             var claims = new List<Claim>
             {
-                new Claim(JwtRegisteredClaimNames.NameId, user.UserName)
+                 new Claim("userId", user.UserId.ToString())
             };
 
             var creds = new SigningCredentials(_key, SecurityAlgorithms.HmacSha512Signature);
