@@ -35,8 +35,7 @@ namespace Doreamon.Controllers
 
                 return Ok(new 
                 {
-                    UserName = user.UserName,
-                    Token = await _tokenRepo.CreateToken(user)
+                    Success = "Successfull"
                 });
             }
         }
@@ -53,8 +52,9 @@ namespace Doreamon.Controllers
 
                 return Ok(new
                 {
-                    UserName = user.UserName,
-                    Token = await _tokenRepo.CreateToken(user)
+                    Success = true,
+                    Message = "Successful",
+                    jwt = await _tokenRepo.CreateToken(user)
                 });
             }
         }

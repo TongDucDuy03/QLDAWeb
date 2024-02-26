@@ -1,4 +1,5 @@
-﻿using Doreamon.Data; 
+﻿using Doreamon.Controllers.Service.MomoService.MomoConfig;
+using Doreamon.Data; 
 using Doreamon.Helper;
 using Doreamon.Models;
 using Doreamon.Repositories;
@@ -48,6 +49,10 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJw
         ClockSkew = TimeSpan.Zero,
     };
 });
+
+builder.Services.Configure<MomoConfig>(
+    builder.Configuration.GetSection(MomoConfig.ConfigName)
+);
 
 var app = builder.Build();
 

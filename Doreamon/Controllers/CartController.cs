@@ -14,24 +14,32 @@ namespace Doreamon.Controllers
     {
         private ICartRepository _cartRepo;
 
-        public CartController(ICartRepository repo) 
-        { 
+        public CartController(ICartRepository repo)
+        {
             _cartRepo = repo;
         }
         [HttpPost]
         public async Task<IActionResult> AddToCart(int id, int userId, bool increaseQuantity)
-        { 
-                var cart = await _cartRepo.AddToCart(userId, id, increaseQuantity);
-                return Ok(cart);
+        {
+            var cart = await _cartRepo.AddToCart(userId, id, increaseQuantity);
+            return Ok(cart);
         }
 
         [HttpGet("cart/{userId}")]
         public async Task<IActionResult> GetCartProducts(int userId)
         {
-                var cartProducts = await _cartRepo.GetCartProducts(userId);
+            var cartProducts = await _cartRepo.GetCartProducts(userId);
+            double cartTotal = 0;
 
-            return cartProducts == null ? NotFound() : Ok(cartProducts);
-            
+            foreach (CartModel cartProduct in cartProducts)
+            {
+                cartTotal += cartProduct.Products.Price;
+            }
+
+            return cartProducts == null ? NotFound() : Ok(new {
+                CartTotal = cartTotal,
+                CartProductList = cartProducts
+            });
         }
     }
 }
