@@ -9,7 +9,7 @@ import { jwtDecode } from "jwt-decode";
 function Header() {
   const jwtToken = localStorage.getItem("jwtToken");
   const decodedToken = jwtToken ? jwtDecode(jwtToken) : null;
-  const userId = decodedToken ? decodedToken.userId : null ;
+  const userId = decodedToken ? decodedToken.userId : null;
   if (userId) {
     localStorage.setItem("userId", userId);
   }
@@ -141,21 +141,21 @@ function Header() {
                     </form>
                   </li>
                   <li className="nav-item nav-icon">
-                  {isLoggedIn ? (
-                    <a
-                      href={`/Cart/${userId}`}
-                      className="search-toggle iq-waves-effect text-gray rounded"
-                    >
-                      <i className="ri-shopping-cart-2-line" />
-                    </a>
-                  ):(
-                    <a
-                      href={`/signin`}
-                      className="search-toggle iq-waves-effect text-gray rounded"
-                    >
-                      <i className="ri-shopping-cart-2-line" />
-                    </a>
-                  )}
+                    {isLoggedIn ? (
+                      <a
+                        href={`/Cart/${userId}`}
+                        className="search-toggle iq-waves-effect text-gray rounded"
+                      >
+                        <i className="ri-shopping-cart-2-line" />
+                      </a>
+                    ) : (
+                      <a
+                        href={`/signin`}
+                        className="search-toggle iq-waves-effect text-gray rounded"
+                      >
+                        <i className="ri-shopping-cart-2-line" />
+                      </a>
+                    )}
                   </li>
                   <li className="line-height pt-3">
                     {isLoggedIn ? (
@@ -170,7 +170,9 @@ function Header() {
                             alt="user"
                           />
                           <div className="caption">
-                            <h6 className="mb-1 line-height">{decodedToken.userId}</h6>
+                            <h6 className="mb-1 line-height">
+                              {decodedToken.userId}
+                            </h6>
                             <p className="mb-0 text-primary">Tài Khoản</p>
                           </div>
                         </a>
@@ -191,9 +193,7 @@ function Header() {
                                     <i className="ri-file-user-line" />
                                   </div>
                                   <div className="media-body ml-3">
-                                    <h6 className="mb-0 ">
-                                      Thông tin cá nhân
-                                    </h6>
+                                    <h6 className="mb-0 ">Thông tin cá nhân</h6>
                                   </div>
                                 </div>
                               </a>
@@ -206,9 +206,7 @@ function Header() {
                                     <i className="ri-account-box-line" />
                                   </div>
                                   <div className="media-body ml-3">
-                                    <h6 className="mb-0 ">
-                                      Đơn hàng của tôi
-                                    </h6>
+                                    <h6 className="mb-0 ">Đơn hàng của tôi</h6>
                                   </div>
                                 </div>
                               </a>
@@ -232,8 +230,10 @@ function Header() {
                     ) : (
                       <div>
                         <div className="caption">
-                            <a href="/signin"><p className="mb-0 text-primary">Đăng nhập</p></a>
-                          </div>
+                          <a href="/signin">
+                            <p className="mb-0 text-primary">Đăng nhập</p>
+                          </a>
+                        </div>
                         <div className="iq-sub-dropdown iq-user-dropdown">
                           <div className="iq-card shadow-none m-0">
                             <div className="iq-card-body p-0 ">
