@@ -8,7 +8,7 @@ import Detail from "./pages/Detail/Detail";
 import Signin from "./pages/Login/Signin";
 import Signup from "./pages/Login/Signup";
 import Profile from "./pages/profile/profile";
-import { Routes, Route, Link } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 import Series from "./pages/Series/Series";
 
 function App() {
