@@ -86,25 +86,19 @@ const Index = () => {
           <div key={item.id}>
             <div className="d-flex align-items-center">
               <div className="col-5 p-0 position-relative image-overlap-shadow">
-                <a href="./">
+                <a href={`/detail/${item.id}`}>
                   <img
                     className="img-fluid rounded w-100"
                     src={item.imagesUrl}
                     alt=""
                   />
                 </a>
-                <div className="view-book">
-                  <a
-                    href={`/detail/${item.id}`}
-                    className="btn btn-sm btn-white"
-                  >
-                    Xem sách
-                  </a>
-                </div>
               </div>
               <div className="col-7">
                 <div className="mb-2">
-                  <h6 className="mb-1">{item.name}</h6>
+                  <h6 className="mb-1">
+                    <a href={`/detail/${item.id}`}> {item.name}</a>
+                  </h6>
                   <div className="d-block">
                     <span className="font-size-13 text-warning">
                       <i className="fa fa-star"></i>
