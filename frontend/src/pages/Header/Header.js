@@ -144,7 +144,7 @@ function Header() {
                     {isLoggedIn ? (
                       <a
                         href={`/Cart/${userId}`}
-                        className="search-toggle iq-waves-effect text-gray rounded"
+                        className="iq-waves-effect text-gray rounded"
                       >
                         <i className="ri-shopping-cart-2-line" />
                       </a>
