@@ -4,7 +4,8 @@ namespace Doreamon.Repositories
 {
     public interface ICartRepository
     {
-        public Task<CartModel> AddToCart(int Id, int UserId, bool IncreaseQuantity);
+        public Task<CartModel> AddToCart(int UserId, int ProductId, bool IncreaseQuantity);
+        public Task<CartModel> DeleteCartProduct(int UserId, int ProductId);
         public Task<List<CartModel>> GetCartProducts(int userId);
     }
 }

@@ -15,6 +15,7 @@ const getAllBooks = async (id) => {
     return [];
   }
 };
+
 const renderCarousel = (id, books) => {
   $(`#${id}`).slick({
     infinite: true,
@@ -44,6 +45,7 @@ const Index = () => {
   const [shortBooks, setShortBooks] = useState([]);
   const [longBooks, setLongBooks] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [seriesList, setSeries] = useState([]);
 
   useEffect(() => {
     const fetchBooks = async () => {
