@@ -65,15 +65,6 @@ const Series = () => {
                     {seriesDetail.series_Name}
                   </h4>
                 </div>
-
-                <div className="iq-card-header-toolbar d-flex align-items-center">
-                  <a
-                    href="category.html"
-                    className="btn btn-sm btn-primary view-more"
-                  >
-                    Xem Thêm
-                  </a>
-                </div>
               </div>
               <div className="iq-card-body">
                 <div className="row">
