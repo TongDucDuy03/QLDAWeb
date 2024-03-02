@@ -22,12 +22,12 @@ namespace Doreamon.Controllers
             _userRepo = repo;
         }
 
-        [HttpGet("{username}")]
-        public async Task<IActionResult> GetUserByUserName(string username)
+        [HttpGet("{userId}")]
+        public async Task<IActionResult> GetUserByUserIdAsync(int userId)
         {
             try
             {
-                var user = await _userRepo.GetUserByUserNameAsync(username);
+                var user = await _userRepo.GetUserByUserIdAsync(userId);
                 if(user == null){
                     return NotFound();
                 }

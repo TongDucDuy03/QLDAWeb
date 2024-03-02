@@ -1,29 +1,14 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
-import { confirmAlert } from "react-confirm-alert";
+import ConfirmModal from "../../Common/ConfirmModal";
 
-const submit = () => {
-  confirmAlert({
-    title: 'Confirm to submit',
-    message: 'Are you sure to do this',
-    buttons: [
-      {
-        label: 'Yes',
-        onClick: () => alert('Click Yes')
-      },
-      {
-        label: 'No',
-        onClick: () => alert('Click No')
-      }
-    ]
-  });
-};
-const deleteCartProduct = async(userId, productId) => {
+const deleteCartProduct = async (userId, productId) => {
   try {
     const response = await axios.delete(
       `http://localhost:5168/api/Cart/DeleteCartProduct/?userId=${userId}&productId=${productId}`
     );
+
   } catch (error) {
     console.log(error);
   }
@@ -61,7 +46,28 @@ const Cart = () => {
   const [userCart, setUserCart] = useState([]);
   const [quantity, setQuantity] = useState([]);
   const [cartTotal, setCartTotal] = useState(0);
+  const [isDisplayModal, setIsDisplayModal] = useState(false);
+  const [productId, setProductId] = useState();
+
   const userId = localStorage.getItem("userId");
+
+  async function onOK() {
+    try {
+      await deleteCartProduct(params.id, productId);
+
+      getCartByUser(params.id).then((cartItems) => {
+        setUserCart(cartItems);
+        setIsDisplayModal(false);
+        if (cartItems.quantity && !isNaN(cartItems.quantity)) {
+          setQuantity(parseInt(cartItems.quantity));
+        }
+      });
+      getTotalCart(params.id).then((total) => setCartTotal(total));
+    } catch (error) {
+      alert("Failed to remove product from cart:", error);
+    }
+  }
+
 
   useEffect(() => {
     getCartByUser(params.id).then((cartItems) => {
@@ -96,20 +102,8 @@ const Cart = () => {
   };
 
   const handleRemove = async (productId) => {
-    try {
-      await deleteCartProduct(params.id,productId);
-      
-      getCartByUser(params.id).then((cartItems) => {
-        setUserCart(cartItems);
-        if (cartItems.quantity && !isNaN(cartItems.quantity)) {
-          setQuantity(parseInt(cartItems.quantity));
-        }
-      });
-      alert("Product removed from cart successfully!");
-      getTotalCart(params.id).then((total) => setCartTotal(total));
-    } catch (error) {
-      alert("Failed to remove product from cart:", error);
-    }
+    setIsDisplayModal(true);
+    setProductId(productId);
   };
 
   return (
@@ -155,8 +149,8 @@ const Cart = () => {
                                         type="button"
                                         className="fa fa-minus qty-btn"
                                         onClick={() => {
-                                          if (item.products.quantity == 1){if(this.submit) handleDecrease(item.productId);}
-                                          else{handleDecrease(item.productId);}
+                                          if (item.products.quantity == 1) { if (this.submit) handleDecrease(item.productId); }
+                                          else { handleDecrease(item.productId); }
                                         }}
                                       ></button>
                                       <input
@@ -205,9 +199,9 @@ const Cart = () => {
               </div>
             </div>
           </div>
-          {/* Phần địa chỉ và thanh toán giữ nguyên */}
         </div>
       </div>
+      <ConfirmModal isDisplay={isDisplayModal} onOK={onOK} onCancel={() => setIsDisplayModal(false)} />
     </div>
   );
 };
