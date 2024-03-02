@@ -1,34 +1,30 @@
-import React, { useState, useContext } from "react";
+import React, { useState } from "react";
 import axios from "axios";
-import ToastMessage from "../../Common/ToastMessage";
-import { AppContext } from "../../App";
+import { useNavigate } from "react-router-dom";
 
 const Signin = () => {
   const [userName, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const { setIsDisplayToast, setMessage } = useContext(AppContext);
+  const [error, setError] = useState(""); 
+  const navigate = useNavigate();
 
   const handleLogin = async () => {
     if (!userName || !password) {
-      setMessage("Please enter the username and password."); 
-      setIsDisplayToast(true);
+      setError("Please enter both username and password.");
       return;
     }
     try {
       const response = await axios.post("http://localhost:5168/api/Account/Login", { userName, password });
+      if (response.data.success) {
         localStorage.setItem("jwtToken", response.data.jwt);
-        window.location.href = '/'; 
-    } catch (error) {
-      if (error.response && error.response.status === 401) {
-        setMessage("Invalid username or password."); 
-        setIsDisplayToast(true);
+        navigate("/");
       } else {
-        setMessage("Login error: " + error.message); 
-        setIsDisplayToast(true);
-        console.error("Login error:", error);
+        setError("Invalid username or password.");
       }
+    } catch (error) {
+      setError("Invalid username or password.");
+      console.error("Login error:", error);
     }
-    
   };
 
   return (
@@ -93,7 +89,8 @@ const Signin = () => {
                         >
                           Sign in
                         </button>
-                        <span className="text-dark dark-color d-inline-block line-height-2">
+                        {error && <div className="alert alert-danger">{error}</div>}
+                        <span className="text-dark dark-color d-inline-block line-height-3">
                           Don't have an account?{" "}
                           <a href="/signup" className="text-white">
                             Sign up
@@ -108,7 +105,6 @@ const Signin = () => {
           </div>
         </div>
       </section>
-      <ToastMessage />
     </div>
   );
 };
