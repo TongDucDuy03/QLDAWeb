@@ -62,87 +62,118 @@ const Bill = () => {
     <div id="content-page" className="content-page">
       <div className="container-fluid checkout-content">
         <div className="row">
-          <div id="bill" className="card-block show p-0 col-12">
+          <div id="payment" className="p-0 col-12">
             <div className="row align-item-center">
               <div className="col-lg-8">
                 <div className="iq-card">
-                  <div className="iq-card-header d-flex justify-content-between iq-border-bottom mb-0">
+                  <div className="iq-card-header d-flex justify-content-between">
                     <div className="iq-header-title">
-                      <h4 className="card-title">Thông tin đơn hàng</h4>
+                      <h4 className="card-title">Lựa chọn thanh toán</h4>
                     </div>
                   </div>
                   <div className="iq-card-body">
-                    <ul className="list-inline p-0 m-0">
-                      {cartProducts.map((item, index) => (
-                        <li key={index} className="checkout-product">
-                          <div className="row align-items-center">
-                            <div className="col-sm-2">
-                              <span className="checkout-product-img">
-                                <a href="./">
-                                  <img
-                                    className="img-fluid rounded"
-                                    src={item.products.imagesUrl}
-                                    alt=""
-                                  />
-                                </a>
-                              </span>
-                            </div>
-                            <div className="col-sm-4">
-                              <div className="checkout-product-details">
-                                <h5>{item.products.name}</h5>
-                              </div>
-                            </div>
-                            <div className="col-sm-6">
-                              <div className="row">
-                                <div className="col-sm-10">
-                                  <div className="row align-items-center mt-2">
-                                    <div className="col-sm-7 col-md-6">
-                                      <span>Số lượng: {item.quantity}</span>
-                                      <span>Giá: {item.products.price}đ</span>
-                                    </div>
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                  <div>
-                    <h3>Tổng tiền: {totalCart}đ</h3>
-                    <h3>Chọn địa chỉ nhận hàng</h3>
-                    <select onChange={handleAddressChange}>
-                      <option value="address1">Địa chỉ 1</option>
-                      <option value="address2">Địa chỉ 2</option>
-                      {/* Thêm các địa chỉ khác ở đây */}
-                    </select>
-                    <div>
-                      <h3>Chọn phương thức thanh toán</h3>
-                      <div>
-                        <input
-                          type="radio"
-                          id="cashOnDelivery"
-                          name="paymentMethod"
-                          value="cashOnDelivery"
-                          checked={paymentMethod === "cashOnDelivery"}
-                          onChange={handlePaymentMethodChange}
-                        />
-                        <label htmlFor="cashOnDelivery">Thanh toán khi nhận hàng</label>
+                    <form className="mt-3">
+                      <div className="d-flex align-items-center">
+                        <span>Mã giảm giá: </span>
+                        <div className="cvv-input ml-3 mr-3">
+                          <input
+                            type="text"
+                            className="form-control"
+                            required=""
+                          />
+                        </div>
+                        <button type="submit" className="btn btn-primary">
+                          Tiếp tục
+                        </button>
                       </div>
-                      <div>
-                        <input
-                          type="radio"
-                          id="momo"
-                          name="paymentMethod"
-                          value="momo"
-                          checked={paymentMethod === "momo"}
-                          onChange={handlePaymentMethodChange}
-                        />
-                        <label htmlFor="momo">Momo</label>
+                    </form>
+                    <hr />
+                    <div className="card-lists">
+                      <div className="form-group">
+                        <div className="custom-control custom-radio">
+                          <input
+                            type="radio"
+                            id="credit"
+                            name="customRadio"
+                            className="custom-control-input"
+                          />
+                          <label
+                            className="custom-control-label"
+                            htmlFor="credit"
+                          >
+                            Thẻ Tín dụng / Ghi nợ / ATM
+                          </label>
+                        </div>
+                        <div className="custom-control custom-radio">
+                          <input
+                            type="radio"
+                            id="netbaking"
+                            name="customRadio"
+                            className="custom-control-input"
+                          />
+                          <label
+                            className="custom-control-label"
+                            htmlFor="netbaking"
+                          >
+                            Momo/ZaloPay
+                          </label>
+                        </div>
+                        <div className="custom-control custom-radio">
+                          <input
+                            type="radio"
+                            id="emi"
+                            name="emi"
+                            className="custom-control-input"
+                          />
+                          <label className="custom-control-label" htmlFor="emi">
+                            Trả góp
+                          </label>
+                        </div>
+                        <div className="custom-control custom-radio">
+                          <input
+                            type="radio"
+                            id="cod"
+                            name="cod"
+                            className="custom-control-input"
+                          />
+                          <label className="custom-control-label" htmlFor="cod">
+                            Thanh toán khi giao hàng
+                          </label>
+                        </div>
                       </div>
                     </div>
-                    <button onClick={handleCheckout}>Thanh toán</button>
+                    <hr />
+                    <a
+                      id="deliver-address"
+                      href="javascript:void();"
+                      className="btn btn-primary d-block mt-1 next"
+                    >
+                      Thanh toán
+                    </a>
+                  </div>
+                </div>
+              </div>
+              <div className="col-lg-4">
+                <div className="iq-card">
+                  <div className="iq-card-body">
+                    <h4 className="mb-2">Chi tiết</h4>
+                    <div className="d-flex justify-content-between">
+                      <span>Giá 3 sản phẩm</span>
+                      <span>
+                        <strong>329.900đ</strong>
+                      </span>
+                    </div>
+                    <div className="d-flex justify-content-between">
+                      <span>Phí vận chuyển</span>
+                      <span className="text-success">Miễn phí</span>
+                    </div>
+                    <hr />
+                    <div className="d-flex justify-content-between">
+                      <span>Số tiền phải trả</span>
+                      <span>
+                        <strong>329.900đ</strong>
+                      </span>
+                    </div>
                   </div>
                 </div>
               </div>

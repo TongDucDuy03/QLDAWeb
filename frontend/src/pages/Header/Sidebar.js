@@ -3,9 +3,7 @@ import axios from "axios";
 
 const getAllSeries = async (id) => {
   try {
-    const response = await axios.get(
-      `http://localhost:5168/api/Series`
-    );
+    const response = await axios.get(`http://localhost:5168/api/Series`);
     return response.data;
   } catch (error) {
     console.log(error);
@@ -17,7 +15,7 @@ function Sidebar() {
   useEffect(() => {
     getAllSeries().then((seriess) => {
       setSeries(seriess);
-    })
+    });
   }, []);
 
   return (
@@ -44,22 +42,30 @@ function Sidebar() {
               </a>
             </li>
             <li>
-              <a href="#series" class="iq-waves-effect collapsed" data-toggle="collapse" aria-expanded="false">
-                <i class="lab la-elementor iq-arrow-left"></i><span>Series</span>
+              <a
+                href="#series"
+                class="iq-waves-effect collapsed"
+                data-toggle="collapse"
+                aria-expanded="false"
+              >
+                <i class="lab la-elementor iq-arrow-left"></i>
+                <span>Series</span>
                 <i class="ri-arrow-right-s-line iq-arrow-right"></i>
               </a>
 
-              <ul id="series" class="iq-submenu collapse" data-parent="#iq-sidebar-toggle">
-                {
-                  seriesList.length > 0 &&
+              <ul
+                id="series"
+                class="iq-submenu collapse"
+                data-parent="#iq-sidebar-toggle"
+              >
+                {seriesList.length > 0 &&
                   seriesList.map((item, index) => (
                     <li>
                       <a href={`/series/${item.series_Id}`}>
                         <span>{item.series_Name}</span>
                       </a>
                     </li>
-                  ))
-                }
+                  ))}
               </ul>
             </li>
           </ul>

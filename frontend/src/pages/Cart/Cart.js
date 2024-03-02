@@ -34,7 +34,7 @@ const Cart = () => {
   const params = useParams();
   const [userCart, setUserCart] = useState([]);
   const [quantity, setQuantity] = useState([]);
-  const [cartTotal, setCartTotal] = useState(0); 
+  const [cartTotal, setCartTotal] = useState(0);
   const userId = localStorage.getItem("userId");
 
   useEffect(() => {
@@ -42,7 +42,7 @@ const Cart = () => {
       setUserCart(cartItems);
       setQuantity(cartItems.quantity);
     });
-    getTotalCart(params.id).then((total) => setCartTotal(total)); 
+    getTotalCart(params.id).then((total) => setCartTotal(total));
   }, [params.id]);
 
   const handleIncrease = async (productId) => {
@@ -54,7 +54,7 @@ const Cart = () => {
         setQuantity(parseInt(cartItems.quantity));
       }
     });
-    getTotalCart(params.id).then((total) => setCartTotal(total)); 
+    getTotalCart(params.id).then((total) => setCartTotal(total));
   };
 
   const handleDecrease = async (productId) => {
@@ -66,7 +66,7 @@ const Cart = () => {
         setQuantity(parseInt(cartItems.quantity));
       }
     });
-    getTotalCart(params.id).then((total) => setCartTotal(total)); 
+    getTotalCart(params.id).then((total) => setCartTotal(total));
   };
 
   const handleRemove = async (productId) => {
@@ -80,7 +80,7 @@ const Cart = () => {
         }
       });
       alert("Product removed from cart successfully!");
-      getTotalCart(params.id).then((total) => setCartTotal(total)); 
+      getTotalCart(params.id).then((total) => setCartTotal(total));
     } catch (error) {
       alert("Failed to remove product from cart:", error);
     }
@@ -155,9 +155,7 @@ const Cart = () => {
                                 <div className="col-sm-2">
                                   <button
                                     type="button"
-                                    onClick={() =>
-                                      handleRemove(item.productId)
-                                    }
+                                    onClick={() => handleRemove(item.productId)}
                                   >
                                     <i className="ri-delete-bin-7-fill"></i>
                                   </button>
