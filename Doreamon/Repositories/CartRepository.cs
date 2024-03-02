@@ -48,7 +48,14 @@ namespace Doreamon.Repositories
             await _context.SaveChangesAsync();
             return _mapper.Map<CartModel>(cart);
         }
-
+        public async Task<CartModel> DeleteCartProduct(int UserId, int ProductId){
+            var product = await _context.Carts.FirstOrDefaultAsync(m => m.UserId == UserId && m.ProductId == ProductId);
+            if(product != null){
+                _context.Carts.Remove(product);
+            }
+            await _context.SaveChangesAsync();
+            return _mapper.Map<CartModel>(product);
+        }
 
         public async Task<List<CartModel>> GetCartProducts(int userId)
         {

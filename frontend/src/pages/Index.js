@@ -14,6 +14,7 @@ const getAllSeries = async () => {
   }
 };
 
+
 const getBooksBySeriesId = async (seriesId) => {
   try {
     const response = await axios.get(
@@ -164,5 +165,4 @@ const Index = () => {
     </div>
   );
 };
-
 export default Index;

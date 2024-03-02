@@ -24,7 +24,11 @@ namespace Doreamon.Controllers
             var cart = await _cartRepo.AddToCart(userId, id, increaseQuantity);
             return Ok(cart);
         }
-
+        [HttpDelete("DeleteCartProduct")]
+        public async Task<IActionResult> DeleteCartProduct(int UserId, int ProductId){
+            var cart = await _cartRepo.DeleteCartProduct(UserId, ProductId);
+            return Ok(cart);
+        }
         [HttpGet("cart/{userId}")]
         public async Task<IActionResult> GetCartProducts(int userId)
         {
