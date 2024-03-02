@@ -1,13 +1,11 @@
 import React, { useState, useContext } from "react";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
 import ToastMessage from "../../Common/ToastMessage";
 import { AppContext } from "../../App";
 
 const Signin = () => {
   const [userName, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const navigate = useNavigate();
   const { setIsDisplayToast, setMessage } = useContext(AppContext);
 
   const handleLogin = async () => {
@@ -19,7 +17,7 @@ const Signin = () => {
     try {
       const response = await axios.post("http://localhost:5168/api/Account/Login", { userName, password });
         localStorage.setItem("jwtToken", response.data.jwt);
-        navigate("/");
+        window.location.href = '/'; 
     } catch (error) {
       if (error.response && error.response.status === 401) {
         setMessage("Invalid username or password."); 
