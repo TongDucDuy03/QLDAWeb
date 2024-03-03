@@ -10,14 +10,22 @@ import Signup from "./pages/Login/Signup";
 import Profile from "./pages/profile/profile";
 import { Routes, Route } from "react-router-dom";
 import Series from "./pages/Series/Series";
-import Address from "./pages/Address/Address";
+import { createContext, useContext, useEffect, useState } from "react";
+import ToastMssage from "./Common/ToastMessage";
+
+export const AppContext = createContext();
 
 function App() {
+  const [isDisplayToast, setIsDisplayToast] = useState(false);
+  const [message, setMessage] = useState("");
+
   return (
-    <>
+    <AppContext.Provider
+      value={{ isDisplayToast, setIsDisplayToast, setMessage }}
+    >
       <Header />
       <Routes>
-        <Route path="/index" element={<Index />}></Route>
+        <Route index element={<Index />}></Route>
         <Route path="/series/:id" element={<Series />}></Route>
         <Route path="/cart/:id" element={<Cart />}></Route>
         <Route path="/bill/:id" element={<Bill />}></Route>
@@ -25,9 +33,13 @@ function App() {
         <Route path="/signin" element={<Signin />}></Route>
         <Route path="/signup" element={<Signup />}></Route>
         <Route path="/profile" element={<Profile />}></Route>
-        <Route path="/address" element={<Address />}></Route>
       </Routes>
-    </>
+      <ToastMssage
+        isDisplay={isDisplayToast}
+        setIsDisplay={setIsDisplayToast}
+        message={message}
+      />
+    </AppContext.Provider>
   );
 }
 
