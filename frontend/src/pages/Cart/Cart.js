@@ -32,7 +32,6 @@ const getTotalCart = async (id) => {
     return response.data.cartTotal;
   } catch (error) {
     console.log(error);
-    return 0;
   }
 };
 
