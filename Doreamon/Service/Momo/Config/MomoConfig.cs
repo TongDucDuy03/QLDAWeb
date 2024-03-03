@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Doreamon.Controllers.Service.MomoService.MomoConfig
+namespace Doreamon.Service.Momo.Config
 {
     public class MomoConfig
     {

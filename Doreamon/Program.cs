@@ -1,4 +1,4 @@
-﻿using Doreamon.Controllers.Service.MomoService.MomoConfig;
+﻿using Doreamon.Service.Momo.Config;
 using Doreamon.Data; 
 using Doreamon.Helper;
 using Doreamon.Models;
@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using Doreamon.Models.Momo;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -29,9 +30,11 @@ builder.Services.AddScoped<ICartRepository, CartRepository>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<ISeriesRepository, SeriesRepository>();
 builder.Services.AddScoped<ITokenRepository, TokenRepository>();
+builder.Services.AddScoped<IMomoRepository, MomoRepository>();
 builder.Services.AddAutoMapper(typeof(ApplicationMappper));
 
 builder.Services.Configure<AppSetting>(builder.Configuration.GetSection("AppSetting"));
+builder.Services.Configure<MomoOptionModel>(builder.Configuration.GetSection("MomoAPI"));
 //Authentication
 var secretKey = builder.Configuration["AppSetting:SecretKey"];
 var secretKeyBytes = Encoding.UTF8.GetBytes(secretKey);
