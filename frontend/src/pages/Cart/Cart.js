@@ -1,25 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
-import { confirmAlert } from "react-confirm-alert";
 
-const submit = () => {
-  confirmAlert({
-    title: 'Confirm to submit',
-    message: 'Are you sure to do this',
-    buttons: [
-      {
-        label: 'Yes',
-        onClick: () => alert('Click Yes')
-      },
-      {
-        label: 'No',
-        onClick: () => alert('Click No')
-      }
-    ]
-  });
-};
-const deleteCartProduct = async(userId, productId) => {
+const deleteCartProduct = async (userId, productId) => {
   try {
     const response = await axios.delete(
       `http://localhost:5168/api/Cart/DeleteCartProduct/?userId=${userId}&productId=${productId}`
@@ -60,7 +43,7 @@ const Cart = () => {
   const params = useParams();
   const [userCart, setUserCart] = useState([]);
   const [quantity, setQuantity] = useState([]);
-  const [cartTotal, setCartTotal] = useState(0); 
+  const [cartTotal, setCartTotal] = useState(0);
   const userId = localStorage.getItem("userId");
 
   useEffect(() => {
@@ -68,7 +51,7 @@ const Cart = () => {
       setUserCart(cartItems);
       setQuantity(cartItems.quantity);
     });
-    getTotalCart(params.id).then((total) => setCartTotal(total)); 
+    getTotalCart(params.id).then((total) => setCartTotal(total));
   }, [params.id]);
 
   const handleIncrease = async (productId) => {
@@ -80,7 +63,7 @@ const Cart = () => {
         setQuantity(parseInt(cartItems.quantity));
       }
     });
-    getTotalCart(params.id).then((total) => setCartTotal(total)); 
+    getTotalCart(params.id).then((total) => setCartTotal(total));
   };
 
   const handleDecrease = async (productId) => {
@@ -92,13 +75,13 @@ const Cart = () => {
         setQuantity(parseInt(cartItems.quantity));
       }
     });
-    getTotalCart(params.id).then((total) => setCartTotal(total)); 
+    getTotalCart(params.id).then((total) => setCartTotal(total));
   };
 
   const handleRemove = async (productId) => {
     try {
-      await deleteCartProduct(params.id,productId);
-      
+      await deleteCartProduct(params.id, productId);
+
       getCartByUser(params.id).then((cartItems) => {
         setUserCart(cartItems);
         if (cartItems.quantity && !isNaN(cartItems.quantity)) {
@@ -106,7 +89,7 @@ const Cart = () => {
         }
       });
       alert("Product removed from cart successfully!");
-      getTotalCart(params.id).then((total) => setCartTotal(total)); 
+      getTotalCart(params.id).then((total) => setCartTotal(total));
     } catch (error) {
       alert("Failed to remove product from cart:", error);
     }
@@ -155,8 +138,12 @@ const Cart = () => {
                                         type="button"
                                         className="fa fa-minus qty-btn"
                                         onClick={() => {
-                                          if (item.products.quantity == 1){if(this.submit) handleDecrease(item.productId);}
-                                          else{handleDecrease(item.productId);}
+                                          if (item.products.quantity == 1) {
+                                            if (this.submit)
+                                              handleDecrease(item.productId);
+                                          } else {
+                                            handleDecrease(item.productId);
+                                          }
                                         }}
                                       ></button>
                                       <input
@@ -182,9 +169,7 @@ const Cart = () => {
                                 <div className="col-sm-2">
                                   <button
                                     type="button"
-                                    onClick={() =>
-                                      handleRemove(item.productId)
-                                    }
+                                    onClick={() => handleRemove(item.productId)}
                                   >
                                     <i className="ri-delete-bin-7-fill"></i>
                                   </button>
@@ -198,7 +183,7 @@ const Cart = () => {
                   </div>
                   <a
                     id="place-order"
-                    href={`/bill/${userId}`}
+                    href="/address"
                     className="btn btn-primary d-block mt-3 next"
                   >
                     Đặt hàng - {cartTotal}đ

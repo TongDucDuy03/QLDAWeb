@@ -14,7 +14,6 @@ const getAllSeries = async () => {
   }
 };
 
-
 const getBooksBySeriesId = async (seriesId) => {
   try {
     const response = await axios.get(
@@ -27,6 +26,7 @@ const getBooksBySeriesId = async (seriesId) => {
   }
 };
 
+const userId = localStorage.getItem("userId");
 const Index = () => {
   const [series, setSeries] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -55,8 +55,55 @@ const Index = () => {
   const renderCarousel = (seriesId) => {
     const books = carouselContent[seriesId];
     if (!books) {
-      return <div>Loading...</div>; // Or any loading indicator
+      return <div>Loading...</div>; 
     }
+// Nếu chỉ có một cuốn sách, hiển thị nó mà không sử dụng Slider
+if (books.length <=5) {
+  const book = books[0];
+  return (
+    <div key={book.id} className="single-book">
+      <div className="d-flex align-items-center">
+        <div className="col-1 p-0 position-relative image-overlap-shadow">
+          <a href={`/detail/${book.id}`}>
+            <img
+              className="img-fluid rounded w-100"
+              src={book.imagesUrl}
+              alt=""
+              style={{ maxWidth: '100%' }}
+            />
+          </a>
+        </div>
+        <div className="col-7">
+          <div className="mb-2">
+            <h6 className="mb-1">
+              <a href={`/detail/${book.id}`}>{book.name}</a>
+            </h6>
+            <div className="d-block">
+              <span className="font-size-13 text-warning">
+                <i className="fa fa-star"></i>
+                <i className="fa fa-star"></i>
+                <i className="fa fa-star"></i>
+                <i className="fa fa-star"></i>
+                <i className="fa fa-star"></i>
+              </span>
+            </div>
+          </div>
+          <div className="price d-flex align-items-center">
+            <h6>
+              <b>{book.price} ₫</b>
+            </h6>
+          </div>
+          <div className="iq-product-action">
+            <a href="./">
+              <i className="ri-shopping-cart-2-fill text-primary"></i>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 
     const settings = {
       infinite: true,
@@ -79,6 +126,22 @@ const Index = () => {
           },
         },
       ],
+    };
+
+    const addToCart = async (productId) => {
+      if (userId != null) {
+        try {
+          await axios.post(
+            `http://localhost:5168/api/Cart/?id=${productId}&userId=${userId}&increaseQuantity=${true}`
+          );
+          alert("Product added to cart successfully!");
+        } catch (error) {
+          console.log(error);
+          alert("Failed to add product to cart!");
+        }
+      } else {
+        window.location.href = "/signin";
+      }
     };
 
     return (
@@ -116,9 +179,10 @@ const Index = () => {
                   </h6>
                 </div>
                 <div className="iq-product-action">
-                  <a href="./">
-                    <i className="ri-shopping-cart-2-fill text-primary"></i>
-                  </a>
+                  <i
+                    className="ri-shopping-cart-2-fill text-primary"
+                    onClick={() => addToCart(item.id)}
+                  ></i>
                 </div>
               </div>
             </div>

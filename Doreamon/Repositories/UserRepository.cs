@@ -17,10 +17,14 @@ namespace Doreamon.Repositories
             _context = context;
             _mapper = mapper;
         }
-
         public async Task<UserModel> GetUserByUserNameAsync(string username)
         {
             var user = await _context.User.SingleOrDefaultAsync(m => m.UserName == username);
+            return _mapper.Map<UserModel>(user);
+        }
+        public async Task<UserModel> GetUserByUserIdAsync(int userId)
+        {
+            var user = await _context.User.SingleOrDefaultAsync(m => m.UserId == userId);
             return _mapper.Map<UserModel>(user);
         }
 
