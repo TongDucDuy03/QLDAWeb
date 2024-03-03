@@ -51,6 +51,10 @@ const Bill = () => {
   };
 
   const handleCheckout = () => {
+<<<<<<< HEAD
+=======
+    // Xử lý đặt hàng và thanh toán ở đây
+>>>>>>> parent of ab5ec27 (update)
     console.log("Địa chỉ nhận hàng:", selectedAddress);
     console.log("Phương thức thanh toán:", paymentMethod);
     console.log("Tổng tiền đơn hàng:", totalCart);
@@ -71,6 +75,7 @@ const Bill = () => {
                     </div>
                   </div>
                   <div className="iq-card-body">
+<<<<<<< HEAD
                     <h5 className="mb-2">Chi tiết</h5>
                     <div className="d-flex justify-content-between">
                       <span>Giá 3 sản phẩm</span>
@@ -99,6 +104,33 @@ const Bill = () => {
                             name="customRadio"
                             className="custom-control-input"
                           />
+=======
+                    <form className="mt-3">
+                      <div className="d-flex align-items-center">
+                        <span>Mã giảm giá: </span>
+                        <div className="cvv-input ml-3 mr-3">
+                          <input
+                            type="text"
+                            className="form-control"
+                            required=""
+                          />
+                        </div>
+                        <button type="submit" className="btn btn-primary">
+                          Tiếp tục
+                        </button>
+                      </div>
+                    </form>
+                    <hr />
+                    <div className="card-lists">
+                      <div className="form-group">
+                        <div className="custom-control custom-radio">
+                          <input
+                            type="radio"
+                            id="credit"
+                            name="customRadio"
+                            className="custom-control-input"
+                          />
+>>>>>>> parent of ab5ec27 (update)
                           <label
                             className="custom-control-label"
                             htmlFor="credit"
@@ -124,7 +156,11 @@ const Bill = () => {
                           <input
                             type="radio"
                             id="emi"
+<<<<<<< HEAD
                             name="customRadio"
+=======
+                            name="emi"
+>>>>>>> parent of ab5ec27 (update)
                             className="custom-control-input"
                           />
                           <label className="custom-control-label" htmlFor="emi">
@@ -135,7 +171,11 @@ const Bill = () => {
                           <input
                             type="radio"
                             id="cod"
+<<<<<<< HEAD
                             name="customRadio"
+=======
+                            name="cod"
+>>>>>>> parent of ab5ec27 (update)
                             className="custom-control-input"
                           />
                           <label className="custom-control-label" htmlFor="cod">
@@ -147,12 +187,43 @@ const Bill = () => {
                     <hr />
                     <a
                       id="deliver-address"
+<<<<<<< HEAD
                       href="./"
+=======
+                      href="javascript:void();"
+>>>>>>> parent of ab5ec27 (update)
                       className="btn btn-primary d-block mt-1 next"
                     >
                       Thanh toán
                     </a>
                   </div>
+<<<<<<< HEAD
+=======
+                </div>
+              </div>
+              <div className="col-lg-4">
+                <div className="iq-card">
+                  <div className="iq-card-body">
+                    <h4 className="mb-2">Chi tiết</h4>
+                    <div className="d-flex justify-content-between">
+                      <span>Giá 3 sản phẩm</span>
+                      <span>
+                        <strong>329.900đ</strong>
+                      </span>
+                    </div>
+                    <div className="d-flex justify-content-between">
+                      <span>Phí vận chuyển</span>
+                      <span className="text-success">Miễn phí</span>
+                    </div>
+                    <hr />
+                    <div className="d-flex justify-content-between">
+                      <span>Số tiền phải trả</span>
+                      <span>
+                        <strong>329.900đ</strong>
+                      </span>
+                    </div>
+                  </div>
+>>>>>>> parent of ab5ec27 (update)
                 </div>
               </div>
             </div>
