@@ -1,32 +1,29 @@
 import React, { useState } from "react";
 import axios from "axios";
-import { Alert } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
 
 const Signin = () => {
   const [userName, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [showError, setShowError] = useState(false);
-  const [errorMessage, setErrorMessage] = useState("");
+  const [error, setError] = useState(""); 
+  const navigate = useNavigate();
 
   const handleLogin = async () => {
     if (!userName || !password) {
-      setErrorMessage("Email/Password is required");
-      setShowError(true);
+      setError("Please enter both username and password.");
       return;
     }
     try {
       const response = await axios.post("http://localhost:5168/api/Account/Login", { userName, password });
       if (response.data.success) {
         localStorage.setItem("jwtToken", response.data.jwt);
-        window.location.href = '/index';  
+        navigate("/");
       } else {
-        setErrorMessage("Login failed. Please try again.");
-        setShowError(true);
+        setError("Invalid username or password.");
       }
     } catch (error) {
+      setError("Invalid username or password.");
       console.error("Login error:", error);
-      setErrorMessage("Login failed. Please try again.");
-      setShowError(true);
     }
   };
 
@@ -45,12 +42,13 @@ const Signin = () => {
                     </p>
                     <form className="mt-4 form-text">
                       <div className="form-group">
-                        <label htmlFor="exampleInputEmail1">UserName</label>
+                        <label htmlFor="exampleInputUserName1">UserName</label>
                         <input
                           type="text"
                           className="form-control mb-0"
                           id="exampleInputUserName1"
                           placeholder="Enter UserName"
+                          value={userName}
                           onChange={(event) => setEmail(event.target.value)}
                         />
                       </div>
@@ -64,6 +62,7 @@ const Signin = () => {
                           className="form-control mb-0"
                           id="exampleInputPassword1"
                           placeholder="Password"
+                          value={password}
                           onChange={(event) => setPassword(event.target.value)}
                         />
                       </div>
@@ -90,7 +89,8 @@ const Signin = () => {
                         >
                           Sign in
                         </button>
-                        <span className="text-dark dark-color d-inline-block line-height-2">
+                        {error && <div className="alert alert-danger">{error}</div>}
+                        <span className="text-dark dark-color d-inline-block line-height-3">
                           Don't have an account?{" "}
                           <a href="/signup" className="text-white">
                             Sign up
@@ -105,12 +105,6 @@ const Signin = () => {
           </div>
         </div>
       </section>
-      <div style={{ position: 'fixed', bottom: '10px', right: '10px', zIndex: 9999 }}>
-        <Alert variant="danger" show={showError} onClose={() => setShowError(false)} dismissible>
-          <Alert.Heading>Error</Alert.Heading>
-          <p>{errorMessage}</p>
-        </Alert>
-      </div>
     </div>
   );
 };

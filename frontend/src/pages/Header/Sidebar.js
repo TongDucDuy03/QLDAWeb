@@ -21,7 +21,7 @@ function Sidebar() {
   return (
     <div className="iq-sidebar">
       <div className="iq-sidebar-logo d-flex justify-content-between">
-        <a href="/index" className="header-logo">
+        <a href="/" className="header-logo">
           <img
             src="assets/images/logo.png"
             className="img-fluid rounded-normal"
@@ -36,7 +36,7 @@ function Sidebar() {
         <nav className="iq-sidebar-menu">
           <ul id="iq-sidebar-toggle" className="iq-menu">
             <li>
-              <a href="/index">
+              <a href="/">
                 <i className="las la-home iq-arrow-left" />
                 Trang chủ
               </a>

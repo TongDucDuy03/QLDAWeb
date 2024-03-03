@@ -15,6 +15,7 @@ function Header() {
   }
 
   const [listProducts, setListProducts] = useState([]);
+  const [user, setUser] = useState(null);
   const [listBooks, setListBooks] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [isLoggedIn, setIsLoggedIn] = useState(!!jwtToken);
@@ -29,12 +30,26 @@ function Header() {
       return [];
     }
   };
-
+  const getUserInfor = async(userId)=>{
+    try{
+      const infor = await axios.get(`http://localhost:5168/api/User/${userId}`);
+      return infor.data;
+    }catch(error){
+      console.log(error);
+    }
+  }
   useEffect(() => {
     getAllBooks().then((images) => {
       setListProducts(images);
     });
-  }, []);
+  
+    if (userId) {
+      getUserInfor(userId).then((userData) => {
+        setUser(userData);
+      });
+    }
+  }, [userId]);
+  
 
   const handleKeyDown = (event) => {
     if (event.key === "Enter") {
@@ -170,9 +185,11 @@ function Header() {
                             alt="user"
                           />
                           <div className="caption">
-                            <h6 className="mb-1 line-height">
-                              {decodedToken.userId}
-                            </h6>
+                          {user && (
+                            <p className="mb-1 line-height">
+                              {user.userName}
+                            </p>
+                          )}
                             <p className="mb-0 text-primary">Tài Khoản</p>
                           </div>
                         </a>
