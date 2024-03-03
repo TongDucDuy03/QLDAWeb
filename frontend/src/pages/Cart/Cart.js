@@ -1,25 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
-import { confirmAlert } from "react-confirm-alert";
 
-const submit = () => {
-  confirmAlert({
-    title: 'Confirm to submit',
-    message: 'Are you sure to do this',
-    buttons: [
-      {
-        label: 'Yes',
-        onClick: () => alert('Click Yes')
-      },
-      {
-        label: 'No',
-        onClick: () => alert('Click No')
-      }
-    ]
-  });
-};
-const deleteCartProduct = async(userId, productId) => {
+const deleteCartProduct = async (userId, productId) => {
   try {
     const response = await axios.delete(
       `http://localhost:5168/api/Cart/DeleteCartProduct/?userId=${userId}&productId=${productId}`
@@ -97,8 +80,8 @@ const Cart = () => {
 
   const handleRemove = async (productId) => {
     try {
-      await deleteCartProduct(params.id,productId);
-      
+      await deleteCartProduct(params.id, productId);
+
       getCartByUser(params.id).then((cartItems) => {
         setUserCart(cartItems);
         if (cartItems.quantity && !isNaN(cartItems.quantity)) {
@@ -155,8 +138,12 @@ const Cart = () => {
                                         type="button"
                                         className="fa fa-minus qty-btn"
                                         onClick={() => {
-                                          if (item.products.quantity == 1){if(this.submit) handleDecrease(item.productId);}
-                                          else{handleDecrease(item.productId);}
+                                          if (item.products.quantity == 1) {
+                                            if (this.submit)
+                                              handleDecrease(item.productId);
+                                          } else {
+                                            handleDecrease(item.productId);
+                                          }
                                         }}
                                       ></button>
                                       <input
@@ -196,7 +183,7 @@ const Cart = () => {
                   </div>
                   <a
                     id="place-order"
-                    href={`/bill/${userId}`}
+                    href="/address"
                     className="btn btn-primary d-block mt-3 next"
                   >
                     Đặt hàng - {cartTotal}đ

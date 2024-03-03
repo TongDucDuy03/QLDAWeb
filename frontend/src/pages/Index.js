@@ -14,7 +14,6 @@ const getAllSeries = async () => {
   }
 };
 
-
 const getBooksBySeriesId = async (seriesId) => {
   try {
     const response = await axios.get(
@@ -27,6 +26,7 @@ const getBooksBySeriesId = async (seriesId) => {
   }
 };
 
+const userId = localStorage.getItem("userId");
 const Index = () => {
   const [series, setSeries] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -81,6 +81,22 @@ const Index = () => {
       ],
     };
 
+    const addToCart = async (productId) => {
+      if (userId != null) {
+        try {
+          await axios.post(
+            `http://localhost:5168/api/Cart/?id=${productId}&userId=${userId}&increaseQuantity=${true}`
+          );
+          alert("Product added to cart successfully!");
+        } catch (error) {
+          console.log(error);
+          alert("Failed to add product to cart!");
+        }
+      } else {
+        window.location.href = "/signin";
+      }
+    };
+
     return (
       <Slider {...settings}>
         {books.map((item) => (
@@ -116,9 +132,10 @@ const Index = () => {
                   </h6>
                 </div>
                 <div className="iq-product-action">
-                  <a href="./">
-                    <i className="ri-shopping-cart-2-fill text-primary"></i>
-                  </a>
+                  <i
+                    className="ri-shopping-cart-2-fill text-primary"
+                    onClick={() => addToCart(item.id)}
+                  ></i>
                 </div>
               </div>
             </div>

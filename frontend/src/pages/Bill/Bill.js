@@ -51,7 +51,6 @@ const Bill = () => {
   };
 
   const handleCheckout = () => {
-    // Xử lý đặt hàng và thanh toán ở đây
     console.log("Địa chỉ nhận hàng:", selectedAddress);
     console.log("Phương thức thanh toán:", paymentMethod);
     console.log("Tổng tiền đơn hàng:", totalCart);
@@ -72,21 +71,24 @@ const Bill = () => {
                     </div>
                   </div>
                   <div className="iq-card-body">
-                    <form className="mt-3">
-                      <div className="d-flex align-items-center">
-                        <span>Mã giảm giá: </span>
-                        <div className="cvv-input ml-3 mr-3">
-                          <input
-                            type="text"
-                            className="form-control"
-                            required=""
-                          />
-                        </div>
-                        <button type="submit" className="btn btn-primary">
-                          Tiếp tục
-                        </button>
-                      </div>
-                    </form>
+                    <h5 className="mb-2">Chi tiết</h5>
+                    <div className="d-flex justify-content-between">
+                      <span>Giá 3 sản phẩm</span>
+                      <span>
+                        <strong>329.900đ</strong>
+                      </span>
+                    </div>
+                    <div className="d-flex justify-content-between">
+                      <span>Phí vận chuyển</span>
+                      <span className="text-success">Miễn phí</span>
+                    </div>
+                    <hr />
+                    <div className="d-flex justify-content-between">
+                      <span>Số tiền phải trả</span>
+                      <span>
+                        <strong>329.900đ</strong>
+                      </span>
+                    </div>
                     <hr />
                     <div className="card-lists">
                       <div className="form-group">
@@ -122,7 +124,7 @@ const Bill = () => {
                           <input
                             type="radio"
                             id="emi"
-                            name="emi"
+                            name="customRadio"
                             className="custom-control-input"
                           />
                           <label className="custom-control-label" htmlFor="emi">
@@ -133,7 +135,7 @@ const Bill = () => {
                           <input
                             type="radio"
                             id="cod"
-                            name="cod"
+                            name="customRadio"
                             className="custom-control-input"
                           />
                           <label className="custom-control-label" htmlFor="cod">
@@ -145,35 +147,11 @@ const Bill = () => {
                     <hr />
                     <a
                       id="deliver-address"
-                      href="javascript:void();"
+                      href="./"
                       className="btn btn-primary d-block mt-1 next"
                     >
                       Thanh toán
                     </a>
-                  </div>
-                </div>
-              </div>
-              <div className="col-lg-4">
-                <div className="iq-card">
-                  <div className="iq-card-body">
-                    <h4 className="mb-2">Chi tiết</h4>
-                    <div className="d-flex justify-content-between">
-                      <span>Giá 3 sản phẩm</span>
-                      <span>
-                        <strong>329.900đ</strong>
-                      </span>
-                    </div>
-                    <div className="d-flex justify-content-between">
-                      <span>Phí vận chuyển</span>
-                      <span className="text-success">Miễn phí</span>
-                    </div>
-                    <hr />
-                    <div className="d-flex justify-content-between">
-                      <span>Số tiền phải trả</span>
-                      <span>
-                        <strong>329.900đ</strong>
-                      </span>
-                    </div>
                   </div>
                 </div>
               </div>
