@@ -10,6 +10,7 @@
         public int UserId { get; set; }
         public DateTime? OrderDate { get; set; }
         public DateTime? DeliveryDate { get; set; }
+        public string DeliveryAddress { get; set; }
 
         public OrderStatus Status { get; set; }
 
