@@ -4,6 +4,7 @@ using Doreamon.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Doreamon.Migrations
 {
     [DbContext(typeof(DoreamonWebContext))]
-    partial class DoreamonWebContextModelSnapshot : ModelSnapshot
+    [Migration("20240304153254_add-deliveryAddress")]
+    partial class adddeliveryAddress
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -48,11 +51,7 @@ namespace Doreamon.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("OrderId"));
 
-<<<<<<< HEAD
-                    b.Property<string>("Address")
-=======
                     b.Property<string>("DeliveryAddress")
->>>>>>> 831cd5157c9bffcad41ae343fc596ff452ab309f
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -63,9 +62,6 @@ namespace Doreamon.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
                         .HasDefaultValueSql("getutcdate()");
-
-                    b.Property<int>("PaymentMethod")
-                        .HasColumnType("int");
 
                     b.Property<int>("Status")
                         .HasColumnType("int");

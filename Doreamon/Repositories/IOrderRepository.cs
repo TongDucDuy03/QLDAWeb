@@ -9,5 +9,6 @@ namespace Doreamon.Repositories
     public interface IOrderRepository
     {
         public Task<OrderModel> CreateOrderAsync(OrderDtoModel orderDtoModel);
+        // Task<bool> PlaceOrder(int userId, string deliveryAddress);
     }
 }
