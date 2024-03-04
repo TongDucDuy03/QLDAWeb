@@ -57,6 +57,15 @@ namespace Doreamon.Repositories
             return _mapper.Map<CartModel>(product);
         }
 
+        public async Task<List<CartModel>> DeleteAllCartProduct(int UserId){
+            var cartProductList = await _context.Carts.Where(m => m.UserId == UserId).ToListAsync();
+            if(cartProductList != null){
+                _context.Carts.RemoveRange(cartProductList);
+            }
+            await _context.SaveChangesAsync();
+            return _mapper.Map<List<CartModel>>(cartProductList);
+        }
+
         public async Task<List<CartModel>> GetCartProducts(int userId)
         {
             var cartProducts = await (
@@ -78,7 +87,7 @@ namespace Doreamon.Repositories
                     }
                 }
             ).ToListAsync();
-            return _mapper.Map< List<CartModel>>(cartProducts);
+            return _mapper.Map<List<CartModel>>(cartProducts);
         }
     }
 }

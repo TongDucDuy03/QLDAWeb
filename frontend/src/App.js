@@ -18,10 +18,11 @@ export const AppContext = createContext();
 function App() {
   const [isDisplayToast, setIsDisplayToast] = useState(false);
   const [message, setMessage] = useState("");
-  
 
   return (
-    <AppContext.Provider value={{ isDisplayToast, setIsDisplayToast,setMessage}}>
+    <AppContext.Provider
+      value={{ isDisplayToast, setIsDisplayToast, setMessage }}
+    >
       <Header />
       <Routes>
         <Route index element={<Index />}></Route>
@@ -33,7 +34,11 @@ function App() {
         <Route path="/signup" element={<Signup />}></Route>
         <Route path="/profile" element={<Profile />}></Route>
       </Routes>
-      <ToastMssage isDisplay={isDisplayToast} setIsDisplay={setIsDisplayToast} message={message} />
+      <ToastMssage
+        isDisplay={isDisplayToast}
+        setIsDisplay={setIsDisplayToast}
+        message={message}
+      />
     </AppContext.Provider>
   );
 }

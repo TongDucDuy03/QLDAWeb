@@ -18,17 +18,26 @@ namespace Doreamon.Controllers
         {
             _cartRepo = repo;
         }
+
         [HttpPost]
         public async Task<IActionResult> AddToCart(int id, int userId, bool increaseQuantity)
         {
             var cart = await _cartRepo.AddToCart(userId, id, increaseQuantity);
             return Ok(cart);
         }
+
         [HttpDelete("DeleteCartProduct")]
         public async Task<IActionResult> DeleteCartProduct(int UserId, int ProductId){
             var cart = await _cartRepo.DeleteCartProduct(UserId, ProductId);
             return Ok(cart);
         }
+
+        [HttpDelete("DeleteAllCartProduct")]
+        public async Task<IActionResult> DeleteAllCartProduct(int UserId){
+            var cart = await _cartRepo.DeleteAllCartProduct(UserId);
+            return Ok(cart);
+        }
+
         [HttpGet("cart/{userId}")]
         public async Task<IActionResult> GetCartProducts(int userId)
         {

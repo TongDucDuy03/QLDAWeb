@@ -8,7 +8,6 @@ const deleteCartProduct = async (userId, productId) => {
     const response = await axios.delete(
       `http://localhost:5168/api/Cart/DeleteCartProduct/?userId=${userId}&productId=${productId}`
     );
-
   } catch (error) {
     console.log(error);
   }
@@ -67,7 +66,6 @@ const Cart = () => {
       alert("Failed to remove product from cart:", error);
     }
   }
-
 
   useEffect(() => {
     getCartByUser(params.id).then((cartItems) => {
@@ -149,8 +147,12 @@ const Cart = () => {
                                         type="button"
                                         className="fa fa-minus qty-btn"
                                         onClick={() => {
-                                          if (item.products.quantity == 1) { if (this.submit) handleDecrease(item.productId); }
-                                          else { handleDecrease(item.productId); }
+                                          if (item.products.quantity == 1) {
+                                            if (this.submit)
+                                              handleDecrease(item.productId);
+                                          } else {
+                                            handleDecrease(item.productId);
+                                          }
                                         }}
                                       ></button>
                                       <input
@@ -201,7 +203,11 @@ const Cart = () => {
           </div>
         </div>
       </div>
-      <ConfirmModal isDisplay={isDisplayModal} onOK={onOK} onCancel={() => setIsDisplayModal(false)} />
+      <ConfirmModal
+        isDisplay={isDisplayModal}
+        onOK={onOK}
+        onCancel={() => setIsDisplayModal(false)}
+      />
     </div>
   );
 };
