@@ -47,17 +47,10 @@ namespace Doreamon.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("OrderId"));
-
-<<<<<<< HEAD
                     b.Property<string>("Address")
-=======
-                    b.Property<string>("DeliveryAddress")
->>>>>>> 831cd5157c9bffcad41ae343fc596ff452ab309f
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime?>("DeliveryDate")
-                        .HasColumnType("datetime2");
 
                     b.Property<DateTime?>("OrderDate")
                         .ValueGeneratedOnAdd()

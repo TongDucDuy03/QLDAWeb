@@ -45,20 +45,20 @@ namespace Doreamon.Controllers
             }
         }
 
-        // [HttpPost]
-        // public async Task<IActionResult> PlaceOrder(int userId, string deliveryAddress)
-        // {
-        //     bool result = await _orderRepository.PlaceOrder(userId, deliveryAddress);
+        [HttpPost]
+        public async Task<IActionResult> PlaceOrder(int userId, string deliveryAddress)
+        {
+            bool result = await _orderRepo.PlaceOrder(userId, deliveryAddress);
 
-        //     if (result)
-        //     {
-        //         return Ok("Order placed successfully");
-        //     }
-        //     else
-        //     {
-        //         return BadRequest("Failed to place order");
-        //     }
-        // }
+            if (result)
+            {
+                return Ok("Order placed successfully");
+            }
+            else
+            {
+                return BadRequest("Failed to place order");
+            }
+        }
     }
 }
     

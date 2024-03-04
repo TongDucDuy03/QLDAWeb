@@ -35,12 +35,24 @@ const CreateOrder = async (userId, address, paymentMethod) => {
   }
 };
 
+const getAddressFromAPI = async () => {
+  try {
+    const response = await axios.get("https://raw.githubusercontent.com/kenzouno1/DiaGioiHanhChinhVN/master/data.json");
+    return response.data;
+  } catch (error) {
+    console.log(error);
+    return [];
+  }
+};
+
 const Bill = () => {
   const params = useParams();
   const [cartProducts, setCartProducts] = useState([]);
   const [cartTotal, setCartTotal] = useState(0);
   const [selectedAddress, setSelectedAddress] = useState("");
   const [paymentMethod, setPaymentMethod] = useState("");
+  const [addressList, setAddressList] = useState([]);
+  const [selectedAddressId, setSelectedAddressId] = useState("");
 
   const userId = localStorage.getItem("userId");
 
@@ -52,6 +64,9 @@ const Bill = () => {
     });
     getTotalCart(params.userId).then((total) => {
       setCartTotal(total);
+    });
+    getAddressFromAPI().then((addresses) => {
+      setAddressList(addresses);
     });
   }, [params.userId]);
 
@@ -67,20 +82,8 @@ const Bill = () => {
     }
   };
 
-  const getCartByUser = async () => {
-    try {
-      const response = await axios.get(
-        `http://localhost:5168/api/Cart/cart/${userId}`
-      );
-      return response.data.cartProductList;
-    } catch (error) {
-      console.log(error);
-      return [];
-    }
-  };
-
   const PaymentSelection = async (selection) => {
-    if (selection == "momopayment") {
+    if (selection === "momopayment") {
       const address = "Hà Nội";
 
       const fullName = params.id;
@@ -92,11 +95,16 @@ const Bill = () => {
       let path = await momoCreatePayment(fullName, orderId, orderInfo, Total);
 
       window.location.replace(path);
+    } else if (selection === "cod") {
+      // Handle cash on delivery
     }
-    else if (selection == "cod"){
-      
-    }
-  }
+  };
+
+  const handleAddressSelection = (addressId) => {
+    setSelectedAddressId(addressId);
+    const selectedAddress = addressList.find((address) => address.id === addressId);
+    setSelectedAddress(selectedAddress);
+  };
 
   return (
     <div id="content-page" className="content-page">
@@ -166,15 +174,32 @@ const Bill = () => {
 
               <div className="iq-card-body">
                 <form className="mt-3">
-                  <div className="d-flex align-items-center">
-                    <span>Mã giảm giá: </span>
-                    <div className="cvv-input ml-3 mr-3">
-                      <input type="text" className="form-control" required="" />
+                  <div>
+                    <button type="button" className="btn btn-primary mt-3" onClick={() => { /* Your logic to handle address selection */ }}>
+                      Chọn địa chỉ
+                    </button>
+                  </div>
+                  <div>
+                    <div>
+                      <select id="city">
+                        <option value="" selected>Chọn tỉnh thành</option>
+                      </select>
+                    </div>
+                    <div>
+                      <select id="district">
+                        <option value="" selected>Chọn quận huyện</option>
+                      </select>
+                    </div>
+                    <div>
+                      <select id="ward">
+                        <option value="" selected>Chọn phường xã</option>
+                      </select>
                     </div>
                   </div>
                 </form>
 
                 <hr />
+                {/* Render selected address here */}
               </div>
             </div>
 
