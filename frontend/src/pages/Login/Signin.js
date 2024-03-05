@@ -17,7 +17,7 @@ const Signin = () => {
       const response = await axios.post("http://localhost:5168/api/Account/Login", { userName, password });
       if (response.data.success) {
         localStorage.setItem("jwtToken", response.data.jwt);
-        navigate("/");
+        window.location.href='/'
       } else {
         setError("Invalid username or password.");
       }
