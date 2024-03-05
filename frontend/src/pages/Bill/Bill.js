@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useParams } from "react-router-dom";
-
+import { Alert } from "bootstrap";
 const momoCreatePayment = async (fullName, orderId, orderInfo, amount) => {
   try {
     const response = await axios.post("http://localhost:5168/api/Momo/CreatePaymentUrl", { fullName, orderId, orderInfo, amount });
@@ -34,7 +34,7 @@ const Bill = () => {
   const [selectedDistrict, setSelectedDistrict] = useState("");
   const [selectedWard, setSelectedWard] = useState("");
   const [inputValue, setInputValue] = useState("");
-
+  const [error, setError] = useState("");
 
   const userId = localStorage.getItem("userId");
 
@@ -75,6 +75,12 @@ const Bill = () => {
 
   const PaymentSelection = async (selection) => {
     let deliveryAddress = inputValue;
+    if (!deliveryAddress || !selection) {
+      setError("Vui lòng chọn địa chỉ và phương thức thanh toán");
+      console.log(setError)
+      return;
+    }
+    setError("");
     if (selection === "momopayment") {
       const address = "Hà Nội";
 
@@ -311,6 +317,7 @@ const Bill = () => {
                   </div>
                 </div>
                 <hr />
+                {error && <div className="alert alert-danger">{error}</div>} 
                 <button
                   type="button"
                   className="btn btn-primary d-block mt-1 next"
@@ -320,6 +327,7 @@ const Bill = () => {
                 >
                   Thanh toán
                 </button>
+                
               </div>
             </div>
           </div>
