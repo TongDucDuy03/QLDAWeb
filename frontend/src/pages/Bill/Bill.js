@@ -1,23 +1,10 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useParams } from "react-router-dom";
-import { useNavigate } from "react-router-dom";
-
-const getCartByUser = async (id) => {
-  try {
-    const response = await axios.get(
-      `http://localhost:5168/api/Cart/cart/${id}`
-    );
-    return response.data.cartProductList;
-  } catch (error) {
-    console.log(error);
-    return [];
-  }
-};
 
 const momoCreatePayment = async (fullName, orderId, orderInfo, amount) => {
   try {
-    const response = await axios.post("http://localhost:5168/api/Momo/CreatePaymentUrl", {fullName, orderId, orderInfo, amount});
+    const response = await axios.post("http://localhost:5168/api/Momo/CreatePaymentUrl", { fullName, orderId, orderInfo, amount });
     return response.data;
   } catch (error) {
     console.log(error);
@@ -27,7 +14,7 @@ const momoCreatePayment = async (fullName, orderId, orderInfo, amount) => {
 
 const CreateOrder = async (userId, address, paymentMethod) => {
   try {
-    const response = await axios.post("http://localhost:5168/api/order/CreateOrder", {userId, address, paymentMethod});
+    const response = await axios.post("http://localhost:5168/api/order/CreateOrder", { userId, address, paymentMethod });
     return response.data;
   } catch (error) {
     console.log(error);
@@ -35,28 +22,21 @@ const CreateOrder = async (userId, address, paymentMethod) => {
   }
 };
 
-const getAddressFromAPI = async () => {
-  try {
-    const response = await axios.get("https://raw.githubusercontent.com/kenzouno1/DiaGioiHanhChinhVN/master/data.json");
-    return response.data;
-  } catch (error) {
-    console.log(error);
-    return [];
-  }
-};
+
 
 const Bill = () => {
   const params = useParams();
   const [cartProducts, setCartProducts] = useState([]);
   const [cartTotal, setCartTotal] = useState(0);
-  const [selectedAddress, setSelectedAddress] = useState("");
   const [paymentMethod, setPaymentMethod] = useState("");
   const [addressList, setAddressList] = useState([]);
-  const [selectedAddressId, setSelectedAddressId] = useState("");
+  const [selectedProvince, setSelectedProvince] = useState("");
+  const [selectedDistrict, setSelectedDistrict] = useState("");
+  const [selectedWard, setSelectedWard] = useState("");
+  const [inputValue, setInputValue] = useState("");
+
 
   const userId = localStorage.getItem("userId");
-
-  let navigate = useNavigate();
 
   useEffect(() => {
     getCartByUser(params.userId).then((products) => {
@@ -70,6 +50,17 @@ const Bill = () => {
     });
   }, [params.userId]);
 
+  const getCartByUser = async () => {
+    try {
+      const response = await axios.get(
+        `http://localhost:5168/api/Cart/cart/${userId}`
+      );
+      return response.data.cartProductList;
+    } catch (error) {
+      console.log(error);
+      return [];
+    }
+  };
   const getTotalCart = async () => {
     try {
       const response = await axios.get(
@@ -83,6 +74,7 @@ const Bill = () => {
   };
 
   const PaymentSelection = async (selection) => {
+    let deliveryAddress = inputValue;
     if (selection === "momopayment") {
       const address = "Hà Nội";
 
@@ -96,14 +88,72 @@ const Bill = () => {
 
       window.location.replace(path);
     } else if (selection === "cod") {
-      // Handle cash on delivery
+        try {
+          const response = await axios.post(
+            `http://localhost:5168/api/Order/?userId=${userId}&deliveryAddress=${deliveryAddress}`
+          );
+          window.location.href = "/OrderSuccessPage";
+          return response.data;
+        } catch (error) {
+          console.log(error);
+          return 0;
+        }
     }
   };
+  const getAddressFromAPI = async () => {
 
-  const handleAddressSelection = (addressId) => {
-    setSelectedAddressId(addressId);
-    const selectedAddress = addressList.find((address) => address.id === addressId);
-    setSelectedAddress(selectedAddress);
+    try {
+
+      const response = await axios.get("https://raw.githubusercontent.com/kenzouno1/DiaGioiHanhChinhVN/master/data.json");
+
+      return response.data;
+
+    } catch (error) {
+
+      console.log(error);
+
+      return [];
+
+    }
+
+  };
+
+
+
+  const handleProvinceChange = (event) => {
+
+    setSelectedProvince(event.target.value);
+
+    setSelectedDistrict("");
+
+    setSelectedWard("");
+
+  };
+
+
+
+  const handleDistrictChange = (event) => {
+
+    setSelectedDistrict(event.target.value);
+
+    setSelectedWard("");
+
+  };
+
+
+
+  const handleWardChange = (event) => {
+
+    setSelectedWard(event.target.value);
+
+  };
+  const handleAddressSelection = () => {
+    const provinceName = addressList.find(province => province.Id === selectedProvince)?.Name || "";
+    const districtName = addressList.find(province => province.Id === selectedProvince)?.Districts.find(district => district.Id === selectedDistrict)?.Name || "";
+    const wardName = addressList.find(province => province.Id === selectedProvince)?.Districts.find(district => district.Id === selectedDistrict)?.Wards.find(ward => ward.Id === selectedWard)?.Name || "";
+
+    const address = `${wardName}, ${districtName}, ${provinceName}`;
+    setInputValue(address);
   };
 
   return (
@@ -168,39 +218,45 @@ const Bill = () => {
             <div className="iq-card">
               <div className="iq-card-header d-flex justify-content-between">
                 <div className="iq-header-title">
-                  <h4 className="card-title">Thông tin người nhận</h4>
+                  <h4 className="card-title">Địa chỉ người nhận</h4>
                 </div>
               </div>
 
               <div className="iq-card-body">
                 <form className="mt-3">
-                  <div>
-                    <button type="button" className="btn btn-primary mt-3" onClick={() => { /* Your logic to handle address selection */ }}>
-                      Chọn địa chỉ
-                    </button>
+                  <div className="input-group mb-3">
+                    <input type="text" className="form-control" value={inputValue} onChange={(e) => setInputValue(e.target.value)} placeholder="Nhập địa chỉ của bạn" />
+                    <button type="button" className="btn btn-primary ml-3" onClick={handleAddressSelection}>Chọn địa chỉ</button>
                   </div>
-                  <div>
-                    <div>
-                      <select id="city">
-                        <option value="" selected>Chọn tỉnh thành</option>
+                  <div className="form-row">
+                    <div className="col">
+                      <select id="city" className="form-control" onChange={handleProvinceChange}>
+                        <option value="">Chọn tỉnh thành</option>
+                        {addressList.map((province) => (
+                          <option key={province.Id} value={province.Id}>{province.Name}</option>
+                        ))}
                       </select>
                     </div>
-                    <div>
-                      <select id="district">
-                        <option value="" selected>Chọn quận huyện</option>
+                    <div className="col">
+                      <select id="district" className="form-control" onChange={handleDistrictChange}>
+                        <option value="">Chọn quận huyện</option>
+                        {selectedProvince && addressList.find(province => province.Id === selectedProvince)?.Districts.map((district) => (
+                          <option key={district.Id} value={district.Id}>{district.Name}</option>
+                        ))}
                       </select>
                     </div>
-                    <div>
-                      <select id="ward">
-                        <option value="" selected>Chọn phường xã</option>
+                    <div className="col">
+                      <select id="ward" className="form-control" onChange={handleWardChange}>
+                        <option value="">Chọn phường xã</option>
+                        {selectedDistrict && addressList.find(province => province.Id === selectedProvince)?.Districts.find(district => district.Id === selectedDistrict)?.Wards.map((ward) => (
+                          <option key={ward.Id} value={ward.Id}>{ward.Name}</option>
+                        ))}
                       </select>
                     </div>
                   </div>
                 </form>
-
-                <hr />
-                {/* Render selected address here */}
               </div>
+
             </div>
 
             <div className="iq-card">
@@ -264,30 +320,6 @@ const Bill = () => {
                 >
                   Thanh toán
                 </button>
-              </div>
-            </div>
-          </div>
-          <div className="col-lg-4">
-            <div className="iq-card">
-              <div className="iq-card-body">
-                <h4 className="mb-2">Thông tin giao dịch</h4>
-                <div className="d-flex justify-content-between">
-                  <span>Giá 3 sản phẩm</span>
-                  <span>
-                    <strong>{cartTotal}</strong>
-                  </span>
-                </div>
-                <div className="d-flex justify-content-between">
-                  <span>Phí vận chuyển</span>
-                  <span className="text-success">Miễn phí</span>
-                </div>
-                <hr />
-                <div className="d-flex justify-content-between">
-                  <span>Số tiền phải trả</span>
-                  <span>
-                    <strong>{cartTotal}</strong>
-                  </span>
-                </div>
               </div>
             </div>
           </div>

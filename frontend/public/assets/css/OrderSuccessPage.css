@@ -1,0 +1,27 @@
+.order-success-container {
+    max-width: 600px;
+    margin: 20% auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+  }
+  
+  .order-success-container h2 {
+    color: #333;
+  }
+  
+  .order-success-container p {
+    margin-bottom: 10px;
+    line-height: 1.5;
+  }
+  
+  .order-success-container a {
+    color: #007bff;
+    text-decoration: none;
+  }
+  
+  .order-success-container a:hover {
+    text-decoration: underline;
+  }
+  
