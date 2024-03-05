@@ -1,8 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import axios from "axios";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import { AppContext } from "../App";
+import ToastMessage from "../Common/ToastMessage";
 
 const getAllSeries = async () => {
   try {
@@ -30,6 +32,8 @@ const Index = () => {
   const [series, setSeries] = useState([]);
   const [loading, setLoading] = useState(true);
   const [carouselContent, setCarouselContent] = useState({});
+  const [message, setMessage] = useState("");
+  const { isDisplayToast, setIsDisplayToast } = useContext(AppContext);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -50,6 +54,25 @@ const Index = () => {
 
     fetchData();
   }, []);
+
+  const addToCart = async (productId) => {
+    const userId = localStorage.getItem("userId");
+    if (userId != null) {
+      try {
+        await axios.post(
+          `http://localhost:5168/api/Cart/?id=${productId}&userId=${userId}&increaseQuantity=${true}`
+        );
+        setIsDisplayToast(true);
+        setMessage("Product added to cart successfully!");
+      } catch (error) {
+        console.log(error);
+        setIsDisplayToast(true);
+        setMessage("Failed to add product to cart!");
+      }
+    } else {
+      window.location.href = "/signin";
+    }
+  };
 
   const renderCarousel = (seriesId) => {
     const books = carouselContent[seriesId];
@@ -93,9 +116,10 @@ const Index = () => {
                 </h6>
               </div>
               <div className="iq-product-action">
-                <a href="./">
-                  <i className="ri-shopping-cart-2-fill text-primary"></i>
-                </a>
+                <i
+                  className="ri-shopping-cart-2-fill text-primary"
+                  onClick={() => addToCart(book.id)}
+                />
               </div>
             </div>
           </div>
@@ -161,9 +185,10 @@ const Index = () => {
                   </h6>
                 </div>
                 <div className="iq-product-action">
-                  <a href="./">
-                    <i className="ri-shopping-cart-2-fill text-primary"></i>
-                  </a>
+                  <i
+                    className="ri-shopping-cart-2-fill text-primary"
+                    onClick={() => addToCart(item.id)}
+                  />
                 </div>
               </div>
             </div>
@@ -207,6 +232,11 @@ const Index = () => {
           </div>
         )}
       </div>
+      <ToastMessage
+        isDisplay={isDisplayToast}
+        setIsDisplay={setIsDisplayToast}
+        message={message}
+      />
     </div>
   );
 };

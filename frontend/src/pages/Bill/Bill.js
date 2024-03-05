@@ -4,7 +4,10 @@ import { useParams } from "react-router-dom";
 import { Alert } from "bootstrap";
 const momoCreatePayment = async (fullName, orderId, orderInfo, amount) => {
   try {
-    const response = await axios.post("http://localhost:5168/api/Momo/CreatePaymentUrl", { fullName, orderId, orderInfo, amount });
+    const response = await axios.post(
+      "http://localhost:5168/api/Momo/CreatePaymentUrl",
+      { fullName, orderId, orderInfo, amount }
+    );
     return response.data;
   } catch (error) {
     console.log(error);
@@ -14,15 +17,16 @@ const momoCreatePayment = async (fullName, orderId, orderInfo, amount) => {
 
 const CreateOrder = async (userId, address, paymentMethod) => {
   try {
-    const response = await axios.post("http://localhost:5168/api/order/CreateOrder", { userId, address, paymentMethod });
+    const response = await axios.post(
+      "http://localhost:5168/api/order/CreateOrder",
+      { userId, address, paymentMethod }
+    );
     return response.data;
   } catch (error) {
     console.log(error);
     return [];
   }
 };
-
-
 
 const Bill = () => {
   const params = useParams();
@@ -77,7 +81,7 @@ const Bill = () => {
     let deliveryAddress = inputValue;
     if (!deliveryAddress || !selection) {
       setError("Vui lòng chọn địa chỉ và phương thức thanh toán");
-      console.log(setError)
+      console.log(setError);
       return;
     }
     setError("");
@@ -94,69 +98,63 @@ const Bill = () => {
 
       window.location.replace(path);
     } else if (selection === "cod") {
-        try {
-          const response = await axios.post(
-            `http://localhost:5168/api/Order/?userId=${userId}&deliveryAddress=${deliveryAddress}`
-          );
-          window.location.href = "/OrderSuccessPage";
-          return response.data;
-        } catch (error) {
-          console.log(error);
-          return 0;
-        }
+      try {
+        const response = await axios.post(
+          `http://localhost:5168/api/Order/?userId=${userId}&deliveryAddress=${deliveryAddress}`
+        );
+        window.location.href = "/OrderSuccessPage";
+        return response.data;
+      } catch (error) {
+        console.log(error);
+        return 0;
+      }
     }
   };
   const getAddressFromAPI = async () => {
-
     try {
-
-      const response = await axios.get("https://raw.githubusercontent.com/kenzouno1/DiaGioiHanhChinhVN/master/data.json");
+      const response = await axios.get(
+        "https://raw.githubusercontent.com/kenzouno1/DiaGioiHanhChinhVN/master/data.json"
+      );
 
       return response.data;
-
     } catch (error) {
-
       console.log(error);
 
       return [];
-
     }
-
   };
 
-
-
   const handleProvinceChange = (event) => {
-
     setSelectedProvince(event.target.value);
 
     setSelectedDistrict("");
 
     setSelectedWard("");
-
   };
 
-
-
   const handleDistrictChange = (event) => {
-
     setSelectedDistrict(event.target.value);
 
     setSelectedWard("");
-
   };
-
-
 
   const handleWardChange = (event) => {
-
     setSelectedWard(event.target.value);
-
   };
   const handleAddressSelection = () => {
-    const provinceName = addressList.find(province => province.Id === selectedProvince)?.Name || "";
-    const districtName = addressList.find(province => province.Id === selectedProvince)?.Districts.find(district => district.Id === selectedDistrict)?.Name || "";
-    const wardName = addressList.find(province => province.Id === selectedProvince)?.Districts.find(district => district.Id === selectedDistrict)?.Wards.find(ward => ward.Id === selectedWard)?.Name || "";
+    const provinceName =
+      addressList.find((province) => province.Id === selectedProvince)?.Name ||
+      "";
+    const districtName =
+      addressList
+        .find((province) => province.Id === selectedProvince)
+        ?.Districts.find((district) => district.Id === selectedDistrict)
+        ?.Name || "";
+    const wardName =
+      addressList
+        .find((province) => province.Id === selectedProvince)
+        ?.Districts.find((district) => district.Id === selectedDistrict)
+        ?.Wards.find((ward) => ward.Id === selectedWard)?.Name || "";
 
     const address = `${wardName}, ${districtName}, ${provinceName}`;
     setInputValue(address);
@@ -230,39 +228,81 @@ const Bill = () => {
 
               <div className="iq-card-body">
                 <form className="mt-3">
-                  <div className="input-group mb-3">
-                    <input type="text" className="form-control" value={inputValue} onChange={(e) => setInputValue(e.target.value)} placeholder="Nhập địa chỉ của bạn" />
-                    <button type="button" className="btn btn-primary ml-3" onClick={handleAddressSelection}>Chọn địa chỉ</button>
-                  </div>
                   <div className="form-row">
                     <div className="col">
-                      <select id="city" className="form-control" onChange={handleProvinceChange}>
+                      <select
+                        id="city"
+                        className="form-control"
+                        onChange={handleProvinceChange}
+                      >
                         <option value="">Chọn tỉnh thành</option>
                         {addressList.map((province) => (
-                          <option key={province.Id} value={province.Id}>{province.Name}</option>
+                          <option key={province.Id} value={province.Id}>
+                            {province.Name}
+                          </option>
                         ))}
                       </select>
                     </div>
                     <div className="col">
-                      <select id="district" className="form-control" onChange={handleDistrictChange}>
+                      <select
+                        id="district"
+                        className="form-control"
+                        onChange={handleDistrictChange}
+                      >
                         <option value="">Chọn quận huyện</option>
-                        {selectedProvince && addressList.find(province => province.Id === selectedProvince)?.Districts.map((district) => (
-                          <option key={district.Id} value={district.Id}>{district.Name}</option>
-                        ))}
+                        {selectedProvince &&
+                          addressList
+                            .find(
+                              (province) => province.Id === selectedProvince
+                            )
+                            ?.Districts.map((district) => (
+                              <option key={district.Id} value={district.Id}>
+                                {district.Name}
+                              </option>
+                            ))}
                       </select>
                     </div>
                     <div className="col">
-                      <select id="ward" className="form-control" onChange={handleWardChange}>
+                      <select
+                        id="ward"
+                        className="form-control"
+                        onChange={handleWardChange}
+                      >
                         <option value="">Chọn phường xã</option>
-                        {selectedDistrict && addressList.find(province => province.Id === selectedProvince)?.Districts.find(district => district.Id === selectedDistrict)?.Wards.map((ward) => (
-                          <option key={ward.Id} value={ward.Id}>{ward.Name}</option>
-                        ))}
+                        {selectedDistrict &&
+                          addressList
+                            .find(
+                              (province) => province.Id === selectedProvince
+                            )
+                            ?.Districts.find(
+                              (district) => district.Id === selectedDistrict
+                            )
+                            ?.Wards.map((ward) => (
+                              <option key={ward.Id} value={ward.Id}>
+                                {ward.Name}
+                              </option>
+                            ))}
                       </select>
                     </div>
+                  </div>
+                  <div className="input-group mb-3">
+                    <input
+                      type="text"
+                      className="form-control"
+                      value={inputValue}
+                      onChange={(e) => setInputValue(e.target.value)}
+                      placeholder="Nhập địa chỉ của bạn"
+                    />
+                    <button
+                      type="button"
+                      className="btn btn-primary ml-3"
+                      onClick={handleAddressSelection}
+                    >
+                      Xác nhận
+                    </button>
                   </div>
                 </form>
               </div>
-
             </div>
 
             <div className="iq-card">
@@ -292,7 +332,7 @@ const Bill = () => {
                         id="momopayment"
                         name="paymentmethod"
                         className="custom-control-input"
-                        onClick={() => setPaymentMethod('momopayment')}
+                        onClick={() => setPaymentMethod("momopayment")}
                       />
                       <label
                         className="custom-control-label"
@@ -308,7 +348,7 @@ const Bill = () => {
                         id="cod"
                         name="paymentmethod"
                         className="custom-control-input"
-                        onClick={() => setPaymentMethod('cod')}
+                        onClick={() => setPaymentMethod("cod")}
                       />
                       <label className="custom-control-label" htmlFor="cod">
                         Thanh toán khi giao hàng
@@ -317,7 +357,7 @@ const Bill = () => {
                   </div>
                 </div>
                 <hr />
-                {error && <div className="alert alert-danger">{error}</div>} 
+                {error && <div className="alert alert-danger">{error}</div>}
                 <button
                   type="button"
                   className="btn btn-primary d-block mt-1 next"
@@ -327,7 +367,6 @@ const Bill = () => {
                 >
                   Thanh toán
                 </button>
-                
               </div>
             </div>
           </div>
