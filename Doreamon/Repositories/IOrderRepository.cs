@@ -10,5 +10,6 @@ namespace Doreamon.Repositories
     {
         public Task<OrderModel> CreateOrderAsync(OrderDtoModel orderDtoModel);
         Task<bool> PlaceOrder(int userId, string address);
+        public Task<bool> UpdateOrderStatusAsync(int orderId);
     }
 }

@@ -6,6 +6,7 @@ using AutoMapper;
 using Doreamon.Data;
 using Doreamon.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.CodeAnalysis.Elfie.Extensions;
 using Microsoft.EntityFrameworkCore;
 
 namespace Doreamon.Repositories
@@ -25,9 +26,11 @@ namespace Doreamon.Repositories
         {
             var order = new Order
             {
+                OrderId = Convert.ToInt32(DateTime.Now.ToString("ddHHmmss")),
                 UserId = orderDtoModel.UserId,
                 OrderDate = DateTime.Now,
-                Status = Data.OrderStatus.Unpaid,
+                Status = Data.OrderStatus.Unconfirm,
+                PaymentStatus = Data.OrderPaymentStatus.Unpaid,
                 Address = orderDtoModel.Address,
                 PaymentMethod = orderDtoModel.PaymentMethod
             };
@@ -94,6 +97,21 @@ namespace Doreamon.Repositories
             {
                 return false;
             }
+        }
+
+        public async Task<bool> UpdateOrderStatusAsync(int orderId)
+        {
+            var order = await _context.Orders.FindAsync(orderId);
+
+            if(order != null)
+            {
+                order.PaymentStatus = Data.OrderPaymentStatus.Paid;
+                await _context.SaveChangesAsync();
+
+                return true;
+            }
+
+            return false;
         }
     }
 }

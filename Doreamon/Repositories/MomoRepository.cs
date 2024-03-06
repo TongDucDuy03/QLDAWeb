@@ -23,7 +23,6 @@ namespace Doreamon.Repositories
 
         public async Task<MomoCreatePaymentResponseModel> CreatePaymentAsync(OrderInfoModel model)
         {
-            model.OrderId = DateTime.UtcNow.Ticks.ToString();
             model.OrderInfo = "Khách hàng: " + model.FullName + ". Nội dung: " + model.OrderInfo;
             var rawData =
                 $"accessKey={_options.Value.AccessKey}&amount={model.Amount}&extraData=&ipnUrl={_options.Value.IpnUrl}&orderId={model.OrderId}&orderInfo={model.OrderInfo}&partnerCode={_options.Value.PartnerCode}&redirectUrl={_options.Value.RedirectUrl}&requestId={model.OrderId}&requestType={_options.Value.RequestType}";
@@ -70,5 +69,17 @@ namespace Doreamon.Repositories
                 OrderInfo = orderInfo
             };
         }
+
+        public bool IsValidateSignature(MomoReturnModel momoReturnModel)
+        {
+            var rawData =
+                $"accessKey={_options.Value.AccessKey}&amount={momoReturnModel.amount}&extraData={momoReturnModel.extraData}&message={momoReturnModel.message}&orderId={momoReturnModel.orderId}&orderInfo={momoReturnModel.orderInfo}&orderType={momoReturnModel.orderType}&partnerCode={momoReturnModel.partnerCode}&payType={momoReturnModel.payType}&requestId={momoReturnModel.requestId}&responseTime={momoReturnModel.responseTime}&resultCode={momoReturnModel.resultCode}&transId={momoReturnModel.transId}";
+            
+            var createSignature = HashHelper.HmacSHA256(rawData, _options.Value.SecretKey);
+
+            if(momoReturnModel.signature == createSignature) return true;
+            else return false;
+        }
     }
 }
+

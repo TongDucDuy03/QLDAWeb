@@ -11,5 +11,6 @@ namespace Doreamon.Repositories
     {
         public Task<MomoCreatePaymentResponseModel> CreatePaymentAsync(OrderInfoModel model);
         MomoExecuteResponseModel PaymentExecuteAsync(IQueryCollection collection);
+        public bool IsValidateSignature(MomoReturnModel momoReturnModel);
     }
 }

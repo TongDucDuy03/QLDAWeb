@@ -84,16 +84,15 @@ const Bill = () => {
     if (selection === "momopayment") {
       const address = "Hà Nội";
 
+      const order = await CreateOrder(params.id, address, 1);
       const fullName = params.id;
-      const orderId = "";
-      const orderInfo = "Thanh toán cho đơn hàng ";
+      const orderInfo = `Thanh toán cho đơn hàng ${order.orderId}`;
       const Total = cartTotal;
-
-      await CreateOrder(params.id, address, 1);
+      const orderId = `${order.orderId}`;
       let path = await momoCreatePayment(fullName, orderId, orderInfo, Total);
-
       window.location.replace(path);
-    } else if (selection === "cod") {
+    } 
+    else if (selection === "cod") {
         try {
           const response = await axios.post(
             `http://localhost:5168/api/Order/?userId=${userId}&deliveryAddress=${deliveryAddress}`
