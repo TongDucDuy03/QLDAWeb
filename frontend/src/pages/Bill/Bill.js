@@ -86,13 +86,13 @@ const Bill = () => {
     }
     setError("");
     if (selection === "momopayment") {
-      const address = "Hà Nội";
+      const order = await CreateOrder(params.id, deliveryAddress, 1);
 
-      const order = await CreateOrder(params.id, address, 1);
       const fullName = params.id;
       const orderInfo = `Thanh toán cho đơn hàng ${order.orderId}`;
       const Total = cartTotal;
       const orderId = `${order.orderId}`;
+      
       let path = await momoCreatePayment(fullName, orderId, orderInfo, Total);
       window.location.replace(path);
     } else if (selection === "cod") {

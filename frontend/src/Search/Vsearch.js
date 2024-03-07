@@ -7,7 +7,7 @@ const Vsearch = ({ listBooks }) => {
     if (userId != null) {
       try {
         await axios.post(
-          `http://localhost:5168/api/Cart/?id=${productId}&userId=${userId}&increaseQuantity=${true}`
+          `http://doraemon.id.vn/api/Cart/?id=${productId}&userId=${userId}&increaseQuantity=${true}`
         );
         alert("Product added to cart successfully!");
       } catch (error) {
